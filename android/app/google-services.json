@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "664170031553",
+    "project_id": "gogobook-f5558",
+    "storage_bucket": "gogobook-f5558.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664170031553:android:fd7ea8384b4c1cf1316740",
+        "android_client_info": {
+          "package_name": "com.hafeezullah.gogobook.gogobook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCqTmV9RUkTHHpGmjwJOeoEMV39CmHiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
