@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,8 +17,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-  bool isFirebaseUserLoggedIn = FirebaseAuth.instance.currentUser != null;
+  // bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  // bool isFirebaseUserLoggedIn = FirebaseAuth.instance.currentUser != null;
 
   checkInternetConnectivity().then((isConnected) {
     if (isConnected) {
@@ -27,7 +26,7 @@ void main() async {
         ChangeNotifierProvider<ThemeChanger>(
           create: (_) => ThemeChanger(ThemeData.light()),
           child: MyApp(
-            isLoggedIn: isLoggedIn && isFirebaseUserLoggedIn,
+            // isLoggedIn: isLoggedIn && isFirebaseUserLoggedIn,
           ),
         ),
       );
@@ -38,49 +37,34 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  final bool isLoggedIn;
+  // final bool isLoggedIn;
 
-  MyApp({required this.isLoggedIn});
+  // MyApp({required this.isLoggedIn});
+
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  late Locale
-      _deviceLocale; // Add this line to initialize the _deviceLocale field
-  bool _doubleBackToExitPressedOnce = false;
+  var auth = FirebaseAuth.instance;
+  var isLogin = false;
 
-  late StreamSubscription<User?> user;
-  void initState() {
-    super.initState();
-    user = FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
+  checkIfLogin() async{
+    auth.authStateChanges().listen((User? user) {
+      if(user != null && mounted){
+        setState(() {
+          isLogin = true;
+        });
       }
     });
   }
 
   @override
-  void dispose() {
-    user.cancel();
-    super.dispose();
+  void initState(){
+    checkIfLogin();
+    super.initState();
   }
-
-  void handleSuccessfulLogin(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', true);
-    Navigator.pushReplacementNamed(context, '/home');
-  }
-
-  void handleLogout(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', false);
-    Navigator.pushReplacementNamed(context, '/login');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeChanger>(
@@ -92,53 +76,18 @@ class _MyAppState extends State<MyApp> {
         initialRoute: FirebaseAuth.instance.currentUser == null ? '/' : 'home',
         routes: {
           '/login': (context) => LoginScreen(
-                onLogin: () => handleSuccessfulLogin(context),
+                onLogin: () {},
               ),
           '/home': (context) => HomeScreen3(
-                onLogout: () => handleLogout(context),
+                onLogout: () {},
               ),
           '/forgot_password': (context) => ForgotPasswordScreen(),
           '/signup': (context) => SignUpScreen(),
         },
-        home: LogoScreen(),
-        onGenerateRoute: (settings) {
-          if (widget.isLoggedIn) {
-            return MaterialPageRoute(
-              builder: (context) => HomeScreen3(onLogout: (){}),
-            );
-          } else {
-            return MaterialPageRoute(
-              builder: (context) => LogoScreen(),
-            );
-          }
-        },
+        home: isLogin ? HomeScreen3(onLogout: (){}) : LogoScreen(),
+
       ),
     );
-  }
-
-  // Handle back button navigation and exit behavior
-
-  Future<bool> onWillPop(BuildContext context) async {
-    if (_doubleBackToExitPressedOnce) {
-      // If the back button is pressed again, close the app
-      return true;
-    }
-
-    _doubleBackToExitPressedOnce = true;
-    // Show a toast or snackbar message to inform the user to press back again to exit
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Press back again to exit'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-
-    // Reset the flag variable after a certain duration
-    await Future.delayed(Duration(seconds: 2));
-    _doubleBackToExitPressedOnce = false;
-
-    // Return false to prevent the default back button behavior
-    return false;
   }
 }
 
