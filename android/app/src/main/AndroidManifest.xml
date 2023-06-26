@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hafeezullah.gogobook.gogobook">
    <application
-        android:label="gogobook"
+        android:label="GoGoBook"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/gogobook">
         <activity
             android:name=".MainActivity"
             android:exported="true"

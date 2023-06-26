@@ -1,0 +1,68 @@
+{
+    "logs": [
+        {
+            "outputFile": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-mergeReleaseResources-9:/values-th/values-th.xml",
+            "map": [
+                {
+                    "source": "/home/hafeez_u_llah/.gradle/caches/transforms-3/a89bd0e64120b064165fe7d2635bd104/transformed/browser-1.4.0/res/values-th/values-th.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,158,257,368",
+                        "endColumns": "102,98,110,97",
+                        "endOffsets": "153,252,363,461"
+                    }
+                },
+                {
+                    "source": "/home/hafeez_u_llah/.gradle/caches/transforms-3/dc66a9e887fa197d342a9170a296fb1f/transformed/core-1.6.0/res/values-th/values-th.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "466",
+                        "endColumns": "100",
+                        "endOffsets": "562"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-merged_res-11:/values-th/values-th.xml",
+            "map": [
+                {
+                    "source": "/home/hafeez_u_llah/.gradle/caches/transforms-3/a89bd0e64120b064165fe7d2635bd104/transformed/browser-1.4.0/res/values-th/values-th.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,158,257,368",
+                        "endColumns": "102,98,110,97",
+                        "endOffsets": "153,252,363,461"
+                    }
+                },
+                {
+                    "source": "/home/hafeez_u_llah/.gradle/caches/transforms-3/dc66a9e887fa197d342a9170a296fb1f/transformed/core-1.6.0/res/values-th/values-th.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "466",
+                        "endColumns": "100",
+                        "endOffsets": "562"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,22 +1,31 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:gogobook/LanguageChnageProvider.dart';
 import 'package:gogobook/Screens/home_screens/home_page_screen.dart';
+import 'package:gogobook/Screens/home_screens/tile_preview.dart';
 import 'package:gogobook/Services/firestore_service.dart';
 import 'package:gogobook/Services/google_api_service.dart';
 import 'package:gogobook/common_widgets/button.dart';
 import 'package:gogobook/theme_changer.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../generated/l10n.dart';
 import '../../models/books.dart';
-// import 'package:flutter_pay/flutter_pay.dart';
-import 'package:flutter_paypal/flutter_paypal.dart';
+import 'package:camera/camera.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'barcodeScannerPage.dart';
 
 enum BookDisplayStyle {
   Tile,
@@ -37,6 +46,10 @@ class _SearchPageState extends State<SearchPage> {
   List<String> _searchHistory = [];
   bool _isLoading = false;
   bool _showSearchHistory = false;
+  String _barcodeResult = '';
+  TextEditingController _searchBarController = TextEditingController();
+  late CameraController _cameraController;
+  late Future<void> _cameraInitializer;
 
   void _selectBookDisplayStyle(BookDisplayStyle? style) {
     if (style != null) {
@@ -51,24 +64,161 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
     _searchController = TextEditingController();
     _loadSearchHistory();
+    _cameraInitializer = _initializeCamera();
   }
 
   @override
   void dispose() {
+    _searchBarController.dispose();
     _searchController.dispose();
     super.dispose();
   }
 
+  Future<void> _initializeCamera() async {
+    final cameras = await availableCameras();
+    final camera = cameras.first;
+    _cameraController = CameraController(
+      camera,
+      ResolutionPreset.high,
+    );
+    await _cameraController.initialize();
+  }
+
+  Future<void> _scanBarcode() async {
+    try {
+      final status = await Permission.camera.request();
+      if (status.isGranted) {
+        await _cameraInitializer;
+
+        final result = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                'Select Camera',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  fontFamily: 'Sora',
+                ),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: Text(
+                      'Back Camera',
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        fontFamily: 'Sora',
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop(CameraLensDirection.back);
+                    },
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Front Camera',
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        fontFamily: 'Sora',
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop(CameraLensDirection.front);
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+
+        if (result != null) {
+          final barcodeResult = await FlutterBarcodeScanner.scanBarcode(
+            '#ff6666',
+            'Cancel',
+            true,
+            ScanMode.DEFAULT,
+          );
+
+          if (!mounted) return;
+
+          setState(() {
+            _barcodeResult = barcodeResult;
+          });
+
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(
+                  'Barcode Result',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    fontFamily: 'Sora',
+                  ),
+                ),
+                content: Text(_barcodeResult),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Clipboard.setData(ClipboardData(text: _barcodeResult));
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Copy',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontFamily: 'Sora',
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Exit',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontFamily: 'Sora',
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      } else {
+        // Handle camera permission not granted
+        print('Camera permission not granted');
+      }
+    } on PlatformException catch (e) {
+      // Handle platform exceptions
+      print('Platform Exception: ${e.message}');
+    } catch (e) {
+      // Handle other exceptions
+      print('Exception: $e');
+    }
+  }
+
   Future<void> _loadSearchHistory() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> searchHistory = await SearchHistory.loadSearchHistory();
     setState(() {
-      _searchHistory = prefs.getStringList('searchHistory') ?? [];
+      _searchHistory = searchHistory;
     });
   }
 
   Future<void> _saveSearchHistory() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('searchHistory', _searchHistory);
+    await SearchHistory.saveSearchHistory(_searchHistory);
   }
 
   void _searchBooks(String query) async {
@@ -82,6 +232,44 @@ class _SearchPageState extends State<SearchPage> {
         _books = response.books.cast<Book>();
         _isLoading = false;
       });
+      if (_books.isNotEmpty) {
+        final random = Random();
+        final randomIndex = random.nextInt(_books.length);
+        final randomBook = _books[randomIndex];
+
+        // Save the randomly selected book to Firestore
+        final userRef = FirebaseFirestore.instance
+            .collection('RecommendedBooks')
+            .doc(userId);
+        final recommendedBooks = await userRef.get();
+        final existingBooks = recommendedBooks.exists
+            ? (recommendedBooks.data() as Map<String, dynamic>)['books']
+                as List<dynamic>
+            : [];
+
+        // Check if the book is already in the user's recommended books
+        final bookExists =
+            existingBooks.any((book) => book['bookId'] == randomBook.id);
+        if (!bookExists) {
+          existingBooks.add({
+            'bookId': randomBook.id,
+            'title': randomBook.title,
+            'author': randomBook.authors,
+            'isbn': randomBook.isbn,
+            'description': randomBook.description,
+            'language': randomBook.language,
+            'publishedDate': randomBook.publishedDate,
+            'publisher': randomBook.publisher,
+            'imageUrl': randomBook.imageUrl,
+            'averageRating': randomBook.averageRating,
+            'ratingsCount': randomBook.ratingsCount,
+            'numberOfPages': randomBook.pageCount
+          });
+
+          // Update the recommended books collection in Firestore
+          await userRef.set({'books': existingBooks});
+        }
+      }
     } catch (e) {
       setState(() {
         _isLoading = false;
@@ -107,12 +295,6 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           actions: [
-            // TextButton(
-            //   child: const Text('OK'),
-            //   onPressed: () {
-            //     Navigator.of(context).pop();
-            //   },
-            // ),
             firebaseUIButton(context, 'OK', () {
               Navigator.of(context).pop();
             })
@@ -122,37 +304,74 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void _submitSearch(String query) async {
-    if (_searchHistory.contains(query)) {
-      _searchHistory.remove(query); // Remove the duplicate entry
-    }
-    _searchController.clear(); // Clear the search text field
-    _searchBooks(query);
+  Future<Book?> getRandomRecommendedBook() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId != null) {
-      setState(() {
-        _searchHistory.insert(
-            0, query); // Add the query at the beginning of the list
-      });
-      await _saveSearchHistory();
+      final recommendedBooksSnapshot = await FirebaseFirestore.instance
+          .collection('RecommendedBooks')
+          .doc(userId)
+          .get();
+
+      if (recommendedBooksSnapshot.exists) {
+        final recommendedBooksData = recommendedBooksSnapshot.data();
+        final books = (recommendedBooksData!['books'] as List<dynamic>)
+            .map((bookData) => Book(
+                  id: bookData['bookId'],
+                  imageUrl: bookData['imageUrl'],
+                  title: bookData['title'],
+                  authors: List<String>.from(bookData['author']),
+                  description: bookData['description'],
+                  publisher: bookData['publisher'],
+                  publishedDate: bookData['publishedDate'].toDate(),
+                  pageCount: bookData['number of pages'],
+                  language: bookData['language'],
+                  isbn: bookData['isbn'],
+                  averageRating: bookData['average rating'],
+                  ratingsCount: bookData['Ratings Count'],
+                ))
+            .toList();
+
+        if (books.isNotEmpty) {
+          final random = Random();
+          final randomIndex = random.nextInt(books.length);
+          final randomBook = books[randomIndex];
+          return randomBook;
+        }
+      }
     }
+
+    // Return null when there are no recommended books
+    return null;
+  }
+
+  void _submitSearch(String query) async {
+    if (userId != null) {
+      await SearchHistory.addSearchQuery(query);
+    }
+
+    _searchController.clear();
+    _searchBooks(query);
+
     setState(() {
-      _showSearchHistory = false; // Hide the search history
+      _showSearchHistory = false;
     });
-    // Hide the search history list by removing the focus from the search field
+
     FocusScope.of(context).requestFocus(FocusNode());
   }
 
   void _deleteSearchHistory(int index) async {
+    String query = _searchHistory[index];
+    await SearchHistory.removeSearchQuery(query);
+
     setState(() {
       _searchHistory.removeAt(index);
     });
-    await _saveSearchHistory();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeChanger>(builder: (context, themeChanger, _) {
-      return MaterialApp(
+    return Consumer<ThemeChanger>(
+      builder: (context, themeChanger, _) => MaterialApp(
         title: 'Search Screen',
         theme: themeChanger.currentTheme,
         home: Container(
@@ -174,17 +393,29 @@ class _SearchPageState extends State<SearchPage> {
                     const SizedBox(
                       height: 16,
                     ),
-                    const Align(
+                    Align(
                       alignment: Alignment.center,
                       child: Padding(
                         padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'Search',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 32,
-                            fontFamily: 'Sora',
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Search',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 32,
+                                fontFamily: 'Sora',
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: _scanBarcode,
+                                icon: Icon(
+                                    Icons.qr_code_scanner,
+                                  size: 32,
+                                ),
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -340,7 +571,13 @@ class _SearchPageState extends State<SearchPage> {
                                     leading: Radio<BookDisplayStyle>(
                                       value: BookDisplayStyle.Tile,
                                       groupValue: _bookDisplayStyle,
-                                      onChanged: _selectBookDisplayStyle,
+                                      onChanged: (BookDisplayStyle? newValue) {
+                                        setState(() {
+                                          _bookDisplayStyle = newValue!;
+                                        });
+                                        Navigator.pop(
+                                            context); // Dismiss the pop-up after selection
+                                      },
                                     ),
                                   ),
                                   ListTile(
@@ -355,7 +592,13 @@ class _SearchPageState extends State<SearchPage> {
                                     leading: Radio<BookDisplayStyle>(
                                       value: BookDisplayStyle.Card,
                                       groupValue: _bookDisplayStyle,
-                                      onChanged: _selectBookDisplayStyle,
+                                      onChanged: (BookDisplayStyle? newValue) {
+                                        setState(() {
+                                          _bookDisplayStyle = newValue!;
+                                        });
+                                        Navigator.pop(
+                                            context); // Dismiss the pop-up after selection
+                                      },
                                     ),
                                   ),
                                 ],
@@ -381,7 +624,6 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
 
-
                     if (_isLoading)
                       const Center(
                         child: CircularProgressIndicator(),
@@ -406,51 +648,10 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                             itemBuilder: (context, index) {
                               final book = _books[index];
-                              final subtitle = book.authors
-                                  .join(', '); // Join authors into a single string
 
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                BookDetailsScreen(book: book)));
-                                  },
-                                  child: Card(
-                                    color: const Color.fromRGBO(49, 51, 51, 0.5),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16.0)),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center, // Align content vertically in the center
-                                      children: [
-                                        ListTile(
-                                          title: Text(
-                                            book.title,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'Sora',
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          subtitle: Text(
-                                            subtitle,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontFamily: 'Sora',
-                                            ),
-                                          ),
-                                          // ... other details ...
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                              return TilePreview(
+                                book: book,
+                                showBookmarkIcon: true,
                               );
                             },
                           ),
@@ -494,8 +695,6 @@ class _SearchPageState extends State<SearchPage> {
                       ),
 
                     Container(
-                      // alignment: Alignment.bottomCenter,
-                      // padding: EdgeInsets.only(bottom: 16.0),
                       width: double.infinity,
                       padding: const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
                       child: ElevatedButton(
@@ -503,23 +702,71 @@ class _SearchPageState extends State<SearchPage> {
                           'Recommend me a Book',
                           style: TextStyle(
                             fontFamily: "Sora",
-                            color: Colors.white,
+                            color: Color(0xFF07abb8),
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
                           ),
                         ),
-                        onPressed: () {
-                          // Navigator.pushNamed(context, '/signup');
+                        onPressed: () async {
+                          final recommendedBook =
+                              await getRandomRecommendedBook();
+                          if (recommendedBook != null) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomDialog(
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    BookCard(book: recommendedBook),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    firebaseUIButton(context, 'ok', () {
+                                      Navigator.of(context).pop();
+                                    }),
+                                  ],
+                                ),
+                                width:
+                                    250, // Set the desired width of the dialog
+                                height:
+                                    470, // Set the desired height of the dialog
+                              ),
+                            );
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('No Recommended Books'),
+                                content: Text(
+                                  'You have to search for some books in the search bar to let me recommend you a book.',
+                                  style: TextStyle(
+                                    fontFamily: "Sora",
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                                actions: [
+                                  firebaseUIButton(context, 'ok', () {
+                                    Navigator.of(context).pop();
+                                  }),
+                                ],
+                              ),
+                            );
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.fromLTRB(
-                                14.0, 20.0, 14.0, 20.0),
-                            backgroundColor: const Color(0xFF07abb8),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            )),
+                          padding:
+                              const EdgeInsets.fromLTRB(14.0, 20.0, 14.0, 20.0),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -527,8 +774,59 @@ class _SearchPageState extends State<SearchPage> {
             // floatingActionButton: ThemeFloatingActionButton(),
           ),
         ),
-      );
-    });
+      ),
+    );
+  }
+}
+
+class CustomDialog extends Dialog {
+  final Widget child;
+  final double width;
+  final double height;
+
+  CustomDialog(
+      {required this.child, required this.width, required this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: child,
+      ),
+    );
+  }
+}
+
+class SearchHistory {
+  static const String _searchHistoryKey = 'searchHistory';
+
+  static Future<List<String>> loadSearchHistory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(_searchHistoryKey) ?? [];
+  }
+
+  static Future<void> saveSearchHistory(List<String> searchHistory) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_searchHistoryKey, searchHistory);
+  }
+
+  static Future<void> addSearchQuery(String query) async {
+    List<String> searchHistory = await loadSearchHistory();
+    searchHistory.remove(query); // Remove duplicate entry
+    searchHistory.insert(0, query); // Add query at the beginning
+    await saveSearchHistory(searchHistory);
+  }
+
+  static Future<void> removeSearchQuery(String query) async {
+    List<String> searchHistory = await loadSearchHistory();
+    searchHistory.remove(query);
+    await saveSearchHistory(searchHistory);
+  }
+
+  static Future<void> clearSearchHistory() async {
+    await saveSearchHistory([]);
   }
 }
 
@@ -878,7 +1176,6 @@ class _SearchPageState extends State<SearchPage> {
 //   }
 // }
 //
-
 
 // class BookDetailsScreen extends StatefulWidget {
 //   final Book book;

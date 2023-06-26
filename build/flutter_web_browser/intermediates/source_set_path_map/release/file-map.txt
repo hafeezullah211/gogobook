@@ -1,0 +1,13 @@
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-jetified-annotation-experimental-1.1.0-0 /home/hafeez_u_llah/.gradle/caches/transforms-3/4da258d73ad21ac3b77ed1f360b8c1be/transformed/jetified-annotation-experimental-1.1.0/res
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-browser-1.4.0-1 /home/hafeez_u_llah/.gradle/caches/transforms-3/a89bd0e64120b064165fe7d2635bd104/transformed/browser-1.4.0/res
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-core-1.6.0-2 /home/hafeez_u_llah/.gradle/caches/transforms-3/dc66a9e887fa197d342a9170a296fb1f/transformed/core-1.6.0/res
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-jetified-window-java-1.0.0-beta04-3 /home/hafeez_u_llah/.gradle/caches/transforms-3/f0b974b758349e9c54fcc6f9656f330a/transformed/jetified-window-java-1.0.0-beta04/res
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-jetified-window-1.0.0-beta04-4 /home/hafeez_u_llah/.gradle/caches/transforms-3/fd5f419e863560aa62f941d72f6221aa/transformed/jetified-window-1.0.0-beta04/res
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-main-5 /home/hafeez_u_llah/.pub-cache/hosted/pub.dev/flutter_web_browser-0.17.1/android/src/main/res
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-release-6 /home/hafeez_u_llah/.pub-cache/hosted/pub.dev/flutter_web_browser-0.17.1/android/src/release/res
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-pngs-7 /home/hafeez_u_llah/StudioProjects/gogobook/build/flutter_web_browser/generated/res/pngs/release
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-resValues-8 /home/hafeez_u_llah/StudioProjects/gogobook/build/flutter_web_browser/generated/res/resValues/release
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-rs-9 /home/hafeez_u_llah/StudioProjects/gogobook/build/flutter_web_browser/generated/res/rs/release
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-mergeReleaseResources-10 /home/hafeez_u_llah/StudioProjects/gogobook/build/flutter_web_browser/intermediates/incremental/release/mergeReleaseResources/merged.dir
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-mergeReleaseResources-11 /home/hafeez_u_llah/StudioProjects/gogobook/build/flutter_web_browser/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+dev.vbonnet.flutterwebbrowser.flutter_web_browser-merged_res-12 /home/hafeez_u_llah/StudioProjects/gogobook/build/flutter_web_browser/intermediates/merged_res/release

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gogobook/Screens/home_screens/nav_screen.dart';
+import 'package:gogobook/Screens/onBoardingScreens.dart';
 import 'package:gogobook/Screens/terms_screen.dart';
 import 'package:gogobook/Services/firebase_service.dart';
 import 'package:gogobook/common_widgets/button.dart';
@@ -214,9 +215,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => HomeScreen3(
-                                                  onLogout: () {},
-                                                )));
+                                            builder: (context) => OnboardingScreens()));
                                   }).catchError((error) {
                                     String errorMessage = 'An error occurred.';
 

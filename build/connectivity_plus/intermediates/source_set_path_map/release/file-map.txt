@@ -1,0 +1,12 @@
+dev.fluttercommunity.plus.connectivity.connectivity_plus-jetified-annotation-experimental-1.1.0-0 /home/hafeez_u_llah/.gradle/caches/transforms-3/4da258d73ad21ac3b77ed1f360b8c1be/transformed/jetified-annotation-experimental-1.1.0/res
+dev.fluttercommunity.plus.connectivity.connectivity_plus-core-1.6.0-1 /home/hafeez_u_llah/.gradle/caches/transforms-3/dc66a9e887fa197d342a9170a296fb1f/transformed/core-1.6.0/res
+dev.fluttercommunity.plus.connectivity.connectivity_plus-jetified-window-java-1.0.0-beta04-2 /home/hafeez_u_llah/.gradle/caches/transforms-3/f0b974b758349e9c54fcc6f9656f330a/transformed/jetified-window-java-1.0.0-beta04/res
+dev.fluttercommunity.plus.connectivity.connectivity_plus-jetified-window-1.0.0-beta04-3 /home/hafeez_u_llah/.gradle/caches/transforms-3/fd5f419e863560aa62f941d72f6221aa/transformed/jetified-window-1.0.0-beta04/res
+dev.fluttercommunity.plus.connectivity.connectivity_plus-main-4 /home/hafeez_u_llah/.pub-cache/hosted/pub.dev/connectivity_plus-4.0.1/android/src/main/res
+dev.fluttercommunity.plus.connectivity.connectivity_plus-release-5 /home/hafeez_u_llah/.pub-cache/hosted/pub.dev/connectivity_plus-4.0.1/android/src/release/res
+dev.fluttercommunity.plus.connectivity.connectivity_plus-pngs-6 /home/hafeez_u_llah/StudioProjects/gogobook/build/connectivity_plus/generated/res/pngs/release
+dev.fluttercommunity.plus.connectivity.connectivity_plus-resValues-7 /home/hafeez_u_llah/StudioProjects/gogobook/build/connectivity_plus/generated/res/resValues/release
+dev.fluttercommunity.plus.connectivity.connectivity_plus-rs-8 /home/hafeez_u_llah/StudioProjects/gogobook/build/connectivity_plus/generated/res/rs/release
+dev.fluttercommunity.plus.connectivity.connectivity_plus-mergeReleaseResources-9 /home/hafeez_u_llah/StudioProjects/gogobook/build/connectivity_plus/intermediates/incremental/release/mergeReleaseResources/merged.dir
+dev.fluttercommunity.plus.connectivity.connectivity_plus-mergeReleaseResources-10 /home/hafeez_u_llah/StudioProjects/gogobook/build/connectivity_plus/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+dev.fluttercommunity.plus.connectivity.connectivity_plus-merged_res-11 /home/hafeez_u_llah/StudioProjects/gogobook/build/connectivity_plus/intermediates/merged_res/release

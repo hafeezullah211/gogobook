@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gogobook/LanguageChnageProvider.dart';
+import 'package:gogobook/generated/l10n.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_widgets/button.dart';
 import '../../theme_changer.dart';
 import '../login_screens/login_screen.dart';
-import '../theme_floating_action_button.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -33,8 +35,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     // final themeChanger = Provider.of<ThemeChanger>(context);
 
-    return Consumer<ThemeChanger>(builder: (context, themeChanger, _) {
-      return MaterialApp(
+    return Consumer<ThemeChanger>(
+      builder: (context, themeChanger, _) => MaterialApp(
         title: 'Profile Screen',
         theme: themeChanger.currentTheme,
         home: Container(
@@ -54,7 +56,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     Text(
                       _currentUser?.displayName ?? 'Loading...',
                       style: const TextStyle(
@@ -78,35 +79,39 @@ class _ProfilePageState extends State<ProfilePage> {
                       _currentUser?.email ?? 'Loading...',
                       style: const TextStyle(fontSize: 16.0),
                     ),
-
                     const SizedBox(height: 32.0),
                     firebaseUIButton(context, 'Sign Out', () {
                       User? user = FirebaseAuth.instance.currentUser;
 
                       if (user != null) {
-                        if (user.providerData.any((userInfo) => userInfo.providerId == 'password')) {
+                        if (user.providerData.any(
+                            (userInfo) => userInfo.providerId == 'password')) {
                           // User logged in using Email/Password, perform sign out
                           FirebaseAuth.instance.signOut().then((value) {
                             print('Signed Out');
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => LoginScreen(onLogin: (){},))
-                            );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen(
+                                          onLogin: () {},
+                                        )));
                           });
-                        } else if (user.providerData.any((userInfo) => userInfo.providerId == 'google.com')) {
+                        } else if (user.providerData.any((userInfo) =>
+                            userInfo.providerId == 'google.com')) {
                           // User logged in using Google Sign-In, perform sign out
                           GoogleSignIn().signOut().then((value) {
                             FirebaseAuth.instance.signOut().then((value) {
                               print('Signed Out');
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => LoginScreen(onLogin: (){}))
-                              );
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          LoginScreen(onLogin: () {})));
                             });
                           });
                         }
                       }
                     }),
-
-
                     const SizedBox(height: 16.0),
                     const Text(
                       'Basic Options',
@@ -117,8 +122,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontFamily: 'Sora',
                       ),
                     ),
-
-
                     const SizedBox(height: 16.0),
                     ListTile(
                       leading: const Icon(
@@ -140,8 +143,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         // Implement your logic here
                       },
                     ),
-
-
                     const SizedBox(height: 16.0),
                     ListTile(
                       leading: const Icon(
@@ -163,7 +164,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         // Implement your logic here
                       },
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -174,40 +174,39 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: TextStyle(
                                 fontFamily: 'Sora',
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 8),
                           LanguageDropDown(),
                         ],
                       ),
                     ),
-
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
                       child: ElevatedButton(
                         onPressed: () {
-                          Provider.of<ThemeChanger>(context, listen: false).toggleTheme();
+                          Provider.of<ThemeChanger>(context, listen: false)
+                              .toggleTheme();
                         },
                         style: ElevatedButton.styleFrom(
-                          elevation: 3,
-                            padding: const EdgeInsets.fromLTRB(14.0, 14.0, 14.0, 14.0),
+                            elevation: 3,
+                            padding: const EdgeInsets.fromLTRB(
+                                14.0, 14.0, 14.0, 14.0),
                             backgroundColor: const Color(0xFF07abb8),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                            )
-                        ),
+                            )),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.light_mode, // Light mode icon
                               size: 40,
                               color: Color(0xFFfab313),
                             ),
-                            const SizedBox(width: 8), // Space between icons
-                            const Text(
+                            SizedBox(width: 8), // Space between icons
+                            Text(
                               'Switch Theme',
                               style: TextStyle(
                                 fontFamily: "Sora",
@@ -220,21 +219,27 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-
-
+                    // ElevatedButton(
+                    //     onPressed: () {
+                    //       context.setLocale(Locale('en', 'US'));
+                    //     },
+                    //     child: const Text('English')),
+                    // ElevatedButton(
+                    //     onPressed: () {
+                    //       context.setLocale(Locale('it'));
+                    //     },
+                    //     child: const Text('Italian')),
                   ],
                 ),
-
               ),
               // floatingActionButton: ThemeFloatingActionButton(),
             ),
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }
-
 
 class LanguageDropDown extends StatefulWidget {
   @override
@@ -255,10 +260,12 @@ class _LanguageDropDownState extends State<LanguageDropDown> {
     return DropdownButtonFormField<String>(
       decoration: const InputDecoration(
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFF07abb8)), // Customize the color here
+          borderSide:
+              BorderSide(color: Color(0xFF07abb8)), // Customize the color here
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFF07abb8)), // Customize the color here
+          borderSide:
+              BorderSide(color: Color(0xFF07abb8)), // Customize the color here
         ),
       ),
       value: _selectedLanguage,

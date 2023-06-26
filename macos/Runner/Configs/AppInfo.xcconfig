@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = gogobook
+PRODUCT_NAME = GoGoBook;
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.hafeezullah.gogobook.gogobook
+PRODUCT_BUNDLE_IDENTIFIER = com.hafeezullah.gogobook.gogobook;
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 com.hafeezullah.gogobook. All rights reserved.

@@ -25,6 +25,7 @@ class _HorizontalBooksListState extends State<HorizontalBooksList> {
   bool _showLeftArrow = false;
   bool _showRightArrow = false;
 
+
   @override
   void initState() {
     super.initState();
@@ -57,16 +58,6 @@ class _HorizontalBooksListState extends State<HorizontalBooksList> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // IconButton(
-            //   icon: const Icon(Icons.arrow_back_ios),
-            //   onPressed: _showLeftArrow
-            //       ? () {
-            //     final currentOffset = _scrollController.offset;
-            //     final itemWidth = 200.0;
-            //     _scrollTo(currentOffset - itemWidth);
-            //   }
-            //       : null,
-            // ),
             Text(
               widget.categoryName,
               style: const TextStyle(
@@ -75,16 +66,6 @@ class _HorizontalBooksListState extends State<HorizontalBooksList> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // IconButton(
-            //   icon: const Icon(Icons.arrow_forward_ios),
-            //   onPressed: _showRightArrow
-            //       ? () {
-            //     final currentOffset = _scrollController.offset;
-            //     final itemWidth = 200.0;
-            //     _scrollTo(currentOffset + itemWidth);
-            //   }
-            //       : null,
-            // ),
           ],
         ),
         const SizedBox(height: 10),
@@ -103,7 +84,48 @@ class _HorizontalBooksListState extends State<HorizontalBooksList> {
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: () {
-                    // Implement logic for adding a book to the list
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context){
+                          return AlertDialog(
+                            title: const Text(
+                                'Confirmation',
+                              style: TextStyle(
+                                fontFamily: 'Sora',
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF07abb8)
+                              ),
+                            ),
+                            content: const Text(
+                                'Please search for a book to add in Books Already List',
+                              style: TextStyle(
+                                fontFamily: 'Sora',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SearchPage()),
+                                    );
+                                },
+                                child: const Text(
+                                    'OK',
+                                style: TextStyle(
+                                  fontFamily: 'Sora',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFfab313),
+                                ),
+                                ),
+                              ),
+                            ],
+                          );
+                        });
                   },
                   child: Card(
                     color: const Color.fromRGBO(49, 51, 51, 0.5),

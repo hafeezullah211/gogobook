@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.hafeezullah.gogobook" "\0"
-            VALUE "FileDescription", "gogobook" "\0"
+            VALUE "FileDescription", "GoGoBook" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "gogobook" "\0"
+            VALUE "InternalName", "GoGoBook" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.hafeezullah.gogobook. All rights reserved." "\0"
             VALUE "OriginalFilename", "gogobook.exe" "\0"
-            VALUE "ProductName", "gogobook" "\0"
+            VALUE "ProductName", "GoGoBook" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

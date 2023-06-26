@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-merged_res-11:/drawable/notification_bg_low.xml",
+        "source": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-core-1.6.0-2:/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-merged_res-11:/drawable/notification_bg.xml",
+        "source": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-core-1.6.0-2:/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-merged_res-11:/drawable/notification_icon_background.xml",
+        "source": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-core-1.6.0-2:/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-merged_res-11:/drawable/notification_tile_bg.xml",
+        "source": "dev.vbonnet.flutterwebbrowser.flutter_web_browser-core-1.6.0-2:/drawable/notification_tile_bg.xml"
+    }
+]
