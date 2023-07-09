@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gogobook/Screens/login_screens/guest_account.dart';
 import 'package:gogobook/Screens/login_screens/login_screen.dart';
 import 'package:gogobook/Screens/onBoardingScreens.dart';
@@ -71,7 +72,7 @@ class LogoScreen extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(16.0, 0, 16, 14),
                       child: ElevatedButton(
                         child: Text(
-                          'Sign up',
+                          'logoScreenSignUp'.tr,
                           style: TextStyle(
                             fontFamily: "Sora",
                             color: Color(0xFF313333),
@@ -97,7 +98,7 @@ class LogoScreen extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(16.0, 0, 16, 14),
                       child: ElevatedButton(
                         child: Text(
-                          'Sign in as Guest',
+                          'logoScreenGuest'.tr,
                           style: TextStyle(
                             fontFamily: "Sora",
                             color: Color(0xFF313333),

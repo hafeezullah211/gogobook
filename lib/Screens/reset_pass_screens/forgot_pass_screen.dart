@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gogobook/common_widgets/button.dart';
 import 'package:gogobook/common_widgets/text_form_field.dart';
 
@@ -45,7 +46,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 Center(
                   child: Text(
-                    'Recover Password',
+                    'forgotPassScreenTitle'.tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -69,37 +70,37 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           width: double.infinity,
                           padding: EdgeInsets.fromLTRB(16.0, 14, 16, 14),
                             child: reusableTextField(
-                                "Enter Email", Icons.email, false, _emailTextController
+                                "forgotPassScreenFieldText".tr, Icons.email, false, _emailTextController
                             ),
                         ),
 
 
                         SizedBox(height: 16.0),
-                    firebaseUIButton(context, "Reset Password", () {
+                    firebaseUIButton(context, "forgotPassScreenButton".tr, () {
                       String email = _emailTextController.text.trim();
 
                       if (email.isEmpty) {
-                        showSnackbar(context, 'Please enter your email.');
+                        showSnackbar(context, 'forgotPassScreenError1'.tr);
                         return; // Exit the function if email is not provided
                       }
 
                       // Validate email format
                       bool isValidEmail = validateEmail(email);
                       if (!isValidEmail) {
-                        showSnackbar(context, 'Please enter a valid email address.');
+                        showSnackbar(context, 'forgotPassScreenError2'.tr);
                         return; // Exit the function if email format is invalid
                       }
 
                       FirebaseAuth.instance.sendPasswordResetEmail(email: email)
                           .then((value) {
-                        showSnackbar(context, 'Password reset email sent successfully.');
+                        showSnackbar(context, 'forgotPassScreenError3'.tr);
                         Navigator.of(context).pop();
                       }).catchError((error) {
-                        String errorMessage = 'An error occurred while sending the password reset email.';
+                        String errorMessage = 'forgotPassScreenError4'.tr;
 
                         if (error is FirebaseAuthException) {
                           if (error.code == 'user-not-found') {
-                            errorMessage = 'No user found with the provided email address.';
+                            errorMessage = 'forgotPassScreenError5'.tr;
                           }
                         }
                         showSnackbar(context, errorMessage);

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:gogobook/Screens/home_screens/nav_screen.dart';
 import 'package:gogobook/Screens/reset_pass_screens/forgot_pass_screen.dart';
 import 'package:gogobook/Screens/signUp_screen/sign_up_screen.dart';
@@ -72,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Center(
                         child: Text(
-                          'Log in',
+                          'Log In',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -95,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: double.infinity,
                                   padding: const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
                                   child: reusableTextField(
-                                      'Email', Icons.email, false, _emailTextController
+                                      'SignUpScreenEmailField'.tr, Icons.email, false, _emailTextController
                                   )
                               ),
 
@@ -104,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: double.infinity,
                                   padding: const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
                                   child: reusableTextField(
-                                      "Password", Icons.password, true, _passwordTextController
+                                      "SignUpScreenPassField".tr, Icons.password, true, _passwordTextController
                                   )
                               ),
 
@@ -123,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 } catch (error) {
                                   // String errorMessage = 'An error occurred.';
                                   Fluttertoast.showToast(
-                                    msg: 'An error occurred.',
+                                    msg: 'loginError1'.tr,
                                     gravity: ToastGravity.BOTTOM,
                                     toastLength: Toast.LENGTH_SHORT,
                                   );
@@ -132,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     if (error.code == 'user-not-found') {
                                       // errorMessage = 'User not found. Please create an account.';
                                       Fluttertoast.showToast(
-                                        msg: 'User not found. Please create an account.',
+                                        msg: 'loginError2'.tr,
                                         gravity: ToastGravity.BOTTOM,
                                         toastLength: Toast.LENGTH_SHORT,
                                       );
@@ -140,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     } else if (error.code == 'wrong-password') {
                                       // errorMessage = 'Incorrect email or password.';
                                       Fluttertoast.showToast(
-                                        msg: 'Incorrect email or password.',
+                                        msg: 'loginError2'.tr,
                                         gravity: ToastGravity.BOTTOM,
                                         toastLength: Toast.LENGTH_SHORT,
                                       );
@@ -159,8 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onTap: () {
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
                                   },
-                                  child: const Text(
-                                    'Forgot password?',
+                                  child: Text(
+                                    'loginText'.tr,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,
@@ -176,8 +177,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
-                                      'Don\'t have an account? ',
+                                    Text(
+                                      'loginText2'.tr,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 14,
@@ -190,8 +191,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                             MaterialPageRoute(builder: (context) => SignUpScreen())
                                         );
                                       },
-                                      child: const Text(
-                                        "Sign Up",
+                                      child: Text(
+                                        "loginText3".tr,
                                         style: TextStyle(
                                           color: Color(0xFF07abb8),
                                           fontFamily: 'Sora',

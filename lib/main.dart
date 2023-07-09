@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
     return Consumer<ThemeChanger>(
       builder: (context, themeChanger, _) => GetMaterialApp(
         translations: LocaleString(),
-        locale: Locale('en_US'),
+        locale: const Locale('it_IT'),
         debugShowCheckedModeBanner: false,
         title: 'GoGoBook',
         theme: themeChanger

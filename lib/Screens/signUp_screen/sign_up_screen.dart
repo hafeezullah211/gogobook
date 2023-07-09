@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:gogobook/Screens/home_screens/nav_screen.dart';
 import 'package:gogobook/Screens/onBoardingScreens.dart';
 import 'package:gogobook/Screens/terms_screen.dart';
@@ -67,9 +68,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Center(
+                      Center(
                         child: Text(
-                          'Sign Up',
+                          'SignUpScreenTitle'.tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 32,
@@ -95,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
                                   child: reusableTextField(
-                                      'Name',
+                                      'SignUpScreenNameField'.tr,
                                       Icons.text_fields,
                                       false,
                                       _userNameTextController)),
@@ -107,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   width: double.infinity,
                                   padding:
                                       const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
-                                  child: reusableTextField('Email', Icons.email,
+                                  child: reusableTextField('SignUpScreenEmailField'.tr, Icons.email,
                                       false, _emailTextController)),
 
                               const SizedBox(
@@ -118,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
                                   child: reusableTextField(
-                                      'Password',
+                                      'SignUpScreenPassField'.tr,
                                       Icons.password,
                                       true,
                                       _passwordTextController)),
@@ -141,8 +142,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         color: Colors
                                             .white), // Sets the border color
                                   ),
-                                  const Text(
-                                    'I accept the  ',
+                                  Text(
+                                    'SignUpScreenTPText'.tr,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontFamily: 'Sora',
@@ -158,8 +159,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               builder: (context) =>
                                                   const TermsOfServiceScreen()));
                                     },
-                                    child: const Text(
-                                      'Terms & Policies',
+                                    child: Text(
+                                      'SignUpScreenTPText2'.tr,
                                       style: TextStyle(
                                         color: Color(0xFF07abb8),
                                         fontFamily: 'Sora',
@@ -175,22 +176,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               const SizedBox(
                                 height: 16,
                               ),
-                              firebaseUIButton(context, 'Create Account', () {
+                              firebaseUIButton(context, 'SignUpScreenButton'.tr, () {
                                 if (_acceptTerms) {
                                   if (_userNameTextController.text.isEmpty) {
                                     showSnackbar(
-                                        context, 'Please enter your name.');
+                                        context, 'SignUpScreenError'.tr);
                                     return; // Exit the function if name is not provided
                                   }
                                   if (_emailTextController.text.isEmpty) {
                                     showSnackbar(
-                                        context, 'Please enter your email.');
+                                        context, 'SignUpScreenError2'.tr);
                                     return; // Exit the function if email is not provided
                                   }
                                   if (!validateEmail(
                                       _emailTextController.text)) {
                                     showSnackbar(context,
-                                        'Please enter a valid email address.');
+                                        'SignUpScreenError3'.tr);
                                     return; // Exit the function if email format is invalid
                                   }
 
@@ -222,11 +223,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     if (error is FirebaseAuthException) {
                                       if (error.code == 'weak-password') {
                                         errorMessage =
-                                            'Your password is too weak.';
+                                            'SignUpScreenError5'.tr;
                                       } else if (error.code ==
                                           'email-already-in-use') {
                                         errorMessage =
-                                            'The email address is already in use.';
+                                            'SignUpScreenError6'.tr;
                                       }
                                     }
                                     showSnackbar(context, errorMessage);
@@ -238,7 +239,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                               const SizedBox(height: 16.0),
                               Row(
-                                children: const [
+                                children:[
                                   Expanded(
                                     child: Divider(
                                       color: Color(0xFF939999),
@@ -248,7 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     padding:
                                         EdgeInsets.fromLTRB(16.0, 14, 16, 14),
                                     child: Text(
-                                      'or',
+                                      'SignUpScreenDivider'.tr,
                                       style: TextStyle(
                                           fontFamily: 'Sora',
                                           fontWeight: FontWeight.bold,
@@ -282,7 +283,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   BorderRadius.circular(8.0))),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
-                                        children: const [
+                                        children: [
                                           Image(
                                             image: AssetImage(
                                               'assets/images/g.png',
@@ -294,7 +295,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             width: 10.0,
                                           ),
                                           Text(
-                                            'Sign in with Google',
+                                            'SignInWithGoogle'.tr,
                                             style: TextStyle(
                                               fontFamily: "Sora",
                                               color: Color(0xFF313333),
@@ -322,7 +323,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   BorderRadius.circular(8.0))),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
-                                        children: const [
+                                        children: [
                                           Image(
                                             image: AssetImage(
                                                 'assets/images/f.png'),
@@ -333,7 +334,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             width: 10.0,
                                           ),
                                           Text(
-                                            'Sign in with Facebook',
+                                            'SignInWithFacebook'.tr,
                                             style: TextStyle(
                                               fontFamily: "Sora",
                                               color: Color(0xFF313333),
@@ -361,9 +362,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 child: Center(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
+                                    children: [
                                       Text(
-                                        'Already have an account?',
+                                        'signUpScreenLastText'.tr,
                                         style: TextStyle(
                                           fontFamily: 'Sora',
                                           color: Colors.white,

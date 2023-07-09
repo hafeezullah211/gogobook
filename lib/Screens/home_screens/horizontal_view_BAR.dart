@@ -91,7 +91,7 @@ class _HorizontalBooksListState extends State<HorizontalBooksBARList> {
                 },
               ),
             ),
-            if (widget.categoryName == 'Books Already Read')
+            if (widget.categoryName == 'Books Already Read' || widget.categoryName == 'Libri già letti')
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
