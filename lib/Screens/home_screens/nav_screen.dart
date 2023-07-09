@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gogobook/Screens/home_screens/profile_screen.dart';
 import 'package:gogobook/Screens/home_screens/search_screen.dart';
 import 'package:provider/provider.dart';
@@ -47,19 +48,19 @@ class _HomeScreenState extends State<HomeScreen3> {
             unselectedItemColor: Colors.white,
             selectedFontSize: 18,
             unselectedFontSize: 14,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+                icon: const Icon(Icons.home),
+                label: 'navHome'.tr,
 
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.search),
-                label: 'Search',
+                label: 'navSearch'.tr,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label: 'Profile',
+                label: 'navProfile'.tr,
               ),
             ],
             currentIndex: _selectedIndex,

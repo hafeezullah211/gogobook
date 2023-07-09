@@ -1,14 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gogobook/LanguageChnageProvider.dart';
-import 'package:gogobook/generated/l10n.dart';
+import 'package:gogobook/LocaleString.dart';
+import 'package:gogobook/Screens/login_screens/logo_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_widgets/button.dart';
 import '../../theme_changer.dart';
 import '../login_screens/login_screen.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -31,12 +32,62 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  final List locale = [
+    {'name': 'English', 'locale': Locale('en_US')},
+    {'name': 'Italian', 'locale': Locale('it_IT')},
+  ];
+
+  updateLanguage(Locale locale){
+    Get.back();
+    Get.updateLocale(locale);
+  }
+
+  builddialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (builder) {
+          return AlertDialog(
+            title: Text(
+              'Choose a Language',
+              style: TextStyle(
+                fontFamily: 'Sora',
+              ),
+            ),
+            content: Container(
+              width: double.maxFinite,
+              child: ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:
+                          GestureDetector(
+                            onTap: (){
+                              updateLanguage(locale[index]['locale']);
+                            },
+                              child: Text(locale[index]["name"])
+                          ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      color: Colors.blue,
+                    );
+                  },
+                  itemCount: locale.length),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     // final themeChanger = Provider.of<ThemeChanger>(context);
 
     return Consumer<ThemeChanger>(
       builder: (context, themeChanger, _) => MaterialApp(
+        // translations: LocaleString(),
+        // locale: Locale('en_US'),
         title: 'Profile Screen',
         theme: themeChanger.currentTheme,
         home: Container(
@@ -57,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      _currentUser?.displayName ?? 'Loading...',
+                      _currentUser?.displayName ?? 'loadingText...'.tr,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 28,
@@ -65,8 +116,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     const SizedBox(height: 16.0),
-                    const Text(
-                      'Email:',
+                    Text(
+                      'Email:'.tr,
                       style: TextStyle(
                         // color: isDarkMode ? Colors.white : Colors.black,
                         fontWeight: FontWeight.bold,
@@ -76,11 +127,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      _currentUser?.email ?? 'Loading...',
+                      _currentUser?.email ?? 'loadingText...'.tr,
                       style: const TextStyle(fontSize: 16.0),
                     ),
                     const SizedBox(height: 32.0),
-                    firebaseUIButton(context, 'Sign Out', () {
+                    firebaseUIButton(context, 'signOut'.tr, () {
                       User? user = FirebaseAuth.instance.currentUser;
 
                       if (user != null) {
@@ -92,9 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LoginScreen(
-                                          onLogin: () {},
-                                        )));
+                                    builder: (context) => LogoScreen()));
                           });
                         } else if (user.providerData.any((userInfo) =>
                             userInfo.providerId == 'google.com')) {
@@ -113,8 +162,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       }
                     }),
                     const SizedBox(height: 16.0),
-                    const Text(
-                      'Basic Options',
+                    Text(
+                      'basicOptions'.tr,
                       style: TextStyle(
                         // color: isDarkMode ? Colors.white : Colors.black,
                         fontWeight: FontWeight.bold,
@@ -129,8 +178,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Color(0xFFfab313),
                         size: 40,
                       ),
-                      title: const Text(
-                        'Support Us',
+                      title: Text(
+                        'supportUs'.tr,
                         style: TextStyle(
                           // color: isDarkMode ? Colors.white : Colors.black,
                           fontWeight: FontWeight.bold,
@@ -164,23 +213,29 @@ class _ProfilePageState extends State<ProfilePage> {
                         // Implement your logic here
                       },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Change language',
-                            style: TextStyle(
-                                fontFamily: 'Sora',
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                    const SizedBox(height: 16.0),
+                    GestureDetector(
+                      onTap: () {
+                        builddialog(context);
+                      },
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.language,
+                          color: Color(0xFFfab313),
+                          size: 40,
+                        ),
+                        title: Text(
+                          'changeLanguageText'.tr,
+                          style: TextStyle(
+                            // color: isDarkMode ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            fontFamily: 'Sora',
                           ),
-                          const SizedBox(height: 8),
-                          LanguageDropDown(),
-                        ],
+                        ),
                       ),
                     ),
+                    const SizedBox(height: 16.0),
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
@@ -207,7 +262,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             SizedBox(width: 8), // Space between icons
                             Text(
-                              'Switch Theme',
+                              'switchThemeButton'.tr,
                               style: TextStyle(
                                 fontFamily: "Sora",
                                 color: Colors.white,
@@ -240,47 +295,65 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-class LanguageDropDown extends StatefulWidget {
-  @override
-  _LanguageDropDownState createState() => _LanguageDropDownState();
-}
-
-class _LanguageDropDownState extends State<LanguageDropDown> {
-  String _selectedLanguage = 'English';
-
-  List<String> _languages = [
-    'English',
-    'Italian',
-    // Add more languages as needed
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      decoration: const InputDecoration(
-        enabledBorder: UnderlineInputBorder(
-          borderSide:
-              BorderSide(color: Color(0xFF07abb8)), // Customize the color here
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide:
-              BorderSide(color: Color(0xFF07abb8)), // Customize the color here
-        ),
-      ),
-      value: _selectedLanguage,
-      onChanged: (newValue) {
-        setState(() {
-          _selectedLanguage = newValue!;
-        });
-        // Change the app's language here based on the selected language
-      },
-      items: _languages.map((language) {
-        return DropdownMenuItem<String>(
-          value: language,
-          child: Text(language),
-        );
-      }).toList(),
-    );
-  }
-}
+//
+// class LanguageDropDown extends StatefulWidget {
+//   @override
+//   _LanguageDropDownState createState() => _LanguageDropDownState();
+// }
+//
+// class _LanguageDropDownState extends State<LanguageDropDown> {
+//   String _selectedLanguage = 'English';
+//
+//   final List<String> _languages = [
+//     'English',
+//     'Italian',
+//     // Add more languages as needed
+//   ];
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return DropdownButtonFormField<String>(
+//       decoration: const InputDecoration(
+//         enabledBorder: UnderlineInputBorder(
+//           borderSide: BorderSide(color: Color(0xFF07abb8)),
+//         ),
+//         focusedBorder: UnderlineInputBorder(
+//           borderSide: BorderSide(color: Color(0xFF07abb8)),
+//         ),
+//       ),
+//       value: _selectedLanguage,
+//       onChanged: (newValue) {
+//         setState(() {
+//           _selectedLanguage = newValue!;
+//         });
+//         // Change the app's language here based on the selected language
+//         _changeLanguage(context, _selectedLanguage);
+//       },
+//       items: _languages.map((language) {
+//         return DropdownMenuItem<String>(
+//           value: language,
+//           child: Text(language),
+//         );
+//       }).toList(),
+//     );
+//   }
+//
+//   void _changeLanguage(BuildContext context, String language) {
+//     final locale = Locale(_getLocaleCode(language));
+//     // const AppLocalizationDelegate().load(locale); // Load the new locale
+//     // You can also save the selected language to shared preferences or any other storage mechanism if needed
+//   }
+//
+//   String _getLocaleCode(String language) {
+//     // Map the language names to their respective locale codes
+//     switch (language) {
+//       case 'English':
+//         return 'en';
+//       case 'Italian':
+//         return 'it';
+//       // Add more cases as needed
+//       default:
+//         return 'en'; // Default to English
+//     }
+//   }
+// }

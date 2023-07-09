@@ -10,14 +10,12 @@ environment:
 
 
 dependencies:
-  flutter_localizations:
-    sdk: flutter
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
   provider: ^6.0.5
   firebase_auth: ^4.6.1
-  cloud_firestore: ^4.7.1
+  cloud_firestore: ^4.8.2
   firebase_core: ^2.13.0
   google_sign_in: ^6.1.0
   connectivity_plus: ^4.0.1
@@ -27,12 +25,13 @@ dependencies:
   url_launcher: ^6.1.11
   share: ^2.0.4
   flutter_web_browser: ^0.17.1
-  get:
+  get: ^4.6.5
   flutter_barcode_scanner:
   image_picker:
   camera:
   permission_handler:
   intro_views_flutter: ^3.2.0
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,7 +51,6 @@ flutter_icons:
 
 
 flutter:
-
   uses-material-design: true
 
   assets:
@@ -76,4 +74,4 @@ flutter:
         - asset: assets/fonts/Sora/static/Sora-SemiBold.ttf
         - asset: assets/fonts/Sora/static/Sora-Thin.ttf
 flutter_intl:
-  enabled: true
+  enabled: false

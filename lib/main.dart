@@ -1,17 +1,21 @@
+import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gogobook/LocaleString.dart';
 import 'package:gogobook/Screens/home_screens/nav_screen.dart';
 import 'package:gogobook/Screens/reset_pass_screens/forgot_pass_screen.dart';
 import 'package:gogobook/Screens/signUp_screen/sign_up_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'Services/connectivity_service.dart';
 import 'theme_changer.dart';
 import 'Screens/login_screens/logo_screen.dart';
 import 'Screens/login_screens/login_screen.dart';
+import 'package:get/get.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,27 +24,22 @@ void main() async {
   // bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
   // bool isFirebaseUserLoggedIn = FirebaseAuth.instance.currentUser != null;
 
-  checkInternetConnectivity().then((isConnected) {
-    if (isConnected) {
-      runApp(
-        ChangeNotifierProvider<ThemeChanger>(
-          create: (_) => ThemeChanger(ThemeData.light()),
-          child: MyApp(
-            // isLoggedIn: isLoggedIn && isFirebaseUserLoggedIn,
+  runApp(
+    ChangeNotifierProvider<ThemeChanger>(
+      create: (_) => ThemeChanger(ThemeData.light()),
+      child: const MyApp(
+          // isLoggedIn: isLoggedIn && isFirebaseUserLoggedIn,
           ),
-        ),
-      );
-    } else {
-      runApp(InternetConnectionDialog());
-    }
-  });
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   // final bool isLoggedIn;
 
   // MyApp({required this.isLoggedIn});
-
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -49,10 +48,54 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var auth = FirebaseAuth.instance;
   var isLogin = false;
+  late ConnectivityResult result;
+  late StreamSubscription subscription;
+  var isConnected = false;
 
-  checkIfLogin() async{
+  @override
+  void initState() {
+    super.initState();
+    startStreaming();
+    checkIfLogin();
+  }
+
+  checkInternet() async {
+    result = await Connectivity().checkConnectivity();
+    if (result != ConnectivityResult.none) {
+      isConnected = true;
+    } else {
+      showDialogueBox();
+    }
+    setState(() {});
+  }
+
+  showDialogueBox() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+              title: const Text('No Internet'),
+              content: const Text('Please Check Your Internet Connection.'),
+              actions: [
+                CupertinoButton.filled(
+                    child: const Text('Retry'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      checkInternet();
+                    })
+              ],
+            ));
+  }
+
+  startStreaming() {
+    subscription = Connectivity().onConnectivityChanged.listen((event) async {
+      checkInternet();
+    });
+  }
+
+  checkIfLogin() async {
     auth.authStateChanges().listen((User? user) {
-      if(user != null && mounted){
+      if (user != null && mounted) {
         setState(() {
           isLogin = true;
         });
@@ -61,19 +104,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  void initState(){
-    checkIfLogin();
-    super.initState();
-  }
-  @override
   Widget build(BuildContext context) {
     return Consumer<ThemeChanger>(
-      builder: (context, themeChanger, _) => MaterialApp(
+      builder: (context, themeChanger, _) => GetMaterialApp(
+        translations: LocaleString(),
+        locale: Locale('en_US'),
         debugShowCheckedModeBanner: false,
         title: 'GoGoBook',
         theme: themeChanger
-            .currentTheme, // Access the theme using a method (e.g., getThemeData())
-        initialRoute: FirebaseAuth.instance.currentUser == null ? '/' : 'home',
+            .currentTheme,
+        initialRoute: FirebaseAuth.instance.currentUser == null ? '/' : '/home',
         routes: {
           '/login': (context) => LoginScreen(
                 onLogin: () {},
@@ -84,39 +124,7 @@ class _MyAppState extends State<MyApp> {
           '/forgot_password': (context) => ForgotPasswordScreen(),
           '/signup': (context) => SignUpScreen(),
         },
-        home: isLogin ? HomeScreen3(onLogout: (){}) : LogoScreen(),
-
-      ),
-    );
-  }
-}
-
-class InternetConnectionDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: AlertDialog(
-            title: Text('No Internet Connection'),
-            content: Text(
-                'Please turn on your internet connection to use this app.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  // Perform action to redirect user to device settings to enable internet
-                },
-                child: Text('Open Settings'),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Perform action to exit the app or show alternative content
-                },
-                child: Text('Exit'),
-              ),
-            ],
-          ),
-        ),
+        home: isLogin ? HomeScreen3(onLogout: () {}) : LogoScreen(),
       ),
     );
   }

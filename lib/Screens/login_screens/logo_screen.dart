@@ -18,7 +18,7 @@ class LogoScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.black12,
           body: Container(
-            margin: EdgeInsets.only(bottom: 80, top: 80),
+            margin: EdgeInsets.only(bottom: 20, top: 20),
             padding: EdgeInsets.all(16.0),
             child: Center(
               child: SingleChildScrollView(

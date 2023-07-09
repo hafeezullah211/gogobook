@@ -1,9 +1,16 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_web_browser/flutter_web_browser.dart';
+import 'package:get/get.dart';
 import 'package:gogobook/Screens/home_screens/banner_home.dart';
-import 'package:gogobook/Screens/home_screens/horizontal_view.dart';
+import 'package:gogobook/Screens/home_screens/horizontal_view_BAR.dart';
+import 'package:gogobook/Screens/home_screens/horizontal_view_Recommeded.dart';
+import 'package:gogobook/Screens/home_screens/horizontal_view_bookmarked.dart';
+import 'package:gogobook/Screens/home_screens/horizontal_view_wishlist.dart';
 import 'package:gogobook/Screens/home_screens/profile_screen.dart';
 import 'package:gogobook/Screens/home_screens/search_screen.dart';
 // import 'package:gogobook/Screens/home_screens/search_screen.dart';
@@ -14,440 +21,6 @@ import '../../common_widgets/button.dart';
 import '../../models/books.dart';
 import '../../theme_changer.dart';
 import '../theme_floating_action_button.dart';
-
-// class HomePage extends StatefulWidget {
-//   @override
-//   _HomeScreenState createState() => _HomeScreenState();
-// }
-//
-// class _HomeScreenState extends State<HomePage> {
-//   ScrollController _scrollController = ScrollController();
-//   bool _showLeftArrow = false;
-//   bool _showRightArrow = false;
-//   List<Book> bookmarkedBooksList = [];
-//   List<Book> _books = [];
-//   bool _isLoading = false;
-//
-//   void fetchBookmarks() async {
-//     try {
-//       final userId = FirebaseAuth.instance.currentUser?.uid;
-//       if (userId != null) {
-//         final bookmarkedBooksSnapshot = await FirebaseFirestore.instance
-//             .collection('bookmarks')
-//             .doc(userId)
-//             .collection('books')
-//             .get();
-//
-//         final bookmarkedBooks = bookmarkedBooksSnapshot.docs
-//             .map((doc) => Book(
-//           id: doc.id,
-//           imageUrl: doc['imageUrl'],
-//           title: doc['title'],
-//           authors: List<String>.from(doc['authors']),
-//           description: doc['description'],
-//           publisher: doc['publisher'],
-//           publishedDate: doc['publishDate'],
-//           pageCount: doc['pagesCount'],
-//           language: doc['language'],
-//           isbn: doc['isbn'],
-//           averageRating: doc['averageRating'],
-//           ratingsCount: doc['ratingsCount'],
-//         ))
-//             .toList();
-//
-//         // Update the state with the fetched bookmarked books
-//         setState(() {
-//           bookmarkedBooksList = bookmarkedBooks;
-//         });
-//       }
-//     } catch (e) {
-//       print('Failed to fetch bookmarks: $e');
-//       // Handle error
-//     }
-//   }
-//
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _scrollController.addListener(_scrollListener);
-//     fetchBookmarks();
-//   }
-//
-//   @override
-//   void dispose() {
-//     _scrollController.removeListener(_scrollListener);
-//     _scrollController.dispose();
-//     super.dispose();
-//   }
-//
-//   void _scrollListener() {
-//     setState(() {
-//       _showLeftArrow = _scrollController.position.pixels > 0;
-//       _showRightArrow = _scrollController.position.pixels <
-//           _scrollController.position.maxScrollExtent;
-//     });
-//   }
-//
-//   void _scrollTo(double offset) {
-//     _scrollController.jumpTo(offset);
-//   }
-//
-//   int _currentIndex = 0;
-//   @override
-//   Widget build(BuildContext context) {
-//     List<String> adImages = [
-//       'assets/images/ad_banner.png',
-//       'assets/images/ad_banner.png',
-//       'assets/images/ad_banner.png'
-//     ];
-//
-//     final currentTime = DateTime.now();
-//     String greeting;
-//
-//     if (currentTime.hour >= 0 && currentTime.hour < 12) {
-//       greeting = 'Good Morning';
-//     } else if (currentTime.hour >= 12 && currentTime.hour < 16) {
-//       greeting = 'Good Afternoon';
-//     } else if (currentTime.hour >= 16 && currentTime.hour < 20) {
-//       greeting = 'Good Evening';
-//     } else {
-//       greeting = 'Good Night';
-//     }
-//
-//     // List<Book> bookmarkedBooks = [
-//     //   Book(
-//     //     title: 'Book 1',
-//     //     author: 'Author 1',
-//     //     coverImage: 'assets/images/book_cover_photo.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 2',
-//     //     author: 'Author 2',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 3',
-//     //     author: 'Author 3',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 4',
-//     //     author: 'Author 4',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 5',
-//     //     author: 'Author 5',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   // Add more books as needed
-//     // ];
-//     //
-//     // List<Book> booksAlreadyRead = [
-//     //   Book(
-//     //     title: 'Book 1',
-//     //     author: 'Author 1',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 2',
-//     //     author: 'Author 2',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 3',
-//     //     author: 'Author 3',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 4',
-//     //     author: 'Author 4',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 5',
-//     //     author: 'Author 5',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   // Add more books as needed
-//     // ];
-//     //
-//     // List<Book> wishlistBooks = [
-//     //   Book(
-//     //     title: 'Book 1',
-//     //     author: 'Author 1',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 2',
-//     //     author: 'Author 2',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 3',
-//     //     author: 'Author 3',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 4',
-//     //     author: 'Author 4',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 5',
-//     //     author: 'Author 5',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   // Add more books as needed
-//     // ];
-//     //
-//     // List<Book> recommendedBooks = [
-//     //   Book(
-//     //     title: 'Book 1',
-//     //     author: 'Author 1',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 2',
-//     //     author: 'Author 2',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 3',
-//     //     author: 'Author 3',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 4',
-//     //     author: 'Author 4',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 5',
-//     //     author: 'Author 5',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   Book(
-//     //     title: 'Book 6',
-//     //     author: 'Author 6',
-//     //     coverImage: 'assets/images/book_cover.jpg',
-//     //   ),
-//     //   // Add more books as needed
-//     // ];
-//
-//     return Consumer<ThemeChanger>(builder: (context, themeChanger, _) {
-//       return MaterialApp(
-//         title: 'Home Page',
-//         theme: themeChanger.currentTheme,
-//         home: Container(
-//           decoration: const BoxDecoration(
-//             gradient: LinearGradient(
-//               colors: [
-//                 Colors.white, // First color
-//                 Color(0xFF07abb8), // Second color
-//               ],
-//               begin: Alignment.topCenter,
-//               end: Alignment.bottomCenter,
-//             ),
-//           ),
-//           child: SafeArea(
-//             child: Scaffold(
-//               // backgroundColor: isDarkMode ? Colors.black : Colors.white,
-//               body: SingleChildScrollView(
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(16.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Text(
-//                             greeting,
-//                             style: const TextStyle(
-//                               // color: isDarkMode ? Colors.white : Colors.black,
-//                               fontWeight: FontWeight.bold,
-//                               fontSize: 28,
-//                               fontFamily: 'Sora',
-//                             ),
-//                           ),
-//                           IconButton(
-//                             icon: const Icon(
-//                               Icons.settings,
-//                               // color: isDarkMode ? Colors.white : Colors.black,
-//                               size: 40,
-//                             ),
-//                             onPressed: () {
-//                               // Handle user icon click
-//                             },
-//                           ),
-//                         ],
-//                       ),
-//                       const SizedBox(height: 16),
-//                       AdBanner(adImages: adImages),
-//                       const SizedBox(
-//                         height: 16,
-//                       ),
-//
-//                       Expanded(
-//                         child: ListView.builder(
-//                           itemCount: bookmarkedBooksList.length,
-//                           itemBuilder: (context, index) {
-//                             final book = bookmarkedBooksList[index];
-//                             return BookCard(
-//                               book: book,
-//                               showBookmarkIcon: true,
-//                             );
-//                           },
-//                         ),
-//                       ),
-//                       // ElevatedButton(
-//                       //     onPressed: () {
-//                       //       Navigator.push(
-//                       //           context,
-//                       //           MaterialPageRoute(
-//                       //               builder: (context) => BookmarksScreen()));
-//                       //     },
-//                       //     child: Text('Show Bookmarks')),
-//                       // HorizontalBooksList(
-//                       //   books: bookmarks,
-//                       //   categoryName: 'Bookmarked Books',
-//                       //   showBookmarkIcon: false,
-//                       // ),
-//                       // BookmarksScreen(),
-//                       // const SizedBox(
-//                       //   height: 16,
-//                       // ),
-//                       // HorizontalBooksList(
-//                       //   books: booksAlreadyRead,
-//                       //   categoryName: 'Books Already Read',
-//                       //   showBookmarkIcon: true,
-//                       // ),
-//                       // const SizedBox(
-//                       //   height: 16,
-//                       // ),
-//                       // HorizontalBooksList(
-//                       //   books: wishlistBooks,
-//                       //   categoryName: 'Wishlist Books',
-//                       //   showBookmarkIcon: true,
-//                       // ),
-//                       // const SizedBox(
-//                       //   height: 16,
-//                       // ),
-//                       // HorizontalBooksList(
-//                       //   books: recommendedBooks,
-//                       //   categoryName: 'Recommended Books',
-//                       //   showBookmarkIcon: true,
-//                       // ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               floatingActionButton: ThemeFloatingActionButton(),
-//             ),
-//           ),
-//         ),
-//       );
-//     });
-//   }
-// }
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -463,9 +36,13 @@ class _HomeScreenState extends State<HomePage> {
   List<Book> booksAlreadyReadBooksList = [];
   List<Book> RecommendedBooksList = [];
 
-
   List<Book> _books = [];
   bool _isLoading = false;
+
+  late StreamSubscription<QuerySnapshot> bookmarkedBooksListener;
+  late StreamSubscription<QuerySnapshot> wishlistBooksListener;
+  late StreamSubscription<QuerySnapshot> booksAlreadyReadBooksListener;
+  late StreamSubscription<DocumentSnapshot> recommendedBooksListener;
 
   void fetchBookmarks() async {
     try {
@@ -475,30 +52,28 @@ class _HomeScreenState extends State<HomePage> {
             .collection('bookmarks')
             .doc(userId)
             .collection('books')
-            .get();
+            .snapshots();
+        bookmarkedBooksListener = bookmarkedBooksSnapshot.listen((snapshot) {
+          final bookmarkedBooks = snapshot.docs.map((doc) => Book(
+            id: doc.id,
+            imageUrl: doc['imageUrl'],
+            title: doc['title'],
+            authors: List<String>.from(doc['authors']),
+            description: doc['description'],
+            publisher: doc['publisher'],
+            publishedDate: doc['publishDate'].toDate(),
+            pageCount: doc['pagesCount'],
+            language: doc['language'],
+            isbn: doc['isbn'],
+            averageRating: doc['averageRating'],
+            ratingsCount: doc['ratingsCount'],
+          )).toList();
 
-        final bookmarkedBooks = bookmarkedBooksSnapshot.docs
-            .map((doc) => Book(
-                  id: doc.id,
-                  imageUrl: doc['imageUrl'],
-                  title: doc['title'],
-                  authors: List<String>.from(doc['authors']),
-                  description: doc['description'],
-                  publisher: doc['publisher'],
-                  publishedDate: doc['publishDate'].toDate(),
-                  pageCount: doc['pagesCount'],
-                  language: doc['language'],
-                  isbn: doc['isbn'],
-                  averageRating: doc['averageRating'],
-                  ratingsCount: doc['ratingsCount'],
-                ))
-            .toList();
-
-        // Update the state with the fetched bookmarked books
-        setState(() {
-          bookmarkedBooksList = bookmarkedBooks;
-        });
-      }
+          setState(() {
+            bookmarkedBooksList = bookmarkedBooks;
+          });
+      });
+            }
     } catch (e) {
       print('Failed to fetch bookmarks: $e');
       // Handle error
@@ -513,28 +88,27 @@ class _HomeScreenState extends State<HomePage> {
             .collection('Wishlist')
             .doc(userId)
             .collection('books')
-            .get();
+            .snapshots();
 
-        final bookmarkedBooks = bookmarkedBooksSnapshot.docs
-            .map((doc) => Book(
-          id: doc.id,
-          imageUrl: doc['imageUrl'],
-          title: doc['title'],
-          authors: List<String>.from(doc['authors']),
-          description: doc['description'],
-          publisher: doc['publisher'],
-          publishedDate: doc['publishDate'].toDate(),
-          pageCount: doc['pagesCount'],
-          language: doc['language'],
-          isbn: doc['isbn'],
-          averageRating: doc['averageRating'],
-          ratingsCount: doc['ratingsCount'],
-        ))
-            .toList();
+        wishlistBooksListener = bookmarkedBooksSnapshot.listen((snapshot) {
+          final wishlistBooks = snapshot.docs.map((doc) => Book(
+            id: doc.id,
+            imageUrl: doc['imageUrl'],
+            title: doc['title'],
+            authors: List<String>.from(doc['authors']),
+            description: doc['description'],
+            publisher: doc['publisher'],
+            publishedDate: doc['publishDate'].toDate(),
+            pageCount: doc['pagesCount'],
+            language: doc['language'],
+            isbn: doc['isbn'],
+            averageRating: doc['averageRating'],
+            ratingsCount: doc['ratingsCount'],
+          )).toList();
 
-        // Update the state with the fetched bookmarked books
-        setState(() {
-          wishlistBooksList = bookmarkedBooks;
+          setState(() {
+            wishlistBooksList = wishlistBooks;
+          });
         });
       }
     } catch (e) {
@@ -542,6 +116,8 @@ class _HomeScreenState extends State<HomePage> {
       // Handle error
     }
   }
+
+  bool showRecommendedBooks = false;
 
   void fetchBooksAlreadyReadlist() async {
     try {
@@ -551,29 +127,34 @@ class _HomeScreenState extends State<HomePage> {
             .collection('BooksAlreadyRead')
             .doc(userId)
             .collection('books')
-            .get();
+            .snapshots();
 
-        final bookmarkedBooks = bookmarkedBooksSnapshot.docs
-            .map((doc) => Book(
-          id: doc.id,
-          imageUrl: doc['imageUrl'],
-          title: doc['title'],
-          authors: List<String>.from(doc['authors']),
-          description: doc['description'],
-          publisher: doc['publisher'],
-          publishedDate: doc['publishDate'].toDate(),
-          pageCount: doc['pagesCount'],
-          language: doc['language'],
-          isbn: doc['isbn'],
-          averageRating: doc['averageRating'],
-          ratingsCount: doc['ratingsCount'],
-        ))
-            .toList();
+        booksAlreadyReadBooksListener =
+            bookmarkedBooksSnapshot.listen((snapshot) {
+              final booksAlreadyReadBooks = snapshot.docs.map((doc) => Book(
+                id: doc.id,
+                imageUrl: doc['imageUrl'],
+                title: doc['title'],
+                authors: List<String>.from(doc['authors']),
+                description: doc['description'],
+                publisher: doc['publisher'],
+                publishedDate: doc['publishDate'].toDate(),
+                pageCount: doc['pagesCount'],
+                language: doc['language'],
+                isbn: doc['isbn'],
+                averageRating: doc['averageRating'],
+                ratingsCount: doc['ratingsCount'],
+              )).toList();
 
-        // Update the state with the fetched bookmarked books
-        setState(() {
-          booksAlreadyReadBooksList = bookmarkedBooks;
-        });
+              setState(() {
+                booksAlreadyReadBooksList = booksAlreadyReadBooks;
+                if (booksAlreadyReadBooksList.isNotEmpty) {
+                  showRecommendedBooks = true;
+                } else {
+                  showRecommendedBooks = false;
+                }
+              });
+            });
       }
     } catch (e) {
       print('Failed to fetch Wishlist Books: $e');
@@ -586,45 +167,52 @@ class _HomeScreenState extends State<HomePage> {
       final userId = FirebaseAuth.instance.currentUser?.uid;
       if (userId != null) {
         final recommendedBooksSnapshot = await FirebaseFirestore.instance
-            .collection('RecommendedBooks')
+            .collection('Recommendations')
             .doc(userId)
-            .get();
+            .snapshots();
 
-        if (recommendedBooksSnapshot.exists) {
-          final recommendedBooksData = recommendedBooksSnapshot.data();
-          final books = (recommendedBooksData!['books'] as List<dynamic>)
-              .map((bookData) => Book(
-            id: bookData['bookId'],
-            imageUrl: bookData['imageUrl'],
-            title: bookData['title'],
-            authors: List<String>.from(bookData['author']),
-            description: bookData['description'],
-            publisher: bookData['publisher'],
-            publishedDate: bookData['publishedDate'].toDate(),
-            pageCount: bookData['number of pages'],
-            language: bookData['language'],
-            isbn: bookData['isbn'],
-            averageRating: bookData['average rating'],
-            ratingsCount: bookData['Ratings Count'],
-          ))
-              .toList();
+        recommendedBooksListener =
+            recommendedBooksSnapshot.listen((snapshot) {
+              if (snapshot.exists) {
+                final recommendedBooksData = snapshot.data();
+                List<Book> books =
+                (recommendedBooksData!['books'] as List<dynamic>).map((bookData) => Book(
+                  id: bookData['bookId'],
+                  imageUrl: bookData['imageUrl'],
+                  title: bookData['title'],
+                  authors: List<String>.from(bookData['author']),
+                  description: bookData['description'],
+                  publisher: bookData['publisher'],
+                  publishedDate: bookData['publishedDate'].toDate(),
+                  pageCount: bookData['number of pages'],
+                  language: bookData['language'],
+                  isbn: bookData['isbn'],
+                  averageRating: bookData['average rating'],
+                  ratingsCount: bookData['Ratings Count'],
+                )).toList();
 
-          // Update the state with the fetched recommended books
-          setState(() {
-            RecommendedBooksList = books;
-          });
-        } else {
-          // Handle case when there are no recommended books for the user
-          setState(() {
-            RecommendedBooksList = [];
-          });
-        }
+                // Limit the number of books to 5 if there are more than 5
+                if (books.length > 5) {
+                  books.shuffle();
+                  books = books.sublist(0, 5);
+                }
+
+                setState(() {
+                  RecommendedBooksList = books;
+                });
+              } else {
+                setState(() {
+                  RecommendedBooksList = [];
+                });
+              }
+            });
       }
     } catch (e) {
       print('Failed to fetch Recommended Books: $e');
       // Handle error
     }
   }
+
 
 
   @override
@@ -641,6 +229,13 @@ class _HomeScreenState extends State<HomePage> {
   void dispose() {
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
+    // Cancel the Firestore listeners to avoid memory leaks
+
+    bookmarkedBooksListener.cancel();
+    wishlistBooksListener.cancel();
+    booksAlreadyReadBooksListener.cancel();
+    recommendedBooksListener.cancel();
+
     super.dispose();
   }
 
@@ -669,116 +264,123 @@ class _HomeScreenState extends State<HomePage> {
     String greeting;
 
     if (currentTime.hour >= 0 && currentTime.hour < 12) {
-      greeting = 'Good Morning';
+      greeting = 'greeting1'.tr;
     } else if (currentTime.hour >= 12 && currentTime.hour < 16) {
-      greeting = 'Good Afternoon';
+      greeting = 'greeting2'.tr;
     } else if (currentTime.hour >= 16 && currentTime.hour < 20) {
-      greeting = 'Good Evening';
+      greeting = 'greeting3'.tr;
     } else {
-      greeting = 'Good Night';
+      greeting = 'greeting4'.tr;
     }
 
     return Consumer<ThemeChanger>(builder: (context, themeChanger, _) {
-      return MaterialApp(
-        title: 'Home Page',
-        theme: themeChanger.currentTheme,
-        home: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.white, // First color
-                Color(0xFF07abb8), // Second color
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+      return Builder(builder: (context)
+      {
+        return MaterialApp(
+          title: 'Home Page',
+          theme: themeChanger.currentTheme,
+          home: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.white, // First color
+                  Color(0xFF07abb8), // Second color
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Scaffold(
-              // backgroundColor: isDarkMode ? Colors.black : Colors.white,
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            greeting,
-                            style: const TextStyle(
-                              // color: isDarkMode ? Colors.white : Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                              fontFamily: 'Sora',
+            child: SafeArea(
+              child: Scaffold(
+                // backgroundColor: isDarkMode ? Colors.black : Colors.white,
+                body: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              greeting,
+                              style: const TextStyle(
+                                // color: isDarkMode ? Colors.white : Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 28,
+                                fontFamily: 'Sora',
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.settings,
-                              // color: isDarkMode ? Colors.white : Colors.black,
-                              size: 40,
+                            IconButton(
+                              icon: const Icon(
+                                Icons.settings,
+                                // color: isDarkMode ? Colors.white : Colors.black,
+                                size: 40,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfilePage()));
+                              },
                             ),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
-                            },
-                          ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 16),
+                        AdBanner(adImages: adImages),
+                        const SizedBox(
+                          height: 16,
+                        ),
+
+                        if (bookmarkedBooksList.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          HorizontalBooksBookmarkList(
+                              books: bookmarkedBooksList,
+                              categoryName: 'category1'.tr),
+                          const SizedBox(height: 16),
                         ],
-                      ),
-                      const SizedBox(height: 16),
-                      AdBanner(adImages: adImages),
-                      const SizedBox(
-                        height: 16,
-                      ),
 
+                        if (wishlistBooksList.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          HorizontalBooksWishlistList(
+                            books: wishlistBooksList,
+                            categoryName: 'category2'.tr,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
 
-                      if (bookmarkedBooksList.isNotEmpty) ...[
-                        const SizedBox(height: 8),
-                        HorizontalBooksList(
-                          books: bookmarkedBooksList,
-                          categoryName: "Bookmarked Books",
+                        const SizedBox(
+                          height: 8,
                         ),
-                        const SizedBox(height: 16),
-                      ],
-
-
-                      if (wishlistBooksList.isNotEmpty) ...[
-                        const SizedBox(height: 8),
-                        HorizontalBooksList(
-                          books: wishlistBooksList,
-                          categoryName: "Wishlist Books",
-                          showBookmarkIcon: true,
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-
-                      const SizedBox(height: 16,),
-                      HorizontalBooksList(
+                        HorizontalBooksBARList(
                           books: booksAlreadyReadBooksList,
-                          categoryName: 'Books Already Read',
-                          showBookmarkIcon: true,
-                      ),
-
-                      if (RecommendedBooksList.isNotEmpty) ...[
-                        const SizedBox(height: 8),
-                        HorizontalBooksList(
-                          books: RecommendedBooksList,
-                          categoryName: "Recommended Books",
+                          categoryName: 'category3'.tr,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(
+                          height: 16,
+                        ),
+
+
+                        if (showRecommendedBooks) ...[
+                          const SizedBox(height: 8),
+                          HorizontalRecommendedBooksList(
+                            books: RecommendedBooksList,
+                            categoryName: 'category4'.tr,
+                            showBookmarkIcon: true,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
                       ],
-
-
-                    ],
+                    ),
                   ),
                 ),
+                // floatingActionButton: ThemeFloatingActionButton(),
               ),
-              // floatingActionButton: ThemeFloatingActionButton(),
             ),
           ),
-        ),
-      );
+        );
+      });
     });
   }
 }
@@ -990,15 +592,16 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Cannot Add to Books Already Read',
+              title: Text(
+                'bookDetailWishlistErrorTitle'.tr,
                 style: TextStyle(
                   fontFamily: 'Sora',
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              content: const Text(
-                'Sorry! Please remove this book from the Wishlist category to add it to the Books Already Read category.',
+              content: Text(
+                'bookDetailWishlistErrorDescription'.tr,
                 style: TextStyle(
                   fontFamily: 'Sora',
                   fontWeight: FontWeight.bold,
@@ -1006,13 +609,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                 ),
               ),
               actions: [
-                // ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pop();
-                //   },
-                //   child: const Text('OK'),
-                // ),
-                firebaseUIButton(context, 'OK', (){
+                firebaseUIButton(context, 'OK', () {
                   Navigator.of(context).pop();
                 })
               ],
@@ -1034,37 +631,32 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
           // Handle the error
         });
         showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Success!',
-                  style: TextStyle(
-                    fontFamily: 'Sora',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                'bookDetailWishlistError2Title'.tr,
+                style: TextStyle(
+                  fontFamily: 'Sora',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
                 ),
-                content: const Text(
-                  'Book added successfully in the Books Already Read List.',
-                  style: TextStyle(
-                    fontFamily: 'Sora',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
+              ),
+              content: Text(
+                'bookDetailWishlistError2Description'.tr,
+                style: TextStyle(
+                  fontFamily: 'Sora',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
                 ),
-                actions: [
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     Navigator.of(context).pop();
-                  //   },
-                  //   child: const Text('OK'),
-                  // ),
-                  firebaseUIButton(context, 'OK', (){
-                    Navigator.of(context).pop();
-                  })
-                ],
-              );
-            },
+              ),
+              actions: [
+                firebaseUIButton(context, 'OK', () {
+                  Navigator.of(context).pop();
+                })
+              ],
+            );
+          },
         );
       }
     }
@@ -1087,15 +679,16 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Success!',
+              title: Text(
+                'bookDetailWishlistError2Title'.tr,
                 style: TextStyle(
                   fontFamily: 'Sora',
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              content: const Text(
-                'Book removed successfully from the Books Already Read List.',
+              content: Text(
+                'bookDetailWishlistError3Description'.tr,
                 style: TextStyle(
                   fontFamily: 'Sora',
                   fontWeight: FontWeight.bold,
@@ -1103,13 +696,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                 ),
               ),
               actions: [
-                // ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pop();
-                //   },
-                //   child: const Text('OK'),
-                // ),
-                firebaseUIButton(context, 'OK', (){
+                firebaseUIButton(context, 'OK', () {
                   Navigator.of(context).pop();
                 })
               ],
@@ -1147,7 +734,8 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Cannot Add to Books Already Read',
+              title: Text(
+                'bookDetailWishlistError4Title'.tr,
                 style: TextStyle(
                   fontFamily: 'Sora',
                   fontWeight: FontWeight.bold,
@@ -1163,13 +751,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                 ),
               ),
               actions: [
-                // ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pop();
-                //   },
-                //   child: const Text('OK'),
-                // ),
-                firebaseUIButton(context, 'OK', (){
+                firebaseUIButton(context, 'OK', () {
                   Navigator.of(context).pop();
                 })
               ],
@@ -1191,15 +773,16 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text('Success!',
+                title: Text(
+                  'bookDetailWishlistError2Title'.tr,
                   style: TextStyle(
                     fontFamily: 'Sora',
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
-                content: const Text(
-                  'Book added successfully in the Wishlist Books List.',
+                content: Text(
+                  'bookDetailWishlistError5Description'.tr,
                   style: TextStyle(
                     fontFamily: 'Sora',
                     fontWeight: FontWeight.bold,
@@ -1207,13 +790,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                   ),
                 ),
                 actions: [
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     Navigator.of(context).pop();
-                  //   },
-                  //   child: const Text('OK'),
-                  // ),
-                  firebaseUIButton(context, 'OK', (){
+                  firebaseUIButton(context, 'OK', () {
                     Navigator.of(context).pop();
                   })
                 ],
@@ -1244,15 +821,16 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Success!',
+              title: Text(
+                'bookDetailWishlistError2Title'.tr,
                 style: TextStyle(
                   fontFamily: 'Sora',
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              content: const Text(
-                'Book removed successfully from the Wishlist Books list.',
+              content: Text(
+                'bookDetailWishlistError6Description'.tr,
                 style: TextStyle(
                   fontFamily: 'Sora',
                   fontWeight: FontWeight.bold,
@@ -1260,13 +838,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                 ),
               ),
               actions: [
-                // ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pop();
-                //   },
-                //   child: const Text('OK'),
-                // ),
-                firebaseUIButton(context, 'OK', (){
+                firebaseUIButton(context, 'OK', () {
                   Navigator.of(context).pop();
                 })
               ],
@@ -1286,7 +858,8 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     // Check if the ISBN is valid
     if (isbn != null && isbn.isNotEmpty) {
       // Construct the Amazon search URL using the ISBN
-      String searchUrl = 'https://www.amazon.com/s?k=${Uri.encodeComponent(isbn)}';
+      String searchUrl =
+          'https://www.amazon.com/s?k=${Uri.encodeComponent(isbn)}';
 
       // Open the URL in a web browser
       await FlutterWebBrowser.openWebPage(
@@ -1301,8 +874,18 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Invalid ISBN.'),
+          title: Text('bookDetailWishlistError7Title'.tr,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Sora'
+          ),
+          ),
+          content: Text('bookDetailWishlistError7Description'.tr,
+            style: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Sora'
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -1314,14 +897,11 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeChanger>(builder: (context, themeChanger, _) {
       return MaterialApp(
-        title: 'Search Screen',
+        title: 'Book Details Screen',
         theme: themeChanger.currentTheme,
         home: Container(
           decoration: const BoxDecoration(
@@ -1397,7 +977,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                             onPressed: () {
                               final bookLink =
                                   'https://books.google.com/books?id=${widget.book.id}';
-                              Share.share('Check out this book: $bookLink');
+                              Share.share('shareIconText $bookLink'.tr);
                             },
                             icon: const Icon(
                               Icons.share,
@@ -1408,15 +988,17 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ),
                       ]),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Title:',
+                      Text(
+                        'bookDetailTitle'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Sora',
                         ),
                       ),
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
                       Text(
                         widget.book.title,
                         style: const TextStyle(
@@ -1425,15 +1007,17 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Author:',
+                      Text(
+                        'bookDetailAuthor'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Sora',
                         ),
                       ),
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
                       Text(
                         widget.book.authors.join(', '),
                         style: const TextStyle(
@@ -1444,15 +1028,17 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          const Text(
-                            'Number of Pages:',
+                          Text(
+                            'bookDetailPages'.tr,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               fontFamily: 'Sora',
                             ),
                           ),
-                          const SizedBox(width: 8.0,),
+                          const SizedBox(
+                            width: 8.0,
+                          ),
                           Text(
                             '${widget.book.pageCount}',
                             style: const TextStyle(
@@ -1463,57 +1049,59 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          const Text(
-                            'Language:',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              fontFamily: 'Sora',
-                            ),
+                      Row(children: [
+                        Text(
+                          'bookDetailLan'.tr,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Sora',
                           ),
-                          const SizedBox(width: 8.0,),
-                          Text(
-                            '${widget.book.language}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'Sora',
-                            ),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                          '${widget.book.language}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Sora',
                           ),
-                        ]
-                      ),
+                        ),
+                      ]),
                       const SizedBox(height: 10),
-                      Row(
-                          children: [
-                            const Text(
-                              'ISBN:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                            const SizedBox(width: 8.0,),
-                            Text(
-                              '${widget.book.isbn}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                          ]
-                      ),
+                      Row(children: [
+                        const Text(
+                          'ISBN:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Sora',
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                          '${widget.book.isbn}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Sora',
+                          ),
+                        ),
+                      ]),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Description:',
+                      Text(
+                        'bookDetailDesc'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Sora',
                         ),
                       ),
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
                       Text(
                         '${widget.book.description}',
                         style: const TextStyle(
@@ -1522,36 +1110,38 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                          children: [
-                            const Text(
-                              'Publisher:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                            const SizedBox(width: 8.0,),
-                            Text(
-                              '${widget.book.publisher}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                          ]
-                      ),
+                      Row(children: [
+                        Text(
+                          'bookDetailPub'.tr,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Sora',
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                          '${widget.book.publisher}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Sora',
+                          ),
+                        ),
+                      ]),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Publication Date:',
+                      Text(
+                        'bookDetailPubDate'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Sora',
                         ),
                       ),
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
                       Text(
                         '${widget.book.publishedDate}',
                         style: const TextStyle(
@@ -1562,7 +1152,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
 
                       // Buy from affiliate link or other text links
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           _launchAmazonUrl();
                         },
                         child: Padding(
@@ -1578,8 +1168,8 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                                 onPressed: () {
                                   _launchAmazonUrl();
                                 },
-                                child: const Text(
-                                  'Buy this Book',
+                                child: Text(
+                                  'buyButton'.tr,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

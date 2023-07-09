@@ -5,8 +5,8 @@ io.flutter.plugins.firebase.firestore.cloud_firestore-core-1.6.0-3 /home/hafeez_
 io.flutter.plugins.firebase.firestore.cloud_firestore-jetified-window-java-1.0.0-beta04-4 /home/hafeez_u_llah/.gradle/caches/transforms-3/f0b974b758349e9c54fcc6f9656f330a/transformed/jetified-window-java-1.0.0-beta04/res
 io.flutter.plugins.firebase.firestore.cloud_firestore-jetified-window-1.0.0-beta04-5 /home/hafeez_u_llah/.gradle/caches/transforms-3/fd5f419e863560aa62f941d72f6221aa/transformed/jetified-window-1.0.0-beta04/res
 io.flutter.plugins.firebase.firestore.cloud_firestore-jetified-play-services-basement-18.1.0-6 /home/hafeez_u_llah/.gradle/caches/transforms-3/ff69d175c49cfa9394e8ca832c98affc/transformed/jetified-play-services-basement-18.1.0/res
-io.flutter.plugins.firebase.firestore.cloud_firestore-main-7 /home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.1/android/src/main/res
-io.flutter.plugins.firebase.firestore.cloud_firestore-release-8 /home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.1/android/src/release/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-main-7 /home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.2/android/src/main/res
+io.flutter.plugins.firebase.firestore.cloud_firestore-release-8 /home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.2/android/src/release/res
 io.flutter.plugins.firebase.firestore.cloud_firestore-pngs-9 /home/hafeez_u_llah/StudioProjects/gogobook/build/cloud_firestore/generated/res/pngs/release
 io.flutter.plugins.firebase.firestore.cloud_firestore-resValues-10 /home/hafeez_u_llah/StudioProjects/gogobook/build/cloud_firestore/generated/res/resValues/release
 io.flutter.plugins.firebase.firestore.cloud_firestore-rs-11 /home/hafeez_u_llah/StudioProjects/gogobook/build/cloud_firestore/generated/res/rs/release

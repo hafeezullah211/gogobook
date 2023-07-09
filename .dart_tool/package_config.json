@@ -147,19 +147,19 @@
     },
     {
       "name": "cloud_firestore",
-      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.1",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.2",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "cloud_firestore_platform_interface",
-      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-5.15.1",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-5.15.2",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "cloud_firestore_web",
-      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.6.1",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.6.2",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -332,12 +332,6 @@
       "languageVersion": "2.17"
     },
     {
-      "name": "flutter_localizations",
-      "rootUri": "file:///home/hafeez_u_llah/dev/flutter/packages/flutter_localizations",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.15",
       "packageUri": "lib/",
@@ -381,9 +375,9 @@
     },
     {
       "name": "get",
-      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/get-3.26.0",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/get-4.6.5",
       "packageUri": "lib/",
-      "languageVersion": "2.9"
+      "languageVersion": "2.15"
     },
     {
       "name": "glob",
@@ -504,12 +498,6 @@
       "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
-    },
-    {
-      "name": "intl",
-      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/intl-0.17.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
     },
     {
       "name": "intro_views_flutter",
@@ -920,7 +908,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-06-26T22:20:36.509075Z",
+  "generated": "2023-07-06T16:19:08.359911Z",
   "generator": "pub",
   "generatorVersion": "2.19.6"
 }

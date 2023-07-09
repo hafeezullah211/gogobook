@@ -28,9 +28,8 @@ class Book {
     required this.averageRating,
     required this.ratingsCount,
     this.isBookmarked = false,
-  })
-  {
-  selfLink = 'https://books.google.com/books?id=$id';
+  }) {
+    selfLink = 'https://books.google.com/books?id=$id';
   }
 
   factory Book.fromJson(Map<String, dynamic> json, {required String id}) {
@@ -39,7 +38,7 @@ class Book {
         authorList?.map((author) => author.toString()).toList() ?? ['Unknown'];
     final String description =
         json['description'] ?? 'No description available';
-    final String imageUrl = json['imageLinks']['thumbnail'] ?? 'No Image';
+    final String imageUrl = _getHighQualityImageUrl(json) ?? 'No Image';
     final String publisher = json['publisher'] ?? 'Unknown';
     final DateTime publishedDate =
         DateTime.tryParse(json['publishedDate']) ?? DateTime.now();
@@ -64,5 +63,14 @@ class Book {
       averageRating: averageRating,
       ratingsCount: ratingsCount,
     );
+  }
+
+  static String? _getHighQualityImageUrl(Map<String, dynamic> json) {
+    final Map<String, dynamic>? imageLinks = json['imageLinks'];
+    if (imageLinks != null && imageLinks.containsKey('thumbnail')) {
+      final String thumbnailUrl = imageLinks['thumbnail'];
+      return thumbnailUrl.replaceAll('zoom=1', 'zoom=2');
+    }
+    return null;
   }
 }
