@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
+import 'package:get/get.dart';
 import 'package:gogobook/Screens/home_screens/search_screen.dart';
 import 'package:gogobook/common_widgets/button.dart';
 import 'package:gogobook/theme_changer.dart';
@@ -114,8 +115,8 @@ class _HorizontalBooksListState extends State<HorizontalBooksBARList> {
                           size: 64,
                         ),
                       ),
-                      const Text(
-                        'Add Book',
+                      Text(
+                        'booksAlreadyReadButtonText'.tr,
                         style: TextStyle(
                             fontFamily: 'Sora',
                             fontSize: 16,

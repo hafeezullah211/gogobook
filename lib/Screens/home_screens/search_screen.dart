@@ -38,7 +38,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  BookDisplayStyle _bookDisplayStyle = BookDisplayStyle.Tile;
+  BookDisplayStyle _bookDisplayStyle = BookDisplayStyle.Card;
   final FirestoreService firestoreService = FirestoreService();
   final String? userId = FirebaseAuth.instance.currentUser?.uid;
   late TextEditingController _searchController;
@@ -277,6 +277,7 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  List<Book> previouslyRecommendedBooks = [];
 
   Future<Book?> getRandomRecommendedBook() async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
@@ -290,25 +291,45 @@ class _SearchPageState extends State<SearchPage> {
         final recommendedBooksData = recommendedBooksSnapshot.data();
         final books = (recommendedBooksData!['books'] as List<dynamic>)
             .map((bookData) => Book(
-                  id: bookData['bookId'],
-                  imageUrl: bookData['imageUrl'],
-                  title: bookData['title'],
-                  authors: List<String>.from(bookData['author']),
-                  description: bookData['description'],
-                  publisher: bookData['publisher'],
-                  publishedDate: bookData['publishedDate'].toDate(),
-                  pageCount: bookData['number of pages'],
-                  language: bookData['language'],
-                  isbn: bookData['isbn'],
-                  averageRating: bookData['average rating'],
-                  ratingsCount: bookData['Ratings Count'],
-                ))
+          id: bookData['bookId'],
+          imageUrl: bookData['imageUrl'],
+          title: bookData['title'],
+          authors: List<String>.from(bookData['author']),
+          description: bookData['description'],
+          publisher: bookData['publisher'],
+          publishedDate: bookData['publishedDate'].toDate(),
+          pageCount: bookData['number of pages'],
+          language: bookData['language'],
+          isbn: bookData['isbn'],
+          averageRating: bookData['average rating'],
+          ratingsCount: bookData['Ratings Count'],
+        ))
             .toList();
 
         if (books.isNotEmpty) {
           final random = Random();
-          final randomIndex = random.nextInt(books.length);
-          final randomBook = books[randomIndex];
+          Book? randomBook;
+          int maxAttempts = 5; // Maximum number of attempts to find a unique book
+          int attempt = 0;
+
+          while (attempt < maxAttempts) {
+            final randomIndex = random.nextInt(books.length);
+            randomBook = books[randomIndex];
+
+            // Check if the book was previously recommended
+            if (!previouslyRecommendedBooks.contains(randomBook)) {
+              previouslyRecommendedBooks.add(randomBook);
+              break;
+            }
+
+            attempt++;
+          }
+
+          if (attempt >= maxAttempts) {
+            // Reset the previously recommended books list if all books have been recommended
+            previouslyRecommendedBooks.clear();
+          }
+
           return randomBook;
         }
       }

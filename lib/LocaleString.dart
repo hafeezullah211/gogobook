@@ -114,7 +114,8 @@ class LocaleString extends Translations{
       'forgotPassScreenError2':'Please enter a valid email address.',
       'forgotPassScreenError3':'Password reset email sent successfully.',
       'forgotPassScreenError4':'An error occurred while sending the password reset email.',
-      'forgotPassScreenError5':'No user found with the provided email address.'
+      'forgotPassScreenError5':'No user found with the provided email address.',
+      'booksAlreadyReadButtonText': 'Add Book'
     },
     //Italian Language
     'it_IT':{
@@ -226,7 +227,8 @@ class LocaleString extends Translations{
       'forgotPassScreenError2': 'Si prega di inserire un indirizzo email valido.',
       'forgotPassScreenError3': 'Email di reimpostazione password inviata con successo.',
       'forgotPassScreenError4':'Si è verificato un errore durante l\'invio dell\'e-mail di reimpostazione della password.',
-      'forgotPassScreenError5' : 'Nessun utente trovato con l\'indirizzo email fornito.'
+      'forgotPassScreenError5' : 'Nessun utente trovato con l\'indirizzo email fornito.',
+      'booksAlreadyReadButtonText': 'Aggiungi libro'
     }
 };
 

@@ -987,8 +987,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                           ),
                         ),
                       ]),
+
                       const SizedBox(height: 16),
-                      Text(
+                      SelectableText(
                         'bookDetailTitle'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -999,7 +1000,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      Text(
+                      SelectableText(
                         widget.book.title,
                         style: const TextStyle(
                           fontSize: 16,
@@ -1007,7 +1008,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Text(
+                      SelectableText(
                         'bookDetailAuthor'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -1018,7 +1019,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      Text(
+                      SelectableText(
                         widget.book.authors.join(', '),
                         style: const TextStyle(
                           fontSize: 16,
@@ -1028,7 +1029,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          Text(
+                          SelectableText(
                             'bookDetailPages'.tr,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -1039,7 +1040,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                           const SizedBox(
                             width: 8.0,
                           ),
-                          Text(
+                          SelectableText(
                             '${widget.book.pageCount}',
                             style: const TextStyle(
                               fontSize: 16,
@@ -1050,7 +1051,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       ),
                       const SizedBox(height: 10),
                       Row(children: [
-                        Text(
+                        SelectableText(
                           'bookDetailLan'.tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -1061,7 +1062,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         const SizedBox(
                           width: 8.0,
                         ),
-                        Text(
+                        SelectableText(
                           '${widget.book.language}',
                           style: const TextStyle(
                             fontSize: 16,
@@ -1071,7 +1072,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       ]),
                       const SizedBox(height: 10),
                       Row(children: [
-                        const Text(
+                        const SelectableText(
                           'ISBN:',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -1082,7 +1083,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         const SizedBox(
                           width: 8.0,
                         ),
-                        Text(
+                        SelectableText(
                           '${widget.book.isbn}',
                           style: const TextStyle(
                             fontSize: 16,
@@ -1091,7 +1092,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ),
                       ]),
                       const SizedBox(height: 10),
-                      Text(
+                      SelectableText(
                         'bookDetailDesc'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -1102,7 +1103,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      Text(
+                      SelectableText(
                         '${widget.book.description}',
                         style: const TextStyle(
                           fontSize: 16,
@@ -1111,7 +1112,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       ),
                       const SizedBox(height: 10),
                       Row(children: [
-                        Text(
+                        SelectableText(
                           'bookDetailPub'.tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -1122,7 +1123,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         const SizedBox(
                           width: 8.0,
                         ),
-                        Text(
+                        SelectableText(
                           '${widget.book.publisher}',
                           style: const TextStyle(
                             fontSize: 16,
@@ -1131,7 +1132,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ),
                       ]),
                       const SizedBox(height: 10),
-                      Text(
+                      SelectableText(
                         'bookDetailPubDate'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -1142,7 +1143,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      Text(
+                      SelectableText(
                         '${widget.book.publishedDate}',
                         style: const TextStyle(
                           fontSize: 16,
