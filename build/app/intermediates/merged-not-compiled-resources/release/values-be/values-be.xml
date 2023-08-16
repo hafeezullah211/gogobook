@@ -115,7 +115,25 @@
     <string name="mtrl_picker_toggle_to_day_selection">Дакраніцеся, каб пераключыцца на выбар дня</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">Пераключыцца ў рэжым уводу \"Тэкст\"</string>
     <string name="mtrl_picker_toggle_to_year_selection">Дакраніцеся, каб пераключыцца на выбар года</string>
+    <string name="native_body">Тэкст паведамлення</string>
+    <string name="native_headline">Загаловак</string>
+    <string name="native_media_view">Цэнтр мультымедыя</string>
+    <string name="offline_notification_text">Націсніце, каб адкрыць рэкламу</string>
+    <string name="offline_notification_title">Праглядзіце рэкламу, захаваную вамі, калі вы былі па-за сеткай</string>
+    <string name="offline_opt_in_confirm">ОК</string>
+    <string name="offline_opt_in_confirmation">Вы атрымаеце апавяшчэнне са спасылкай, калі зноў падключыцеся да інтэрнэту</string>
+    <string name="offline_opt_in_decline">Не, дзякуй</string>
+    <string name="offline_opt_in_message">Мы адправім вам апавяшчэнне са спасылкай на сайт рэкламадаўцы.</string>
+    <string name="offline_opt_in_title">Адкрыйце рэкламу, калі зноў падключыцеся да інтэрнэту.</string>
     <string name="password_toggle_content_description">Паказаць пароль</string>
+    <string name="s1">Захаваць відарыс</string>
+    <string name="s2">Дазволіць рэкламе захоўваць відарыс у Галерэі відарысаў?</string>
+    <string name="s3">Прыняць</string>
+    <string name="s4">Адхіліць</string>
+    <string name="s5">Стварыць падзею календара</string>
+    <string name="s6">Дазволіць рэкламе стварыць падзею календара?</string>
+    <string name="s7">Тэставая рэклама</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Пошук"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="watermark_label_prefix">AdMob - </string>
 </resources>

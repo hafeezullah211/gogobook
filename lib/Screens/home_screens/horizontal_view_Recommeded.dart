@@ -23,7 +23,6 @@ class _HorizontalBooksListState extends State<HorizontalRecommendedBooksList> {
   bool _showLeftArrow = false;
   bool _showRightArrow = false;
 
-
   @override
   void initState() {
     super.initState();
@@ -72,7 +71,7 @@ class _HorizontalBooksListState extends State<HorizontalRecommendedBooksList> {
           scrollDirection: Axis.horizontal,
           child: Row(children: [
             ...widget.books.map(
-                  (book) => BookCard(
+              (book) => BookCard(
                 book: book,
                 showBookmarkIcon: widget.showBookmarkIcon,
               ),

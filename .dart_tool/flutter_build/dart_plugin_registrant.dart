@@ -7,15 +7,18 @@
 
 import 'dart:io'; // flutter_ignore: dart_io_import.
 import 'package:camera_android/camera_android.dart';
+import 'package:google_api_availability_android/google_api_availability_android.dart';
 import 'package:google_sign_in_android/google_sign_in_android.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:shared_preferences_android/shared_preferences_android.dart';
 import 'package:url_launcher_android/url_launcher_android.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:camera_avfoundation/camera_avfoundation.dart';
 import 'package:google_sign_in_ios/google_sign_in_ios.dart';
 import 'package:image_picker_ios/image_picker_ios.dart';
 import 'package:shared_preferences_foundation/shared_preferences_foundation.dart';
 import 'package:url_launcher_ios/url_launcher_ios.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:image_picker_linux/image_picker_linux.dart';
 import 'package:shared_preferences_linux/shared_preferences_linux.dart';
@@ -38,6 +41,16 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`camera_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
+      try {
+        GoogleApiAvailabilityAndroid.registerWith();
+      } catch (err) {
+        print(
+          '`google_api_availability_android` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
         rethrow;
@@ -78,6 +91,16 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`url_launcher_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
+      try {
+        AndroidWebViewPlatform.registerWith();
+      } catch (err) {
+        print(
+          '`webview_flutter_android` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
         rethrow;
@@ -129,6 +152,16 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`url_launcher_ios` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
+      try {
+        WebKitWebViewPlatform.registerWith();
+      } catch (err) {
+        print(
+          '`webview_flutter_wkwebview` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
         rethrow;

@@ -8,6 +8,7 @@ import 'package:gogobook/Screens/terms_screen.dart';
 import 'package:gogobook/Services/firebase_service.dart';
 import 'package:gogobook/common_widgets/button.dart';
 import 'package:gogobook/common_widgets/text_form_field.dart';
+import 'package:google_api_availability/google_api_availability.dart';
 
 import '../login_screens/login_screen.dart';
 
@@ -36,10 +37,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  // void signInWithGoogle() async {
+  //   if (_acceptTerms) {
+  //     await FireBaseServices().SignInWithGoogle();
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => HomeScreen3(onLogout: () {})),
+  //     );
+  //   } else {
+  //     showTermsSnackbar(context);
+  //   }
+  // }
+
+  Future<void> storeUserData(String name, String email, String uid) async {
+    try {
+      final userRef = FirebaseFirestore.instance.collection('Users');
+      await userRef.doc(uid).set({
+        'name': name,
+        'email': email,
+        'homePageTutorialCompleted': false,
+        'searchPageTutorialCompleted': false,
+      });
+      print('User data stored successfully');
+    } catch (error) {
+      print('Failed to store user data: $error');
+    }
+  }
+
   void signInWithGoogle() async {
     if (_acceptTerms) {
       await FireBaseServices().SignInWithGoogle();
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen3(onLogout: () {})),
       );
@@ -47,6 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       showTermsSnackbar(context);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +122,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               Container(
                                   width: double.infinity,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
+                                  padding: const EdgeInsets.fromLTRB(
+                                      16.0, 14, 16, 14),
                                   child: reusableTextField(
                                       'SignUpScreenNameField'.tr,
                                       Icons.text_fields,
@@ -106,18 +135,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               Container(
                                   width: double.infinity,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
-                                  child: reusableTextField('SignUpScreenEmailField'.tr, Icons.email,
-                                      false, _emailTextController)),
+                                  padding: const EdgeInsets.fromLTRB(
+                                      16.0, 14, 16, 14),
+                                  child: reusableTextField(
+                                      'SignUpScreenEmailField'.tr,
+                                      Icons.email,
+                                      false,
+                                      _emailTextController)),
 
                               const SizedBox(
                                 height: 16,
                               ),
                               Container(
                                   width: double.infinity,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
+                                  padding: const EdgeInsets.fromLTRB(
+                                      16.0, 14, 16, 14),
                                   child: reusableTextField(
                                       'SignUpScreenPassField'.tr,
                                       Icons.password,
@@ -172,11 +204,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ],
                               ),
 
-                              // SizedBox(height: 16.0),
+                              //Sign Up Button
                               const SizedBox(
                                 height: 16,
                               ),
-                              firebaseUIButton(context, 'SignUpScreenButton'.tr, () {
+                              firebaseUIButton(context, 'SignUpScreenButton'.tr,
+                                  () {
                                 if (_acceptTerms) {
                                   if (_userNameTextController.text.isEmpty) {
                                     showSnackbar(
@@ -190,8 +223,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   }
                                   if (!validateEmail(
                                       _emailTextController.text)) {
-                                    showSnackbar(context,
-                                        'SignUpScreenError3'.tr);
+                                    showSnackbar(
+                                        context, 'SignUpScreenError3'.tr);
                                     return; // Exit the function if email format is invalid
                                   }
 
@@ -213,21 +246,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         _userNameTextController.text);
 
                                     print('New Account Created Successfully');
-                                    Navigator.push(
+                                    storeUserData(
+                                      _userNameTextController.text,
+                                      _emailTextController.text,
+                                      value.user!.uid,
+                                    ); // Store user data in Firestore
+                                    Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => OnboardingScreens()));
+                                            builder: (context) =>
+                                                HomeScreen3(onLogout: () {})));
                                   }).catchError((error) {
                                     String errorMessage = 'An error occurred.';
 
                                     if (error is FirebaseAuthException) {
                                       if (error.code == 'weak-password') {
-                                        errorMessage =
-                                            'SignUpScreenError5'.tr;
+                                        errorMessage = 'SignUpScreenError5'.tr;
                                       } else if (error.code ==
                                           'email-already-in-use') {
-                                        errorMessage =
-                                            'SignUpScreenError6'.tr;
+                                        errorMessage = 'SignUpScreenError6'.tr;
                                       }
                                     }
                                     showSnackbar(context, errorMessage);
@@ -239,7 +276,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                               const SizedBox(height: 16.0),
                               Row(
-                                children:[
+                                children: [
                                   Expanded(
                                     child: Divider(
                                       color: Color(0xFF939999),
@@ -270,14 +307,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 children: [
                                   Container(
                                     width: double.infinity,
-                                    padding:
-                                        const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        16.0, 14, 16, 14),
                                     child: ElevatedButton(
                                       onPressed: signInWithGoogle,
                                       style: ElevatedButton.styleFrom(
                                           padding: const EdgeInsets.fromLTRB(
                                               14.0, 16.0, 14.0, 16.0),
-                                          backgroundColor: const Color(0xFFEAF4F4),
+                                          backgroundColor:
+                                              const Color(0xFFEAF4F4),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(8.0))),
@@ -310,14 +348,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   const SizedBox(width: 16.0),
                                   Container(
                                     width: double.infinity,
-                                    padding:
-                                        const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        16.0, 14, 16, 14),
                                     child: ElevatedButton(
                                       onPressed: () {},
                                       style: ElevatedButton.styleFrom(
                                           padding: const EdgeInsets.fromLTRB(
                                               14.0, 16.0, 14.0, 16.0),
-                                          backgroundColor: const Color(0xFFEAF4F4),
+                                          backgroundColor:
+                                              const Color(0xFFEAF4F4),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(8.0))),

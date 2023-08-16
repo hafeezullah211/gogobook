@@ -386,10 +386,34 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "google_api_availability",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/google_api_availability-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "google_api_availability_android",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/google_api_availability_android-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "google_api_availability_platform_interface",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/google_api_availability_platform_interface-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
       "name": "google_identity_services_web",
       "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/google_identity_services_web-0.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "google_mobile_ads",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/google_mobile_ads-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "google_sign_in",
@@ -806,6 +830,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "tutorial_coach_mark",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/tutorial_coach_mark-1.2.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "typed_data",
       "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/typed_data-1.3.2",
       "packageUri": "lib/",
@@ -866,6 +896,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "visibility_detector",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/visibility_detector-0.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "watcher",
       "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/watcher-1.0.2",
       "packageUri": "lib/",
@@ -876,6 +912,30 @@
       "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/web_socket_channel-2.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.15"
+    },
+    {
+      "name": "webview_flutter",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/webview_flutter-4.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "webview_flutter_android",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/webview_flutter_android-3.9.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "webview_flutter_platform_interface",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/webview_flutter_platform_interface-2.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "webview_flutter_wkwebview",
+      "rootUri": "file:///home/hafeez_u_llah/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "win32",
@@ -908,7 +968,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-07-06T16:19:08.359911Z",
+  "generated": "2023-08-15T20:04:38.187657Z",
   "generator": "pub",
   "generatorVersion": "2.19.6"
 }

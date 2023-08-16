@@ -38,7 +38,7 @@ class Book {
         authorList?.map((author) => author.toString()).toList() ?? ['Unknown'];
     final String description =
         json['description'] ?? 'No description available';
-    final String imageUrl = _getHighQualityImageUrl(json) ?? 'No Image';
+    final String imageUrl = _getImageUrl(json) ?? 'No Image';
     final String publisher = json['publisher'] ?? 'Unknown';
     final DateTime publishedDate =
         DateTime.tryParse(json['publishedDate']) ?? DateTime.now();
@@ -65,12 +65,12 @@ class Book {
     );
   }
 
-  static String? _getHighQualityImageUrl(Map<String, dynamic> json) {
+  static String? _getImageUrl(Map<String, dynamic> json) {
     final Map<String, dynamic>? imageLinks = json['imageLinks'];
-    if (imageLinks != null && imageLinks.containsKey('thumbnail')) {
-      final String thumbnailUrl = imageLinks['thumbnail'];
-      return thumbnailUrl.replaceAll('zoom=1', 'zoom=2');
+    if (imageLinks != null) {
+      return imageLinks['thumbnail'];
     }
     return null;
   }
 }
+

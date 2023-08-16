@@ -114,7 +114,25 @@
     <string name="mtrl_picker_toggle_to_day_selection">Atingeți pentru a comuta la selectarea unei zile</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">Comutați la modul de introducere a textului</string>
     <string name="mtrl_picker_toggle_to_year_selection">Atingeți pentru a comuta la selectarea unui an</string>
+    <string name="native_body">Conținut</string>
+    <string name="native_headline">Titlu</string>
+    <string name="native_media_view">Afișarea fișierului media</string>
+    <string name="offline_notification_text">Atinge pentru a deschide anunțul</string>
+    <string name="offline_notification_title">Vezi anunțul salvat când erai offline</string>
+    <string name="offline_opt_in_confirm">OK</string>
+    <string name="offline_opt_in_confirmation">Vei primi o notificare cu linkul când revii online</string>
+    <string name="offline_opt_in_decline">Nu</string>
+    <string name="offline_opt_in_message">Îți vom trimite o notificare cu un link la site-ul advertiserului.</string>
+    <string name="offline_opt_in_title">Deschide anunțul când revii online.</string>
     <string name="password_toggle_content_description">Afișați parola</string>
+    <string name="s1">Salvează imaginea</string>
+    <string name="s2">Permiți ca anunțul să stocheze imaginea în Galeria de fotografii?</string>
+    <string name="s3">Acceptă</string>
+    <string name="s4">Refuză</string>
+    <string name="s5">Creează un eveniment în calendar</string>
+    <string name="s6">Permiți ca anunțul să creeze un eveniment în calendar?</string>
+    <string name="s7">Anunț de probă</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Căutați"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="watermark_label_prefix">AdMob – </string>
 </resources>

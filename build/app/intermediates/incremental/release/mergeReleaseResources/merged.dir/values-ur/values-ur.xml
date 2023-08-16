@@ -113,7 +113,25 @@
     <string name="mtrl_picker_toggle_to_day_selection">دن کو منتخب کرنے کے ليے سوئچ پر تھپتھپائیں</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">متنی ان پٹ وضع پر سوئچ کریں</string>
     <string name="mtrl_picker_toggle_to_year_selection">سال کو منتخب کرنے کے ليے سوئچ پر تھپتھپائیں</string>
+    <string name="native_body">نفسِ مضمون</string>
+    <string name="native_headline">ہیڈ لائن</string>
+    <string name="native_media_view">میڈیا منظر</string>
+    <string name="offline_notification_text">اشتہار کھولنے کیلئے تھپتھپائیں</string>
+    <string name="offline_notification_title">جب آپ آف لائن تھے تب آپ نے جس اشتہار کو محفوظ کیا تھا اس کا ملاحظہ کریں</string>
+    <string name="offline_opt_in_confirm">ٹھیک ہے</string>
+    <string name="offline_opt_in_confirmation">جب آپ آن لائن واپس آئیں گے تو آپ کو لنک کے ساتھ اطلاع حاصل ہوگی</string>
+    <string name="offline_opt_in_decline">نہیں شکریہ</string>
+    <string name="offline_opt_in_message">ہم آپ کو مشتہر کی سائٹ کے لنک کے ساتھ اطلاع بھیجیں گے۔</string>
+    <string name="offline_opt_in_title">آن لائن واپس آنے پر اشتہار کھولیں۔</string>
     <string name="password_toggle_content_description">پاس ورڈ دکھائیں</string>
+    <string name="s1">تصویر محفوظ کریں</string>
+    <string name="s2">اشتہار کو تصویری گیلری میں تصویر محفوظ کرنے کی اجازت دیں؟</string>
+    <string name="s3">قبول کریں</string>
+    <string name="s4">مسترد کریں</string>
+    <string name="s5">کیلنڈر ایونٹ بنائیں</string>
+    <string name="s6">اشتہار کو ایک کیلنڈر ایونٹ بنانے کی اجازت دیں؟</string>
+    <string name="s7">اشتہار ٹیسٹ کریں</string>
     <string msgid="6264217191555673260" name="search_menu_title">"تلاش کریں"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"+999"</string>
+    <string name="watermark_label_prefix">AdMob - ‎ </string>
 </resources>

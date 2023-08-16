@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import '../../common_widgets/tutorial_coach_dialogue.dart';
 import '../../models/books.dart';
 import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -51,6 +53,14 @@ class _SearchPageState extends State<SearchPage> {
   late CameraController _cameraController;
   late Future<void> _cameraInitializer;
 
+  TutorialCoachMark? tutorialCoachMark;
+  List<TargetFocus> targets = [];
+
+  GlobalKey searchBar = GlobalKey();
+  GlobalKey searchBarButton = GlobalKey();
+
+  bool tutorialShown = false; // Track if the tutorial has been shown
+
   void _selectBookDisplayStyle(BookDisplayStyle? style) {
     if (style != null) {
       setState(() {
@@ -64,7 +74,18 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
     _searchController = TextEditingController();
     _loadSearchHistory();
-    // _cameraInitializer = _initializeCamera();
+    SharedPreferences.getInstance().then((prefs) {
+      bool tutorialCompleted = prefs.getBool('searchPageTutorialCompleted') ?? false;
+      if (!tutorialCompleted && !tutorialShown) {
+        // Show the tutorial only if it hasn't been shown before
+        Future.delayed(const Duration(seconds: 1), () {
+          _showRemainingTutorial();
+        });
+        setState(() {
+          tutorialShown = true;
+        });
+      }
+    });
   }
 
   void _disposeCamera() {
@@ -73,13 +94,74 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  @override
-  void dispose() {
-    _disposeCamera();
-    _searchBarController.dispose();
-    _searchController.dispose();
-    super.dispose();
+
+  void _showRemainingTutorial() {
+    _initTarget();
+    tutorialCoachMark = TutorialCoachMark(
+      targets: targets,
+      colorShadow: Colors.amber,
+      hideSkip: true,
+      onClickTarget: (targets) {},
+      onFinish: () async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('searchPageTutorialCompleted', true);
+      },
+      onSkip: () {},
+    )..show(context: context);
   }
+
+
+  void _initTarget() {
+    targets = [
+      // Search Bar Tutorial
+      TargetFocus(
+        identify: 'search_bar',
+        keyTarget: searchBar,
+        color: Color(0xFF91c7bc),
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return CoachmarkDesc(
+                text: 'searchWizard1st'.tr,
+                onNext: () {
+                  controller.next();
+                },
+                onSkip: () {
+                  controller.skip();
+                },
+              );
+            },
+          ),
+        ],
+      ),
+      TargetFocus(
+        identify: 'search_bar_button',
+        keyTarget: searchBarButton,
+        color: Color(0xFF61493b),
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return CoachmarkDesc(
+                text: 'searchWizard2nd'.tr,
+                next: 'wizardFinishButton'.tr,
+                onNext: () {
+                  controller.next();
+                },
+                onSkip: () {
+                  controller.skip();
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    ];
+  }
+
 
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
@@ -91,12 +173,20 @@ class _SearchPageState extends State<SearchPage> {
     await _cameraController.initialize();
   }
 
+  @override
+  void dispose() {
+    tutorialCoachMark?.finish();
+    _disposeCamera();
+    _searchBarController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
 
   void _submitBarcodeResult(String barcodeResult) {
     _searchController.text = barcodeResult;
     _submitSearch(barcodeResult);
   }
-
 
   Future<void> _scanBarcode() async {
     try {
@@ -104,76 +194,33 @@ class _SearchPageState extends State<SearchPage> {
       if (status.isGranted) {
         final cameras = await availableCameras();
         final camera = cameras.first;
-        // await _cameraInitializer;
+
         _cameraController = CameraController(
           camera,
           ResolutionPreset.high,
         );
         await _cameraController.initialize();
 
-        final result = await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(
-                'selectCameraDialogue'.tr,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  fontFamily: 'Sora',
-                ),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    title: Text(
-                      'backCameraText'.tr,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                        fontFamily: 'Sora',
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop(CameraLensDirection.back);
-                    },
-                  ),
-                  ListTile(
-                    title: Text(
-                      'frontCameraText'.tr,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                        fontFamily: 'Sora',
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop(CameraLensDirection.front);
-                    },
-                  ),
-                ],
-              ),
-            );
-          },
+        final result = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666',
+          'cancelText'.tr,
+          true,
+          ScanMode.DEFAULT,
         );
 
-        if (result != null) {
-          final barcodeResult = await FlutterBarcodeScanner.scanBarcode(
-            '#ff6666',
-            'cancelText'.tr,
-            true,
-            ScanMode.DEFAULT,
-          );
-
-          if (!mounted) return;
-
-          setState(() {
-            _barcodeResult = barcodeResult;
-          });
-
-          _submitBarcodeResult(barcodeResult);
+        if (result == '-1') {
+          // Barcode scanning canceled
+          _cameraController.dispose();
+          return;
         }
+
+        if (!mounted) return;
+
+        setState(() {
+          _barcodeResult = result;
+        });
+
+        _submitBarcodeResult(result);
       } else {
         // Handle camera permission not granted
         print('Camera permission not granted');
@@ -450,6 +497,7 @@ class _SearchPageState extends State<SearchPage> {
               end: Alignment.bottomCenter,
             ),
           ),
+
           child: Scaffold(
             resizeToAvoidBottomInset: false, // Add this line
             body: SafeArea(
@@ -463,6 +511,7 @@ class _SearchPageState extends State<SearchPage> {
                       alignment: Alignment.center,
                       child: Padding(
                         padding: EdgeInsets.all(16.0),
+                        //Title and BarCode Scan Icon
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -486,6 +535,7 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
 
+                    //search bar code
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
@@ -494,6 +544,7 @@ class _SearchPageState extends State<SearchPage> {
                           Expanded(
                             flex: 4,
                             child: TextField(
+                              key: searchBar,
                               controller: _searchController,
                               style: const TextStyle(
                                 color: Colors.black,
@@ -539,6 +590,7 @@ class _SearchPageState extends State<SearchPage> {
                             child: Container(
                               height: 63.0,
                               child: TextButton(
+                                key: searchBarButton,
                                 onPressed: () {
                                   _submitSearch(_searchController.text);
                                 },
@@ -560,7 +612,7 @@ class _SearchPageState extends State<SearchPage> {
                                   ),
                                 ),
                                 child: Text(
-                                  'searchScreenTitle'.tr,
+                                  'searchBarButton'.tr,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,
@@ -575,6 +627,7 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
 
+                    //search history
                     // if (_searchController.text.isNotEmpty)
                     Visibility(
                       visible: _showSearchHistory,
@@ -606,6 +659,7 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
 
+                    //Filter Button
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(16.0),
@@ -615,7 +669,7 @@ class _SearchPageState extends State<SearchPage> {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: Text(
-                                'ilterDialogueTitle'.tr,
+                                'filterDialogueTitle'.tr,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Sora',

@@ -24,6 +24,7 @@ class LocaleString extends Translations{
       'errorDescription': 'This book is currently unavailable. Try to search for any other book!',
       'searchScreenTitle': 'Search',
       'searchBarText': 'Name/Title, Author or ISBN',
+      'searchBarButton': 'Search',
       'filterDialogueTitle': 'Filter Options',
       'filterdialogueText1': 'Tile Preview',
       'filterdialogueText2':'Card Preview',
@@ -115,7 +116,14 @@ class LocaleString extends Translations{
       'forgotPassScreenError3':'Password reset email sent successfully.',
       'forgotPassScreenError4':'An error occurred while sending the password reset email.',
       'forgotPassScreenError5':'No user found with the provided email address.',
-      'booksAlreadyReadButtonText': 'Add Book'
+      'booksAlreadyReadButtonText': 'Add Book',
+      'wizard1Text': 'Tap the plus Icon to add a book to the list!',
+      'wizardSkip': 'Skip',
+      'wizardNext': 'Next',
+      'searchWizard1st': 'Write the book name that you recently read!',
+      'searchWizard2nd':'Press the Search Button to search for a book!',
+      'wizardFinishButton': 'Finish',
+      'deleteAccountButton': 'Delete Account'
     },
     //Italian Language
     'it_IT':{
@@ -137,10 +145,11 @@ class LocaleString extends Translations{
       'errorDescription': 'Questo libro non è attualmente disponibile. Prova a cercare qualsiasi altro libro!',
       'searchScreenTitle': 'Ricerca',
       'searchBarText': 'Nome/Titolo, Autore o ISBN',
-      'filterDialogueTitle': 'Opzioni filtro',
-      'filterdialogueText1': 'Anteprima piastrella',
-      'filterdialogueText2': 'Anteprima della carta',
-      'filterButton': 'Filtro',
+      'searchBarButton': 'Cerca',
+      'filterDialogueTitle': 'Filtro Di Visualizzazione',
+      'filterdialogueText1': 'Anteprima Elenco',
+      'filterdialogueText2': 'Anteprima Copertina',
+      'filterButton': 'Filtro Di Visualizzazione',
       'recommendButton': 'Consigliami un libro',
       'recommendError1Heading': 'Aggiungi il libro all\'elenco dei libri già letti',
       'recommendError1Content':'Cerca il libro nella barra di ricerca in alto e aggiungilo all\'elenco dei libri già letti per consigliarti un libro.',
@@ -228,7 +237,14 @@ class LocaleString extends Translations{
       'forgotPassScreenError3': 'Email di reimpostazione password inviata con successo.',
       'forgotPassScreenError4':'Si è verificato un errore durante l\'invio dell\'e-mail di reimpostazione della password.',
       'forgotPassScreenError5' : 'Nessun utente trovato con l\'indirizzo email fornito.',
-      'booksAlreadyReadButtonText': 'Aggiungi libro'
+      'booksAlreadyReadButtonText': 'Aggiungi libro',
+      'wizard1Text': 'Spingi il tasto + per aggiungere il libro alla lista',
+      'wizardSkip': 'Salta',
+      'wizardNext': 'Avanti',
+      'searchWizard1st': 'Scrivi il titolo dell\'ultimo libro che hai letto',
+      'searchWizard2nd':'Spingi il bottone cerca per cercare un libro',
+      'wizardFinishButton': 'Finito',
+      'deleteAccountButton': 'Deletar Conta'
     }
 };
 

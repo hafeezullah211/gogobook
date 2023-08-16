@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           inputDecorationTheme: InputDecorationTheme(
             contentPadding: const EdgeInsets.fromLTRB(14.0, 20.0, 14.0, 20.0),
@@ -118,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     email: _emailTextController.text,
                                     password: _passwordTextController.text,
                                   );
-                                  Navigator.push(context,
+                                  Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) => HomeScreen3(onLogout: (){},))
                                   );
                                 } catch (error) {

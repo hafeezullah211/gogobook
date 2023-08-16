@@ -114,7 +114,25 @@
     <string name="mtrl_picker_toggle_to_day_selection">Додирните да бисте прешли на избор дана</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">Пређите на режим уноса текста</string>
     <string name="mtrl_picker_toggle_to_year_selection">Додирните да бисте прешли на избор године</string>
+    <string name="native_body">Садржај</string>
+    <string name="native_headline">Наслов</string>
+    <string name="native_media_view">Приказ медија</string>
+    <string name="offline_notification_text">Додирните да бисте отворили оглас</string>
+    <string name="offline_notification_title">Прегледајте оглас који сте сачували док сте били офлајн</string>
+    <string name="offline_opt_in_confirm">Потврди</string>
+    <string name="offline_opt_in_confirmation">Добићете обавештење са линком кад поново будете онлајн</string>
+    <string name="offline_opt_in_decline">Не, хвала</string>
+    <string name="offline_opt_in_message">Послаћемо вам обавештење са линком до сајта оглашавача.</string>
+    <string name="offline_opt_in_title">Отворите оглас кад поново будете онлајн.</string>
     <string name="password_toggle_content_description">Прикажи лозинку</string>
+    <string name="s1">Чување слике</string>
+    <string name="s2">Желите ли да дозволите да оглас сачува слику у Галерији слика?</string>
+    <string name="s3">Прихвати</string>
+    <string name="s4">Одбиј</string>
+    <string name="s5">Прављење догађаја у календару</string>
+    <string name="s6">Желите ли да дозволите да оглас направи догађај у календару?</string>
+    <string name="s7">Пробни оглас</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Претражите"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="watermark_label_prefix">AdMob - </string>
 </resources>

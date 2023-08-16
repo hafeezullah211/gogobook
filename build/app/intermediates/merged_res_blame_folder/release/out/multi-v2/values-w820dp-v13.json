@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.hafeezullah.gogobook.gogobook.app-mergeReleaseResources-36:/values-w820dp-v13/values-w820dp-v13.xml",
+            "outputFile": "com.hafeezullah.gogobook.gogobook.app-mergeReleaseResources-42:/values-w820dp-v13/values-w820dp-v13.xml",
             "map": [
                 {
                     "source": "/home/hafeez_u_llah/StudioProjects/gogobook/build/flutter_barcode_scanner/intermediates/packaged_res/release/values-w820dp-v13/values-w820dp-v13.xml",

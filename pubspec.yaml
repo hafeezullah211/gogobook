@@ -31,6 +31,9 @@ dependencies:
   camera:
   permission_handler:
   intro_views_flutter: ^3.2.0
+  tutorial_coach_mark:
+  google_mobile_ads:
+  google_api_availability: ^5.0.0
 
 
 

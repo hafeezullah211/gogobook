@@ -86,9 +86,9 @@ class _HorizontalBooksListState extends State<HorizontalBooksWishlistList> {
           scrollDirection: Axis.horizontal,
           child: Row(children: [
             ...widget.books.map(
-                  (book) => BookCardWishlist(
+              (book) => BookCardWishlist(
                 book: book,
-                onBookmarkRemoved: (){
+                onBookmarkRemoved: () {
                   removeBookFromList(book);
                 },
               ),
@@ -132,7 +132,8 @@ class _BookCardBookmarkState extends State<BookCardWishlist> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Success!',
+              title: const Text(
+                'Success!',
                 style: TextStyle(
                   fontFamily: 'Sora',
                   fontWeight: FontWeight.bold,
@@ -148,7 +149,7 @@ class _BookCardBookmarkState extends State<BookCardWishlist> {
                 ),
               ),
               actions: [
-                firebaseUIButton(context, 'OK', (){
+                firebaseUIButton(context, 'OK', () {
                   Navigator.of(context).pop();
                 })
               ],
@@ -173,7 +174,8 @@ class _BookCardBookmarkState extends State<BookCardWishlist> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BookDetailsWishlistScreen(book: widget.book),
+              builder: (context) =>
+                  BookDetailsWishlistScreen(book: widget.book),
             ),
           );
         },
@@ -245,7 +247,7 @@ class _BookCardBookmarkState extends State<BookCardWishlist> {
 class BookDetailsWishlistScreen extends StatefulWidget {
   final Book book;
 
-  const BookDetailsWishlistScreen({ required this.book});
+  const BookDetailsWishlistScreen({required this.book});
 
   @override
   State<BookDetailsWishlistScreen> createState() => _BookDetailsScreenState();
@@ -266,7 +268,8 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
     // Check if the ISBN is valid
     if (isbn != null && isbn.isNotEmpty) {
       // Construct the Amazon search URL using the ISBN
-      String searchUrl = 'https://www.amazon.com/s?k=${Uri.encodeComponent(isbn)}';
+      String searchUrl =
+          'https://www.amazon.it/s?k=${Uri.encodeComponent(isbn)}';
 
       // Open the URL in a web browser
       await FlutterWebBrowser.openWebPage(
@@ -329,54 +332,15 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
                             width: double.infinity,
                           ),
                         ),
-                        // Positioned(
-                        //   top: 30.0,
-                        //   right: 8.0,
-                        //   child: IconButton(
-                        //     icon: Icon(
-                        //       isBookmarked ? Icons.add_circle : Icons.add,
-                        //       size: 40,
-                        //       color: const Color(0xFFfab313),
-                        //     ),
-                        //     onPressed: () {
-                        //       if (isBookmarked) {
-                        //         removeFromBooksAlreadyRead();
-                        //       } else {
-                        //         addToBooksAlreadyRead();
-                        //       }
-                        //     },
-                        //   ),
-                        // ),
-
-                        // Positioned(
-                        //   top: 110,
-                        //   right: 8.0,
-                        //   child: IconButton(
-                        //     icon: Icon(
-                        //       Icons.favorite,
-                        //       size: 40,
-                        //       color: isWishlisted
-                        //           ? Colors.red
-                        //           : const Color(0xFFfab313),
-                        //     ),
-                        //     onPressed: () {
-                        //       if (isWishlisted) {
-                        //         removeFromWishlist();
-                        //       } else {
-                        //         addToWishlist();
-                        //       }
-                        //     },
-                        //   ),
-                        // ),
-
                         Positioned(
                           top: 30.0,
                           right: 8.0,
                           child: IconButton(
                             onPressed: () {
-                              final bookLink =
-                                  'https://books.google.com/books?id=${widget.book.id}';
-                              Share.share('Check out this book: $bookLink');
+                              // final bookLink =
+                              //     'https://books.google.com/books?id=${widget.book.id}';
+                              Share.share(
+                                  '${widget.book.title} written by ${widget.book.authors}: Check out this book on GoGoBook: Play store Link!');
                             },
                             icon: const Icon(
                               Icons.share,
@@ -387,7 +351,7 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
                         ),
                       ]),
                       const SizedBox(height: 16),
-                      const Text(
+                      const SelectableText(
                         'Title:',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -395,8 +359,10 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
                           fontFamily: 'Sora',
                         ),
                       ),
-                      const SizedBox(height: 10.0,),
-                      Text(
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      SelectableText(
                         widget.book.title,
                         style: const TextStyle(
                           fontSize: 16,
@@ -404,7 +370,7 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
+                      const SelectableText(
                         'Author:',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -412,8 +378,10 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
                           fontFamily: 'Sora',
                         ),
                       ),
-                      const SizedBox(height: 10.0,),
-                      Text(
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      SelectableText(
                         widget.book.authors.join(', '),
                         style: const TextStyle(
                           fontSize: 16,
@@ -423,7 +391,7 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          const Text(
+                          const SelectableText(
                             'Number of Pages:',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -431,8 +399,10 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
                               fontFamily: 'Sora',
                             ),
                           ),
-                          const SizedBox(width: 8.0,),
-                          Text(
+                          const SizedBox(
+                            width: 8.0,
+                          ),
+                          SelectableText(
                             '${widget.book.pageCount}',
                             style: const TextStyle(
                               fontSize: 16,
@@ -442,58 +412,60 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                          children: [
-                            const Text(
-                              'Language:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                            const SizedBox(width: 8.0,),
-                            Text(
-                              '${widget.book.language}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                          ]
-                      ),
+                      Row(children: [
+                        const SelectableText(
+                          'Language:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Sora',
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        SelectableText(
+                          '${widget.book.language}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Sora',
+                          ),
+                        ),
+                      ]),
                       const SizedBox(height: 10),
-                      Row(
-                          children: [
-                            const Text(
-                              'ISBN:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                            const SizedBox(width: 8.0,),
-                            Text(
-                              '${widget.book.isbn}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                          ]
-                      ),
+                      Row(children: [
+                        const SelectableText(
+                          'ISBN:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Sora',
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        SelectableText(
+                          '${widget.book.isbn}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Sora',
+                          ),
+                        ),
+                      ]),
                       const SizedBox(height: 10),
-                      const Text(
+                      const SelectableText(
                         'Description:',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          fontFamily: 'Sora',
+                          // fontFamily: 'Sora',
                         ),
                       ),
-                      const SizedBox(height: 10.0,),
-                      Text(
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      SelectableText(
                         '${widget.book.description}',
                         style: const TextStyle(
                           fontSize: 16,
@@ -501,47 +473,30 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                          children: [
-                            const Text(
-                              'Publisher:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                            const SizedBox(width: 8.0,),
-                            Text(
-                              '${widget.book.publisher}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Sora',
-                              ),
-                            ),
-                          ]
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'Publication Date:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          fontFamily: 'Sora',
+                      Row(children: [
+                        const SelectableText(
+                          'Publisher:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Sora',
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10.0,),
-                      Text(
-                        '${widget.book.publishedDate}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Sora',
+                        const SizedBox(
+                          width: 8.0,
                         ),
-                      ),
+                        SelectableText(
+                          '${widget.book.publisher}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Sora',
+                          ),
+                        ),
+                      ]),
 
                       // Buy from affiliate link or other text links
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           _launchAmazonUrl();
                         },
                         child: Padding(
@@ -581,5 +536,3 @@ class _BookDetailsScreenState extends State<BookDetailsWishlistScreen> {
     });
   }
 }
-
-

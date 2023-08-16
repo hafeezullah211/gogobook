@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gogobook/LanguageChnageProvider.dart';
 import 'package:gogobook/LocaleString.dart';
 import 'package:gogobook/Screens/login_screens/logo_screen.dart';
+import 'package:gogobook/Screens/signUp_screen/sign_up_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common_widgets/button.dart';
 import '../../theme_changer.dart';
@@ -80,6 +83,62 @@ class _ProfilePageState extends State<ProfilePage> {
         });
   }
 
+  Future<void> _signOutAndClearCache(BuildContext context) async {
+    try {
+      // Step 1: Perform sign-out operation
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        if (user.providerData.any((userInfo) => userInfo.providerId == 'password')) {
+          // User logged in using Email/Password, perform sign out
+          await FirebaseAuth.instance.signOut();
+        } else if (user.providerData.any((userInfo) => userInfo.providerId == 'google.com')) {
+          // User logged in using Google Sign-In, perform sign out
+          await GoogleSignIn().signOut();
+          await FirebaseAuth.instance.signOut();
+        }
+      }
+
+      // Step 2: Clear cache using shared_preferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+
+      // Navigate to the login page or any other page as per your app's navigation flow
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(onLogin: () {})));
+    } catch (e) {
+      // Handle sign-out or cache clearing errors here
+      print('Error during sign-out or cache clearing: $e');
+      // Show a snackbar or dialog to notify the user about the error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error during sign-out or cache clearing')),
+      );
+    }
+  }
+
+  void deleteAccount() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    try {
+      if (user != null) {
+        // Delete user data from Firestore
+        await FirebaseFirestore.instance.collection('Users').doc(user.uid).delete();
+
+        // Delete the user account from FirebaseAuth
+        await user.delete();
+
+        // Navigate to the signup screen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SignUpScreen()),
+        );
+      }
+    } catch (error) {
+      print('Error deleting user account: $error');
+      // Handle any errors that occurred during the deletion process
+      // Show a snackbar or an alert dialog with an error message
+      // ...
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // final themeChanger = Provider.of<ThemeChanger>(context);
@@ -130,37 +189,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       _currentUser?.email ?? 'loadingText...'.tr,
                       style: const TextStyle(fontSize: 16.0),
                     ),
-                    const SizedBox(height: 32.0),
-                    firebaseUIButton(context, 'signOut'.tr, () {
-                      User? user = FirebaseAuth.instance.currentUser;
 
-                      if (user != null) {
-                        if (user.providerData.any(
-                            (userInfo) => userInfo.providerId == 'password')) {
-                          // User logged in using Email/Password, perform sign out
-                          FirebaseAuth.instance.signOut().then((value) {
-                            print('Signed Out');
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LogoScreen()));
-                          });
-                        } else if (user.providerData.any((userInfo) =>
-                            userInfo.providerId == 'google.com')) {
-                          // User logged in using Google Sign-In, perform sign out
-                          GoogleSignIn().signOut().then((value) {
-                            FirebaseAuth.instance.signOut().then((value) {
-                              print('Signed Out');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          LoginScreen(onLogin: () {})));
-                            });
-                          });
-                        }
-                      }
+
+                    const SizedBox(height: 32,),
+                    firebaseUIButton(context, 'signOut'.tr, (){
+                      _signOutAndClearCache(context);
                     }),
+
+                    //Other Details
                     const SizedBox(height: 16.0),
                     Text(
                       'basicOptions'.tr,
@@ -274,16 +310,45 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                    // ElevatedButton(
-                    //     onPressed: () {
-                    //       context.setLocale(Locale('en', 'US'));
-                    //     },
-                    //     child: const Text('English')),
-                    // ElevatedButton(
-                    //     onPressed: () {
-                    //       context.setLocale(Locale('it'));
-                    //     },
-                    //     child: const Text('Italian')),
+
+                    const SizedBox(height: 16.0),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.fromLTRB(16.0, 14, 16, 14),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          deleteAccount();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            elevation: 3,
+                            padding: const EdgeInsets.fromLTRB(
+                                14.0, 14.0, 14.0, 14.0),
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            )),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.delete_forever, // Light mode icon
+                              size: 40,
+                              color: Color(0xFFfab313),
+                            ),
+                            SizedBox(width: 8), // Space between icons
+                            Text(
+                              'deleteAccountButton'.tr,
+                              style: TextStyle(
+                                fontFamily: "Sora",
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -295,65 +360,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-//
-// class LanguageDropDown extends StatefulWidget {
-//   @override
-//   _LanguageDropDownState createState() => _LanguageDropDownState();
-// }
-//
-// class _LanguageDropDownState extends State<LanguageDropDown> {
-//   String _selectedLanguage = 'English';
-//
-//   final List<String> _languages = [
-//     'English',
-//     'Italian',
-//     // Add more languages as needed
-//   ];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return DropdownButtonFormField<String>(
-//       decoration: const InputDecoration(
-//         enabledBorder: UnderlineInputBorder(
-//           borderSide: BorderSide(color: Color(0xFF07abb8)),
-//         ),
-//         focusedBorder: UnderlineInputBorder(
-//           borderSide: BorderSide(color: Color(0xFF07abb8)),
-//         ),
-//       ),
-//       value: _selectedLanguage,
-//       onChanged: (newValue) {
-//         setState(() {
-//           _selectedLanguage = newValue!;
-//         });
-//         // Change the app's language here based on the selected language
-//         _changeLanguage(context, _selectedLanguage);
-//       },
-//       items: _languages.map((language) {
-//         return DropdownMenuItem<String>(
-//           value: language,
-//           child: Text(language),
-//         );
-//       }).toList(),
-//     );
-//   }
-//
-//   void _changeLanguage(BuildContext context, String language) {
-//     final locale = Locale(_getLocaleCode(language));
-//     // const AppLocalizationDelegate().load(locale); // Load the new locale
-//     // You can also save the selected language to shared preferences or any other storage mechanism if needed
-//   }
-//
-//   String _getLocaleCode(String language) {
-//     // Map the language names to their respective locale codes
-//     switch (language) {
-//       case 'English':
-//         return 'en';
-//       case 'Italian':
-//         return 'it';
-//       // Add more cases as needed
-//       default:
-//         return 'en'; // Default to English
-//     }
-//   }
-// }

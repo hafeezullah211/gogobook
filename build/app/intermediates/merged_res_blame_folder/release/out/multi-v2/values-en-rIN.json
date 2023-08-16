@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.hafeezullah.gogobook.gogobook.app-mergeReleaseResources-36:/values-en-rIN/values-en-rIN.xml",
+            "outputFile": "com.hafeezullah.gogobook.gogobook.app-mergeReleaseResources-42:/values-en-rIN/values-en-rIN.xml",
             "map": [
                 {
                     "source": "/home/hafeez_u_llah/.gradle/caches/transforms-3/a89bd0e64120b064165fe7d2635bd104/transformed/browser-1.4.0/res/values-en-rIN/values-en-rIN.xml",

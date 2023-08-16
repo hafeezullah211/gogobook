@@ -115,7 +115,25 @@
     <string name="mtrl_picker_toggle_to_day_selection">Dotik za preklop na izbiro dneva</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">Preklop na način vnosa besedila</string>
     <string name="mtrl_picker_toggle_to_year_selection">Dotik za preklop na izbiro leta</string>
+    <string name="native_body">Telo</string>
+    <string name="native_headline">Naslov</string>
+    <string name="native_media_view">Ogled predstavnosti</string>
+    <string name="offline_notification_text">Dotaknite se, če želite odpreti oglas</string>
+    <string name="offline_notification_title">Oglejte si oglas, ki ste shranili, ko ste bili brez povezave</string>
+    <string name="offline_opt_in_confirm">V redu</string>
+    <string name="offline_opt_in_confirmation">Prejeli boste obvestilo s povezavo, ko bo povezava znova vzpostavljena</string>
+    <string name="offline_opt_in_decline">Ne, hvala</string>
+    <string name="offline_opt_in_message">Poslali vam bomo obvestilo s povezavo na spletno mesto oglaševalca.</string>
+    <string name="offline_opt_in_title">Odprite oglas, ko bo povezava znova vzpostavljena.</string>
     <string name="password_toggle_content_description">Prikaz gesla</string>
+    <string name="s1">Shranjevanje slike</string>
+    <string name="s2">Ali dovolite, da oglas shrani sliko v galerijo slik?</string>
+    <string name="s3">Sprejmi</string>
+    <string name="s4">Zavrni</string>
+    <string name="s5">Ustvarjanje koledarskega dogodka</string>
+    <string name="s6">Ali dovolite, da oglas ustvari koledarski dogodek?</string>
+    <string name="s7">Preizkusni oglas</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Iskanje"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="watermark_label_prefix">AdMob – </string>
 </resources>

@@ -131,8 +131,24 @@
 -keep class android.app.Application { <init>(); }
 -keep class androidx.core.app.CoreComponentFactory { <init>(); }
 -keep class androidx.profileinstaller.ProfileInstallReceiver { <init>(); }
+-keep class androidx.room.MultiInstanceInvalidationService { <init>(); }
 -keep class androidx.startup.InitializationProvider { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.RescheduleReceiver { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.SystemAlarmService { <init>(); }
+-keep class androidx.work.impl.background.systemjob.SystemJobService { <init>(); }
+-keep class androidx.work.impl.diagnostics.DiagnosticsReceiver { <init>(); }
+-keep class androidx.work.impl.foreground.SystemForegroundService { <init>(); }
+-keep class androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver { <init>(); }
 -keep class com.amolg.flutterbarcodescanner.BarcodeCaptureActivity { <init>(); }
+-keep class com.google.android.gms.ads.AdActivity { <init>(); }
+-keep class com.google.android.gms.ads.AdService { <init>(); }
+-keep class com.google.android.gms.ads.MobileAdsInitProvider { <init>(); }
+-keep class com.google.android.gms.ads.OutOfContextTestingActivity { <init>(); }
 -keep class com.google.android.gms.auth.api.signin.RevocationBoundService { <init>(); }
 -keep class com.google.android.gms.auth.api.signin.internal.SignInHubActivity { <init>(); }
 -keep class com.google.android.gms.common.api.GoogleApiActivity { <init>(); }
@@ -169,6 +185,8 @@
 
 -keep class androidx.appcompat.widget.AlertDialogLayout { <init>(android.content.Context, android.util.AttributeSet); }
 
+-keep class androidx.appcompat.widget.AppCompatButton { <init>(android.content.Context, android.util.AttributeSet); }
+
 -keep class androidx.appcompat.widget.ButtonBarLayout { <init>(android.content.Context, android.util.AttributeSet); }
 
 -keep class androidx.appcompat.widget.ContentFrameLayout { <init>(android.content.Context, android.util.AttributeSet); }
@@ -202,6 +220,12 @@
 -keep class com.amolg.flutterbarcodescanner.camera.CameraSourcePreview { <init>(android.content.Context, android.util.AttributeSet); }
 
 -keep class com.amolg.flutterbarcodescanner.camera.GraphicOverlay { <init>(android.content.Context, android.util.AttributeSet); }
+
+-keep class com.google.android.ads.nativetemplates.TemplateView { <init>(android.content.Context, android.util.AttributeSet); }
+
+-keep class com.google.android.gms.ads.nativead.MediaView { <init>(android.content.Context, android.util.AttributeSet); }
+
+-keep class com.google.android.gms.ads.nativead.NativeAdView { <init>(android.content.Context, android.util.AttributeSet); }
 
 -keep class com.google.android.material.appbar.MaterialToolbar { <init>(android.content.Context, android.util.AttributeSet); }
 
@@ -255,7 +279,7 @@
 -keep class androidx.lifecycle.DefaultLifecycleObserver
 
 # End of content from /home/hafeez_u_llah/StudioProjects/gogobook/build/flutter_plugin_android_lifecycle/intermediates/consumer_proguard_dir/release/lib0/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/86612b671f974fc71a2d31d84741def7/transformed/jetified-firebase-auth-22.0.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/b66a02533b9ef7fca863733ee08e3d54/transformed/jetified-firebase-auth-22.1.1/proguard.txt
 -dontwarn com.google.appengine.api.**
 -dontwarn okio.**
 -dontwarn org.apache.**
@@ -272,14 +296,19 @@
     @retrofit.http.* <methods>;
 }
 
+# This is necessary for parsing JSON responses, since the JSON converter uses reflection to figure out the class/type of response.
+# We mainly need the *Response.classes to not be stripped out. All the firebase-auth classes are proguarded into "com.google.android.gms.internal.firebase-auth-api*".
+
+-keep class com.google.android.gms.internal.** { *; }
+
 # We keep all fields for every generated proto file as the runtime uses
 # reflection over them that ProGuard cannot detect. Without this keep
 # rule, fields may be removed that would cause runtime failures.
--keepclassmembers class * extends com.google.android.gms.internal.firebase-auth-api.zzagk {
+-keepclassmembers class * extends com.google.android.gms.internal.firebase-auth-api.zzahd {
   <fields>;
 }
 
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/86612b671f974fc71a2d31d84741def7/transformed/jetified-firebase-auth-22.0.0/proguard.txt
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/b66a02533b9ef7fca863733ee08e3d54/transformed/jetified-firebase-auth-22.1.1/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/7548c5d6300a700b2c3f9bc8c1ba32cb/transformed/jetified-recaptcha-18.1.2/proguard.txt
 # Proguard cannot process META-INF/versions/9.
 # See https://discuss.gradle.org/t/meta-inf-version-duplicate-error-when-using-proguard/31380
@@ -310,6 +339,149 @@
 }
 
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/7548c5d6300a700b2c3f9bc8c1ba32cb/transformed/jetified-recaptcha-18.1.2/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/0b6b4ad052bd709679f951cd69abe328/transformed/jetified-play-services-vision-20.1.3/proguard.txt
+# We keep all fields for every generated proto file as the runtime uses
+# reflection over them that ProGuard cannot detect. Without this keep
+# rule, fields may be removed that would cause runtime failures.
+-keepclassmembers class * extends com.google.android.gms.internal.vision.zzjb {
+  <fields>;
+}
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/0b6b4ad052bd709679f951cd69abe328/transformed/jetified-play-services-vision-20.1.3/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/19c97c349a855097e16afa17b4e01158/transformed/jetified-firebase-firestore-24.7.0/proguard.txt
+# Needed for DNS resolution.  Present in OpenJDK, but not Android
+-dontwarn javax.naming.**
+
+# Don't warn about checkerframework
+#
+# Guava uses the checkerframework and the annotations
+# can safely be ignored at runtime.
+-dontwarn org.checkerframework.**
+
+# Guava warnings:
+-dontwarn java.lang.ClassValue
+-dontwarn com.google.j2objc.annotations.Weak
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn javax.lang.model.element.Modifier
+
+# Okhttp warnings.
+-dontwarn okio.**
+-dontwarn com.google.j2objc.annotations.**
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/19c97c349a855097e16afa17b4e01158/transformed/jetified-firebase-firestore-24.7.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/f4664f732d97fff05fd607d584f03a73/transformed/jetified-play-services-vision-common-19.1.3/proguard.txt
+# We keep all fields for every generated proto file as the runtime uses
+# reflection over them that ProGuard cannot detect. Without this keep
+# rule, fields may be removed that would cause runtime failures.
+-keepclassmembers class * extends com.google.android.gms.internal.vision.zzjb {
+  <fields>;
+}
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/f4664f732d97fff05fd607d584f03a73/transformed/jetified-play-services-vision-common-19.1.3/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/45ed6dc3725bfbe5158eefdd685901b3/transformed/jetified-play-services-auth-base-18.0.4/proguard.txt
+# We keep all fields for every generated proto file as the runtime uses
+# reflection over them that ProGuard cannot detect. Without this keep
+# rule, fields may be removed that would cause runtime failures.
+-keepclassmembers class * extends com.google.android.gms.internal.auth.zzeu {
+  <fields>;
+}
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/45ed6dc3725bfbe5158eefdd685901b3/transformed/jetified-play-services-auth-base-18.0.4/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/914f037c791853e2f6c208a421467bf7/transformed/jetified-play-services-fido-20.0.1/proguard.txt
+# Methods enable and disable in this class are complained as unresolved
+# references, but they are system APIs and are not used by Fido client apps.
+-dontwarn android.nfc.NfcAdapter
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/914f037c791853e2f6c208a421467bf7/transformed/jetified-play-services-fido-20.0.1/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/1aab86809de6b20e495ab513ceb4d881/transformed/jetified-play-services-ads-22.0.0/proguard.txt
+-keep public class com.google.android.gms.ads.internal.ClientApi {
+  <init>();
+}
+
+# When built for Android API level < 30, Proguard warns that it can't find
+# android.telephony.TelephonyDisplayInfo (since it was added only in API level
+# 30). But, all its usages are guarded by runtime checks of the API level.
+# Hence, it is safe to suppress Proguard's warnings.
+-dontwarn android.telephony.TelephonyDisplayInfo
+
+# When built for Android API level < 30, Proguard warns that it can't find
+# android.view.Surface#setFrameRate(float, int) (since it was added only in API
+# level 30). But, all its usages are guarded by runtime checks of the API level.
+# Hence, it is safe to suppress Proguard's warnings.
+-dontwarn android.view.Surface
+
+# When built for Android API level < 31, Proguard warns that it can't find
+# android.media.ApplicationMediaCapabilities (since it was added only in API
+# level 31). But, all its usages are guarded by runtime checks of the API level.
+# Hence, it is safe to suppress Proguard's warnings.
+-dontwarn android.media.ApplicationMediaCapabilities
+
+# When built for Android API level < 31, Proguard warns that it can't find
+# android.media.MediaFeature (since it was added only in API level 31). But,
+# all its usages are guarded by runtime checks of the API level.
+# Hence, it is safe to suppress Proguard's warnings.
+-dontwarn android.media.MediaFeature
+
+# When built for Android API level < 31, Proguard warns that it can't find
+# android.media.ApplicationMediaCapabilities$Builder (since it was added only in
+# API level 31). But, all its usages are guarded by runtime checks of the API
+# level. Hence, it is safe to suppress Proguard's warnings.
+-dontwarn android.media.ApplicationMediaCapabilities$Builder
+
+# When built for Android API level < 31, Proguard warns that it can't find
+# android.media.MediaFeature$HdrType (since it was added only in API level 31).
+# But, all its usages are guarded by runtime checks of the API level.
+# Hence, it is safe to suppress Proguard's warnings.
+-dontwarn android.media.MediaFeature$HdrType
+
+# When built for Android API level < 32, Proguard warns that it can't find
+# android.media.AudioAttributes$Builder (since it was added only in API level
+# 32). But, all its usages are guarded by runtime checks of the API level.
+# Hence, it is safe to suppress Proguard's warnings.
+-dontwarn android.media.AudioAttributes$Builder
+
+# When built for Android API level < 33, Proguard warns that it can't find
+# android.adservices.measurement.MeasurementManager (since it was added only
+# in API level 33). But, all its usages are guarded by runtime checks of the
+# API level. Hence, it is safe to suppress Proguard's warnings.
+-dontwarn android.adservices.measurement.MeasurementManager
+
+# These are checked at runtime for whether they exist, so it is fine if the API level doesn't include these.
+-dontwarn android.content.pm.ApkChecksum
+-dontwarn android.content.pm.PackageManager$OnChecksumsReadyListener
+# Only for the requestChecksums method, but sadly -dontwarn can't take just a single method.
+-dontwarn android.content.pm.PackageManager
+
+# We keep all fields for every generated proto file as the runtime uses
+# reflection over them that ProGuard cannot detect. Without this keep
+# rule, fields may be removed that would cause runtime failures.
+-keepclassmembers class * extends com.google.android.gms.internal.ads.zzgqm {
+  <fields>;
+}
+
+# Auto-generated proguard rule(s) with obfuscated symbol
+-dontwarn com.google.android.gms.ads.internal.util.zzx
+
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/1aab86809de6b20e495ab513ceb4d881/transformed/jetified-play-services-ads-22.0.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/747877df71514cbbd41fe04207913a44/transformed/jetified-play-services-clearcut-17.0.0/proguard.txt
+# We keep all fields for every generated proto file as the runtime uses
+# reflection over them that ProGuard cannot detect. Without this keep
+# rule, fields may be removed that would cause runtime failures.
+-keepclassmembers class * extends com.google.android.gms.internal.clearcut.zzcg {
+  <fields>;
+}
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/747877df71514cbbd41fe04207913a44/transformed/jetified-play-services-clearcut-17.0.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/f091477dd27fce0330aeff16d7e7738a/transformed/jetified-play-services-base-18.1.0/proguard.txt
+# b/35135904 Ensure that proguard will not strip the mResultGuardian.
+-keepclassmembers class com.google.android.gms.common.api.internal.BasePendingResult {
+  com.google.android.gms.common.api.internal.BasePendingResult$ReleasableResultGuardian mResultGuardian;
+}
+
+
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/f091477dd27fce0330aeff16d7e7738a/transformed/jetified-play-services-base-18.1.0/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/d0c37b2f53ceb0e07d07eb0a81fbb875/transformed/material-1.3.0/proguard.txt
 # Copyright (C) 2015 The Android Open Source Project
 #
@@ -384,78 +556,6 @@
 }
 
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/8c400a15ed9c808c5e076226acaae21b/transformed/appcompat-1.2.0/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/0b6b4ad052bd709679f951cd69abe328/transformed/jetified-play-services-vision-20.1.3/proguard.txt
-# We keep all fields for every generated proto file as the runtime uses
-# reflection over them that ProGuard cannot detect. Without this keep
-# rule, fields may be removed that would cause runtime failures.
--keepclassmembers class * extends com.google.android.gms.internal.vision.zzjb {
-  <fields>;
-}
-
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/0b6b4ad052bd709679f951cd69abe328/transformed/jetified-play-services-vision-20.1.3/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/b9d6b8ca90e91719975beb3d67194ea2/transformed/jetified-firebase-firestore-24.6.0/proguard.txt
-# Needed for DNS resolution.  Present in OpenJDK, but not Android
--dontwarn javax.naming.**
-
-# Don't warn about checkerframework
-#
-# Guava uses the checkerframework and the annotations
-# can safely be ignored at runtime.
--dontwarn org.checkerframework.**
-
-# Guava warnings:
--dontwarn java.lang.ClassValue
--dontwarn com.google.j2objc.annotations.Weak
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--dontwarn javax.lang.model.element.Modifier
-
-# Okhttp warnings.
--dontwarn okio.**
--dontwarn com.google.j2objc.annotations.**
-
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/b9d6b8ca90e91719975beb3d67194ea2/transformed/jetified-firebase-firestore-24.6.0/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/f4664f732d97fff05fd607d584f03a73/transformed/jetified-play-services-vision-common-19.1.3/proguard.txt
-# We keep all fields for every generated proto file as the runtime uses
-# reflection over them that ProGuard cannot detect. Without this keep
-# rule, fields may be removed that would cause runtime failures.
--keepclassmembers class * extends com.google.android.gms.internal.vision.zzjb {
-  <fields>;
-}
-
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/f4664f732d97fff05fd607d584f03a73/transformed/jetified-play-services-vision-common-19.1.3/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/45ed6dc3725bfbe5158eefdd685901b3/transformed/jetified-play-services-auth-base-18.0.4/proguard.txt
-# We keep all fields for every generated proto file as the runtime uses
-# reflection over them that ProGuard cannot detect. Without this keep
-# rule, fields may be removed that would cause runtime failures.
--keepclassmembers class * extends com.google.android.gms.internal.auth.zzeu {
-  <fields>;
-}
-
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/45ed6dc3725bfbe5158eefdd685901b3/transformed/jetified-play-services-auth-base-18.0.4/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/914f037c791853e2f6c208a421467bf7/transformed/jetified-play-services-fido-20.0.1/proguard.txt
-# Methods enable and disable in this class are complained as unresolved
-# references, but they are system APIs and are not used by Fido client apps.
--dontwarn android.nfc.NfcAdapter
-
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/914f037c791853e2f6c208a421467bf7/transformed/jetified-play-services-fido-20.0.1/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/747877df71514cbbd41fe04207913a44/transformed/jetified-play-services-clearcut-17.0.0/proguard.txt
-# We keep all fields for every generated proto file as the runtime uses
-# reflection over them that ProGuard cannot detect. Without this keep
-# rule, fields may be removed that would cause runtime failures.
--keepclassmembers class * extends com.google.android.gms.internal.clearcut.zzcg {
-  <fields>;
-}
-
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/747877df71514cbbd41fe04207913a44/transformed/jetified-play-services-clearcut-17.0.0/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/408206dd9b8dab6a2466e53f1796208b/transformed/jetified-play-services-base-18.0.1/proguard.txt
-# b/35135904 Ensure that proguard will not strip the mResultGuardian.
--keepclassmembers class com.google.android.gms.common.api.internal.BasePendingResult {
-  com.google.android.gms.common.api.internal.BasePendingResult$ReleasableResultGuardian mResultGuardian;
-}
-
-
-
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/408206dd9b8dab6a2466e53f1796208b/transformed/jetified-play-services-base-18.0.1/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/c4d863591dbe228573bd11a8010d7a28/transformed/jetified-firebase-auth-interop-20.0.0/proguard.txt
 # Can be removed once we pull in a dependency on firebase-common that includes
 # https://github.com/firebase/firebase-android-sdk/pull/1472/commits/856f1ca1151cdd88679bbc778892f23dfa34fc06#diff-a2ed34b5a38b4c6c686b09e54865eb48
@@ -463,7 +563,7 @@
 -dontwarn com.google.auto.value.AutoValue$Builder
 
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/c4d863591dbe228573bd11a8010d7a28/transformed/jetified-firebase-auth-interop-20.0.0/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/4459893febc0a919f5c931001a6d2e2c/transformed/jetified-play-services-measurement-api-21.2.2/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/e221287dfcb9d5fee29508629b23d1fd/transformed/jetified-play-services-measurement-api-21.3.0/proguard.txt
 # Can be removed once we pull in a dependency on firebase-common that includes
 # https://github.com/firebase/firebase-android-sdk/pull/1472/commits/856f1ca1151cdd88679bbc778892f23dfa34fc06#diff-a2ed34b5a38b4c6c686b09e54865eb48
 -dontwarn com.google.auto.value.AutoValue
@@ -476,18 +576,73 @@
   <fields>;
 }
 
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/4459893febc0a919f5c931001a6d2e2c/transformed/jetified-play-services-measurement-api-21.2.2/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/d0329f9e423b96e827a6bc0ab4cc7266/transformed/jetified-firebase-common-20.3.2/proguard.txt
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/e221287dfcb9d5fee29508629b23d1fd/transformed/jetified-play-services-measurement-api-21.3.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/4e97b1022c59e6e40ac39918ec414960/transformed/jetified-firebase-common-20.3.3/proguard.txt
 -dontwarn com.google.firebase.platforminfo.KotlinDetector
 -dontwarn com.google.auto.value.AutoValue
 -dontwarn com.google.auto.value.AutoValue$Builder
 
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/d0329f9e423b96e827a6bc0ab4cc7266/transformed/jetified-firebase-common-20.3.2/proguard.txt
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/4e97b1022c59e6e40ac39918ec414960/transformed/jetified-firebase-common-20.3.3/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/71121fc5a13edabcc24467fe237694d7/transformed/jetified-play-services-tasks-18.0.2/proguard.txt
 
 
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/71121fc5a13edabcc24467fe237694d7/transformed/jetified-play-services-tasks-18.0.2/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/037e48d082df3b02aaaf4e885597c278/transformed/jetified-play-services-measurement-21.2.2/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/32042625b32f78a145d5f009015fea50/transformed/jetified-play-services-ads-lite-22.0.0/proguard.txt
+# Keep implementations of the AdMob mediation adapter interfaces. Adapters for
+# third party ad networks implement these interfaces and are invoked by the
+# AdMob SDK via reflection.
+
+-keep class * implements com.google.android.gms.ads.mediation.MediationAdapter {
+  public *;
+}
+-keep class * implements com.google.ads.mediation.MediationAdapter {
+  public *;
+}
+-keep class * implements com.google.android.gms.ads.mediation.customevent.CustomEvent {
+  public *;
+}
+-keep class * implements com.google.ads.mediation.customevent.CustomEvent {
+  public *;
+}
+-keep class * extends com.google.android.gms.ads.mediation.MediationAdNetworkAdapter {
+  public *;
+}
+-keep class * extends com.google.android.gms.ads.mediation.Adapter {
+  public *;
+}
+
+# Keep classes used for offline ads created by reflection. WorkManagerUtil is
+# created reflectively by callers within GMSCore and OfflineNotificationPoster
+# is created reflectively by WorkManager.
+-keep class com.google.android.gms.ads.internal.util.WorkManagerUtil {
+  public *;
+}
+-keep class com.google.android.gms.ads.internal.offline.buffering.OfflineNotificationPoster {
+  public *;
+}
+-keep class com.google.android.gms.ads.internal.offline.buffering.OfflinePingSender {
+  public *;
+}
+
+# Keeps the entry for full SDK to access via reflection.
+-keep class com.google.android.gms.ads.internal.client.LiteSdkInfo {
+  public *;
+}
+
+# Keeps the entry for first party plugins to access via reflection.
+-keep class com.google.android.gms.ads.MobileAds {
+  private void setPlugin(java.lang.String);
+}
+
+# We keep all fields for every generated proto file as the runtime uses
+# reflection over them that ProGuard cannot detect. Without this keep
+# rule, fields may be removed that would cause runtime failures.
+-keepclassmembers class * extends com.google.android.gms.internal.ads.zzgqm {
+  <fields>;
+}
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/32042625b32f78a145d5f009015fea50/transformed/jetified-play-services-ads-lite-22.0.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/e45c394e571435096c8f5ed5e5d8521a/transformed/jetified-play-services-measurement-21.3.0/proguard.txt
 # We keep all fields for every generated proto file as the runtime uses
 # reflection over them that ProGuard cannot detect. Without this keep
 # rule, fields may be removed that would cause runtime failures.
@@ -495,8 +650,8 @@
   <fields>;
 }
 
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/037e48d082df3b02aaaf4e885597c278/transformed/jetified-play-services-measurement-21.2.2/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/b0c7c12e4aa549c63ac00fe1cd91aa7f/transformed/jetified-play-services-measurement-sdk-21.2.2/proguard.txt
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/e45c394e571435096c8f5ed5e5d8521a/transformed/jetified-play-services-measurement-21.3.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/ada2fccca8496ff1825cf3eb34e5443f/transformed/jetified-play-services-measurement-sdk-21.3.0/proguard.txt
 # We keep all fields for every generated proto file as the runtime uses
 # reflection over them that ProGuard cannot detect. Without this keep
 # rule, fields may be removed that would cause runtime failures.
@@ -504,8 +659,8 @@
   <fields>;
 }
 
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/b0c7c12e4aa549c63ac00fe1cd91aa7f/transformed/jetified-play-services-measurement-sdk-21.2.2/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/9c723b064220dd509866a777498813c7/transformed/jetified-play-services-measurement-impl-21.2.2/proguard.txt
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/ada2fccca8496ff1825cf3eb34e5443f/transformed/jetified-play-services-measurement-sdk-21.3.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/ec3130b0bc27bf1c3d0d756dcf920289/transformed/jetified-play-services-measurement-impl-21.3.0/proguard.txt
 # We keep all fields for every generated proto file as the runtime uses
 # reflection over them that ProGuard cannot detect. Without this keep
 # rule, fields may be removed that would cause runtime failures.
@@ -513,8 +668,8 @@
   <fields>;
 }
 
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/9c723b064220dd509866a777498813c7/transformed/jetified-play-services-measurement-impl-21.2.2/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/1af214310ac0b4b71598743efed2de7f/transformed/jetified-play-services-measurement-sdk-api-21.2.2/proguard.txt
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/ec3130b0bc27bf1c3d0d756dcf920289/transformed/jetified-play-services-measurement-impl-21.3.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/bcd199972edb2bb787e2e450ba798d2d/transformed/jetified-play-services-measurement-sdk-api-21.3.0/proguard.txt
 # We keep all fields for every generated proto file as the runtime uses
 # reflection over them that ProGuard cannot detect. Without this keep
 # rule, fields may be removed that would cause runtime failures.
@@ -522,8 +677,8 @@
   <fields>;
 }
 
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/1af214310ac0b4b71598743efed2de7f/transformed/jetified-play-services-measurement-sdk-api-21.2.2/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/c4386dc8b870a91abcd14a85adb8d553/transformed/jetified-play-services-measurement-base-21.2.2/proguard.txt
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/bcd199972edb2bb787e2e450ba798d2d/transformed/jetified-play-services-measurement-sdk-api-21.3.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/7751bc46cfd727d9d2a6420a96594f6d/transformed/jetified-play-services-measurement-base-21.3.0/proguard.txt
 # We keep all fields for every generated proto file as the runtime uses
 # reflection over them that ProGuard cannot detect. Without this keep
 # rule, fields may be removed that would cause runtime failures.
@@ -531,7 +686,7 @@
   <fields>;
 }
 
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/c4386dc8b870a91abcd14a85adb8d553/transformed/jetified-play-services-measurement-base-21.2.2/proguard.txt
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/7751bc46cfd727d9d2a6420a96594f6d/transformed/jetified-play-services-measurement-base-21.3.0/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/7bd2838084fd5d55dfa545917da495c4/transformed/jetified-play-services-basement-18.2.0/proguard.txt
 # Needed when building against pre-Marshmallow SDK.
 -dontwarn android.security.NetworkSecurityPolicy
@@ -607,6 +762,41 @@
 
 
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/7bd2838084fd5d55dfa545917da495c4/transformed/jetified-play-services-basement-18.2.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/66b0840d9ae7232c71bad9189eb8f973/transformed/webkit-1.7.0/proguard.txt
+# Copyright 2018 The Chromium Authors
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# We need to avoid obfuscating the support library boundary interface because
+# this API is shared with the Android Support Library.
+# Note that we only 'keep' the package org.chromium.support_lib_boundary itself,
+# any sub-packages of that package can still be obfuscated.
+-keep public class org.chromium.support_lib_boundary.* { public *; }
+
+# Copyright (C) 2018 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Prevent WebViewClientCompat from being renamed, since chromium depends on this name.
+-keepnames public class androidx.webkit.WebViewClientCompat
+
+# Prevent ProcessGlobalConfig and member sProcessGlobalConfig from being renamed, since chromium
+# depends on this name.
+-keepnames public class androidx.webkit.ProcessGlobalConfig {
+    private static final *** sProcessGlobalConfig;
+}
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/66b0840d9ae7232c71bad9189eb8f973/transformed/webkit-1.7.0/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/13e7e9a6751d956c81ba70da378c18ae/transformed/media-1.0.0/proguard.txt
 # Copyright (C) 2017 The Android Open Source Project
 #
@@ -761,6 +951,17 @@
     public boolean isLayoutSuppressed();
 }
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/eda4e03b8d9448727ae134b753ff5d69/transformed/recyclerview-1.1.0/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/b7918a88165cc7a4fbf967454c2f5157/transformed/work-runtime-2.7.0/proguard.txt
+-keep class * extends androidx.work.Worker
+-keep class * extends androidx.work.InputMerger
+# Keep all constructors on ListenableWorker, Worker (also marked with @Keep)
+-keep public class * extends androidx.work.ListenableWorker {
+    public <init>(...);
+}
+# We need to keep WorkerParameters for the ListenableWorker constructor
+-keep class androidx.work.WorkerParameters
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/b7918a88165cc7a4fbf967454c2f5157/transformed/work-runtime-2.7.0/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/473310a45c27bec78f4eaf643d7b67d3/transformed/core-1.10.1/proguard.txt
 # Never inline methods, but allow shrinking and obfuscation.
 -keepclassmembernames,allowobfuscation,allowshrinking class androidx.core.view.ViewCompat$Api* {
@@ -800,6 +1001,10 @@
 }
 
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/88e63778c6f7ca4ab04d75cc44a9a51d/transformed/jetified-savedstate-1.2.1/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/f2e149966848f2f0d2e7ee124ac62d56/transformed/jetified-lifecycle-process-2.6.1/proguard.txt
+# this rule is need to work properly when app is compiled with api 28, see b/142778206
+-keepclassmembers class * extends androidx.lifecycle.EmptyActivityLifecycleCallbacks { *; }
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/f2e149966848f2f0d2e7ee124ac62d56/transformed/jetified-lifecycle-process-2.6.1/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/13d16ed937dd041d81329241d4b78cd2/transformed/lifecycle-viewmodel-2.6.1/proguard.txt
 -keepclassmembers,allowobfuscation class * extends androidx.lifecycle.ViewModel {
     <init>();
@@ -899,6 +1104,14 @@
 # An annotation used for build tooling, won't be directly accessed.
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/fad6df7df8562acc1db58978c44c2fb3/transformed/rules/lib/META-INF/com.android.tools/r8/coroutines.pro
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/08533b4cacbd7e5f4a6eb4369ca4ab12/transformed/jetified-firebase-components-17.1.0/proguard.txt
+-dontwarn com.google.firebase.components.Component$Instantiation
+-dontwarn com.google.firebase.components.Component$ComponentType
+
+-keep class * implements com.google.firebase.components.ComponentRegistrar
+-keep,allowshrinking interface com.google.firebase.components.ComponentRegistrar
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/08533b4cacbd7e5f4a6eb4369ca4ab12/transformed/jetified-firebase-components-17.1.0/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/6aa9b31eaee48f02cdcaaf7c1b9d979a/transformed/jetified-startup-runtime-1.1.1/proguard.txt
 # It's important that we preserve initializer names, given they are used in the AndroidManifest.xml.
 -keepnames class * extends androidx.startup.Initializer
@@ -914,14 +1127,6 @@
 -assumenosideeffects class androidx.startup.StartupLogger { public static <methods>; }
 
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/6aa9b31eaee48f02cdcaaf7c1b9d979a/transformed/jetified-startup-runtime-1.1.1/proguard.txt
-# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/08533b4cacbd7e5f4a6eb4369ca4ab12/transformed/jetified-firebase-components-17.1.0/proguard.txt
--dontwarn com.google.firebase.components.Component$Instantiation
--dontwarn com.google.firebase.components.Component$ComponentType
-
--keep class * implements com.google.firebase.components.ComponentRegistrar
--keep,allowshrinking interface com.google.firebase.components.ComponentRegistrar
-
-# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/08533b4cacbd7e5f4a6eb4369ca4ab12/transformed/jetified-firebase-components-17.1.0/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/49dfd7887c53bf7894f69401accf1222/transformed/versionedparcelable-1.1.1/proguard.txt
 -keep class * implements androidx.versionedparcelable.VersionedParcelable
 -keep public class android.support.**Parcelizer { *; }
@@ -929,6 +1134,11 @@
 -keep public class androidx.versionedparcelable.ParcelImpl
 
 # End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/49dfd7887c53bf7894f69401accf1222/transformed/versionedparcelable-1.1.1/proguard.txt
+# The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/b6007e2ca48543fce4b18c778ff52d67/transformed/room-runtime-2.2.5/proguard.txt
+-keep class * extends androidx.room.RoomDatabase
+-dontwarn androidx.room.paging.**
+
+# End of content from /home/hafeez_u_llah/.gradle/caches/transforms-3/b6007e2ca48543fce4b18c778ff52d67/transformed/room-runtime-2.2.5/proguard.txt
 # The proguard configuration file for the following section is /home/hafeez_u_llah/.gradle/caches/transforms-3/f1040fc5fac461c6958851e593c8ee57/transformed/jetified-grpc-android-1.52.1/proguard.txt
 -keepclassmembers class io.grpc.okhttp.OkHttpChannelBuilder {
   io.grpc.okhttp.OkHttpChannelBuilder forTarget(java.lang.String);

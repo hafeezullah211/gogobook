@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.hafeezullah.gogobook.gogobook.app-mergeReleaseResources-36:/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "com.hafeezullah.gogobook.gogobook.app-mergeReleaseResources-42:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
                     "source": "/home/hafeez_u_llah/.gradle/caches/transforms-3/797368000860976e67934abfa405ab27/transformed/jetified-play-services-auth-20.5.0/res/values-watch-v20/values.xml",

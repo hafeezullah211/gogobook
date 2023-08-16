@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.hafeezullah.gogobook.gogobook.app-mergeReleaseResources-36:/values-watch-v21/values-watch-v21.xml",
+            "outputFile": "com.hafeezullah.gogobook.gogobook.app-mergeReleaseResources-42:/values-watch-v21/values-watch-v21.xml",
             "map": [
                 {
                     "source": "/home/hafeez_u_llah/.gradle/caches/transforms-3/8c400a15ed9c808c5e076226acaae21b/transformed/appcompat-1.2.0/res/values-watch-v21/values-watch-v21.xml",

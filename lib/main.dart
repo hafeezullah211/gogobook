@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,37 +8,40 @@ import 'package:gogobook/LocaleString.dart';
 import 'package:gogobook/Screens/home_screens/nav_screen.dart';
 import 'package:gogobook/Screens/reset_pass_screens/forgot_pass_screen.dart';
 import 'package:gogobook/Screens/signUp_screen/sign_up_screen.dart';
+import 'package:gogobook/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'theme_changer.dart';
 import 'Screens/login_screens/logo_screen.dart';
 import 'Screens/login_screens/login_screen.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 
 void main() async {
+  var devices = ["6C8A44C2842248B34E54750BD6101CC7"];
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   // bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
   // bool isFirebaseUserLoggedIn = FirebaseAuth.instance.currentUser != null;
+  MobileAds.instance.initialize();
 
-  runApp(
-    ChangeNotifierProvider<ThemeChanger>(
-      create: (_) => ThemeChanger(ThemeData.light()),
-      child: const MyApp(
-          // isLoggedIn: isLoggedIn && isFirebaseUserLoggedIn,
-          ),
-    ),
+  RequestConfiguration requestConfiguration = RequestConfiguration(
+    testDeviceIds: devices
   );
+  MobileAds.instance.updateRequestConfiguration(requestConfiguration);
+  
+    runApp(
+      ChangeNotifierProvider<ThemeChanger>(
+        create: (_) => ThemeChanger(ThemeData.light()),
+        child: const MyApp(),
+      ),
+    );
 }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
-  // final bool isLoggedIn;
-
-  // MyApp({required this.isLoggedIn});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -113,7 +115,7 @@ class _MyAppState extends State<MyApp> {
         title: 'GoGoBook',
         theme: themeChanger
             .currentTheme,
-        initialRoute: FirebaseAuth.instance.currentUser == null ? '/' : '/home',
+        // initialRoute: FirebaseAuth.instance.currentUser == null ? '/' : '/home',
         routes: {
           '/login': (context) => LoginScreen(
                 onLogin: () {},
@@ -124,7 +126,7 @@ class _MyAppState extends State<MyApp> {
           '/forgot_password': (context) => ForgotPasswordScreen(),
           '/signup': (context) => SignUpScreen(),
         },
-        home: isLogin ? HomeScreen3(onLogout: () {}) : LogoScreen(),
+        home: SplashScreen()
       ),
     );
   }

@@ -13,6 +13,7 @@ import 'package:gogobook/Screens/home_screens/horizontal_view_bookmarked.dart';
 import 'package:gogobook/Screens/home_screens/horizontal_view_wishlist.dart';
 import 'package:gogobook/Screens/home_screens/profile_screen.dart';
 import 'package:gogobook/Screens/home_screens/search_screen.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 // import 'package:gogobook/Screens/home_screens/search_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -28,21 +29,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomePage> {
+  late BannerAd _bannerAd;
+  bool isAdLoaded = false;
+  var adUnit = 'ca-app-pub-3940256099942544/6300978111'; //testing ad id
   ScrollController _scrollController = ScrollController();
-  bool _showLeftArrow = false;
-  bool _showRightArrow = false;
   List<Book> bookmarkedBooksList = [];
   List<Book> wishlistBooksList = [];
   List<Book> booksAlreadyReadBooksList = [];
   List<Book> RecommendedBooksList = [];
+  late PageController _pageController;
 
-  List<Book> _books = [];
-  bool _isLoading = false;
 
   late StreamSubscription<QuerySnapshot> bookmarkedBooksListener;
   late StreamSubscription<QuerySnapshot> wishlistBooksListener;
   late StreamSubscription<QuerySnapshot> booksAlreadyReadBooksListener;
   late StreamSubscription<DocumentSnapshot> recommendedBooksListener;
+
+  initBannerAd(){
+    _bannerAd = BannerAd(size: AdSize.fullBanner, adUnitId: adUnit, listener: BannerAdListener(
+      onAdLoaded: (ad){
+        setState(() {
+          isAdLoaded = true;
+        });
+      },
+      onAdFailedToLoad: (ad, error){
+        ad.dispose();
+        print(error);
+    }
+    ), request: AdRequest());
+
+    _bannerAd.load();
+  }
 
   void fetchBookmarks() async {
     try {
@@ -54,26 +71,28 @@ class _HomeScreenState extends State<HomePage> {
             .collection('books')
             .snapshots();
         bookmarkedBooksListener = bookmarkedBooksSnapshot.listen((snapshot) {
-          final bookmarkedBooks = snapshot.docs.map((doc) => Book(
-            id: doc.id,
-            imageUrl: doc['imageUrl'],
-            title: doc['title'],
-            authors: List<String>.from(doc['authors']),
-            description: doc['description'],
-            publisher: doc['publisher'],
-            publishedDate: doc['publishDate'].toDate(),
-            pageCount: doc['pagesCount'],
-            language: doc['language'],
-            isbn: doc['isbn'],
-            averageRating: doc['averageRating'],
-            ratingsCount: doc['ratingsCount'],
-          )).toList();
+          final bookmarkedBooks = snapshot.docs
+              .map((doc) => Book(
+                    id: doc.id,
+                    imageUrl: doc['imageUrl'],
+                    title: doc['title'],
+                    authors: List<String>.from(doc['authors']),
+                    description: doc['description'],
+                    publisher: doc['publisher'],
+                    publishedDate: doc['publishDate'].toDate(),
+                    pageCount: doc['pagesCount'],
+                    language: doc['language'],
+                    isbn: doc['isbn'],
+                    averageRating: doc['averageRating'],
+                    ratingsCount: doc['ratingsCount'],
+                  ))
+              .toList();
 
           setState(() {
             bookmarkedBooksList = bookmarkedBooks;
           });
-      });
-            }
+        });
+      }
     } catch (e) {
       print('Failed to fetch bookmarks: $e');
       // Handle error
@@ -91,20 +110,22 @@ class _HomeScreenState extends State<HomePage> {
             .snapshots();
 
         wishlistBooksListener = bookmarkedBooksSnapshot.listen((snapshot) {
-          final wishlistBooks = snapshot.docs.map((doc) => Book(
-            id: doc.id,
-            imageUrl: doc['imageUrl'],
-            title: doc['title'],
-            authors: List<String>.from(doc['authors']),
-            description: doc['description'],
-            publisher: doc['publisher'],
-            publishedDate: doc['publishDate'].toDate(),
-            pageCount: doc['pagesCount'],
-            language: doc['language'],
-            isbn: doc['isbn'],
-            averageRating: doc['averageRating'],
-            ratingsCount: doc['ratingsCount'],
-          )).toList();
+          final wishlistBooks = snapshot.docs
+              .map((doc) => Book(
+                    id: doc.id,
+                    imageUrl: doc['imageUrl'],
+                    title: doc['title'],
+                    authors: List<String>.from(doc['authors']),
+                    description: doc['description'],
+                    publisher: doc['publisher'],
+                    publishedDate: doc['publishDate'].toDate(),
+                    pageCount: doc['pagesCount'],
+                    language: doc['language'],
+                    isbn: doc['isbn'],
+                    averageRating: doc['averageRating'],
+                    ratingsCount: doc['ratingsCount'],
+                  ))
+              .toList();
 
           setState(() {
             wishlistBooksList = wishlistBooks;
@@ -131,30 +152,32 @@ class _HomeScreenState extends State<HomePage> {
 
         booksAlreadyReadBooksListener =
             bookmarkedBooksSnapshot.listen((snapshot) {
-              final booksAlreadyReadBooks = snapshot.docs.map((doc) => Book(
-                id: doc.id,
-                imageUrl: doc['imageUrl'],
-                title: doc['title'],
-                authors: List<String>.from(doc['authors']),
-                description: doc['description'],
-                publisher: doc['publisher'],
-                publishedDate: doc['publishDate'].toDate(),
-                pageCount: doc['pagesCount'],
-                language: doc['language'],
-                isbn: doc['isbn'],
-                averageRating: doc['averageRating'],
-                ratingsCount: doc['ratingsCount'],
-              )).toList();
+          final booksAlreadyReadBooks = snapshot.docs
+              .map((doc) => Book(
+                    id: doc.id,
+                    imageUrl: doc['imageUrl'],
+                    title: doc['title'],
+                    authors: List<String>.from(doc['authors']),
+                    description: doc['description'],
+                    publisher: doc['publisher'],
+                    publishedDate: doc['publishDate'].toDate(),
+                    pageCount: doc['pagesCount'],
+                    language: doc['language'],
+                    isbn: doc['isbn'],
+                    averageRating: doc['averageRating'],
+                    ratingsCount: doc['ratingsCount'],
+                  ))
+              .toList();
 
-              setState(() {
-                booksAlreadyReadBooksList = booksAlreadyReadBooks;
-                if (booksAlreadyReadBooksList.isNotEmpty) {
-                  showRecommendedBooks = true;
-                } else {
-                  showRecommendedBooks = false;
-                }
-              });
-            });
+          setState(() {
+            booksAlreadyReadBooksList = booksAlreadyReadBooks;
+            if (booksAlreadyReadBooksList.isNotEmpty) {
+              showRecommendedBooks = true;
+            } else {
+              showRecommendedBooks = false;
+            }
+          });
+        });
       }
     } catch (e) {
       print('Failed to fetch Wishlist Books: $e');
@@ -171,41 +194,41 @@ class _HomeScreenState extends State<HomePage> {
             .doc(userId)
             .snapshots();
 
-        recommendedBooksListener =
-            recommendedBooksSnapshot.listen((snapshot) {
-              if (snapshot.exists) {
-                final recommendedBooksData = snapshot.data();
-                List<Book> books =
-                (recommendedBooksData!['books'] as List<dynamic>).map((bookData) => Book(
-                  id: bookData['bookId'],
-                  imageUrl: bookData['imageUrl'],
-                  title: bookData['title'],
-                  authors: List<String>.from(bookData['author']),
-                  description: bookData['description'],
-                  publisher: bookData['publisher'],
-                  publishedDate: bookData['publishedDate'].toDate(),
-                  pageCount: bookData['number of pages'],
-                  language: bookData['language'],
-                  isbn: bookData['isbn'],
-                  averageRating: bookData['average rating'],
-                  ratingsCount: bookData['Ratings Count'],
-                )).toList();
+        recommendedBooksListener = recommendedBooksSnapshot.listen((snapshot) {
+          if (snapshot.exists) {
+            final recommendedBooksData = snapshot.data();
+            List<Book> books = (recommendedBooksData!['books'] as List<dynamic>)
+                .map((bookData) => Book(
+                      id: bookData['bookId'],
+                      imageUrl: bookData['imageUrl'],
+                      title: bookData['title'],
+                      authors: List<String>.from(bookData['author']),
+                      description: bookData['description'],
+                      publisher: bookData['publisher'],
+                      publishedDate: bookData['publishedDate'].toDate(),
+                      pageCount: bookData['number of pages'],
+                      language: bookData['language'],
+                      isbn: bookData['isbn'],
+                      averageRating: bookData['average rating'],
+                      ratingsCount: bookData['Ratings Count'],
+                    ))
+                .toList();
 
-                // Limit the number of books to 5 if there are more than 5
-                if (books.length > 5) {
-                  books.shuffle();
-                  books = books.sublist(0, 5);
-                }
+            // Limit the number of books to 5 if there are more than 5
+            if (books.length > 5) {
+              books.shuffle();
+              books = books.sublist(0, 5);
+            }
 
-                setState(() {
-                  RecommendedBooksList = books;
-                });
-              } else {
-                setState(() {
-                  RecommendedBooksList = [];
-                });
-              }
+            setState(() {
+              RecommendedBooksList = books;
             });
+          } else {
+            setState(() {
+              RecommendedBooksList = [];
+            });
+          }
+        });
       }
     } catch (e) {
       print('Failed to fetch Recommended Books: $e');
@@ -213,12 +236,12 @@ class _HomeScreenState extends State<HomePage> {
     }
   }
 
-
-
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    initBannerAd();
+    // _scrollController.addListener(_scrollListener);
+    _pageController = PageController();
     fetchBookmarks();
     fetchWishlist();
     fetchBooksAlreadyReadlist();
@@ -227,9 +250,10 @@ class _HomeScreenState extends State<HomePage> {
 
   @override
   void dispose() {
-    _scrollController.removeListener(_scrollListener);
+    // _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     // Cancel the Firestore listeners to avoid memory leaks
+    // _bannerAd.dispose();
 
     bookmarkedBooksListener.cancel();
     wishlistBooksListener.cancel();
@@ -239,19 +263,8 @@ class _HomeScreenState extends State<HomePage> {
     super.dispose();
   }
 
-  void _scrollListener() {
-    setState(() {
-      _showLeftArrow = _scrollController.position.pixels > 0;
-      _showRightArrow = _scrollController.position.pixels <
-          _scrollController.position.maxScrollExtent;
-    });
-  }
+  // final String adUnitId = 'ca-app-pub-7845131645897317/8910674230';
 
-  void _scrollTo(double offset) {
-    _scrollController.jumpTo(offset);
-  }
-
-  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     List<String> adImages = [
@@ -274,9 +287,9 @@ class _HomeScreenState extends State<HomePage> {
     }
 
     return Consumer<ThemeChanger>(builder: (context, themeChanger, _) {
-      return Builder(builder: (context)
-      {
+      return Builder(builder: (context) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Home Page',
           theme: themeChanger.currentTheme,
           home: Container(
@@ -314,7 +327,6 @@ class _HomeScreenState extends State<HomePage> {
                             IconButton(
                               icon: const Icon(
                                 Icons.settings,
-                                // color: isDarkMode ? Colors.white : Colors.black,
                                 size: 40,
                               ),
                               onPressed: () {
@@ -326,13 +338,16 @@ class _HomeScreenState extends State<HomePage> {
                             ),
                           ],
                         ),
-
                         const SizedBox(height: 16),
-                        AdBanner(adImages: adImages),
+                        // AdWidget(ad: _bannerAd),
+                        isAdLoaded ? SizedBox(
+                          height: _bannerAd.size.height.toDouble(),
+                          width: _bannerAd.size.width.toDouble(),
+                          child: AdWidget(ad: _bannerAd,),
+                        ):SizedBox(),
                         const SizedBox(
                           height: 16,
                         ),
-
                         if (bookmarkedBooksList.isNotEmpty) ...[
                           const SizedBox(height: 8),
                           HorizontalBooksBookmarkList(
@@ -340,7 +355,6 @@ class _HomeScreenState extends State<HomePage> {
                               categoryName: 'category1'.tr),
                           const SizedBox(height: 16),
                         ],
-
                         if (wishlistBooksList.isNotEmpty) ...[
                           const SizedBox(height: 8),
                           HorizontalBooksWishlistList(
@@ -349,7 +363,6 @@ class _HomeScreenState extends State<HomePage> {
                           ),
                           const SizedBox(height: 16),
                         ],
-
                         const SizedBox(
                           height: 8,
                         ),
@@ -360,8 +373,6 @@ class _HomeScreenState extends State<HomePage> {
                         const SizedBox(
                           height: 16,
                         ),
-
-
                         if (showRecommendedBooks) ...[
                           const SizedBox(height: 8),
                           HorizontalRecommendedBooksList(
@@ -859,7 +870,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     if (isbn != null && isbn.isNotEmpty) {
       // Construct the Amazon search URL using the ISBN
       String searchUrl =
-          'https://www.amazon.com/s?k=${Uri.encodeComponent(isbn)}';
+          'https://www.amazon.it/s?k=${Uri.encodeComponent(isbn)}';
 
       // Open the URL in a web browser
       await FlutterWebBrowser.openWebPage(
@@ -874,17 +885,13 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('bookDetailWishlistError7Title'.tr,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Sora'
+          title: Text(
+            'bookDetailWishlistError7Title'.tr,
+            style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Sora'),
           ),
-          ),
-          content: Text('bookDetailWishlistError7Description'.tr,
-            style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Sora'
-            ),
+          content: Text(
+            'bookDetailWishlistError7Description'.tr,
+            style: TextStyle(fontWeight: FontWeight.normal, fontFamily: 'Sora'),
           ),
           actions: [
             TextButton(
@@ -975,9 +982,10 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                           right: 8.0,
                           child: IconButton(
                             onPressed: () {
-                              final bookLink =
-                                  'https://books.google.com/books?id=${widget.book.id}';
-                              Share.share('shareIconText $bookLink'.tr);
+                              // final bookLink =
+                              //     'https://books.google.com/books?id=${widget.book.id}';
+                              Share.share(
+                                  '${widget.book.title} written by ${widget.book.authors}: Check out this book on GoGoBook: Play store Link!');
                             },
                             icon: const Icon(
                               Icons.share,
@@ -1097,7 +1105,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          fontFamily: 'Sora',
+                          // fontFamily: 'Sora',
                         ),
                       ),
                       const SizedBox(
@@ -1132,24 +1140,6 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ),
                       ]),
                       const SizedBox(height: 10),
-                      SelectableText(
-                        'bookDetailPubDate'.tr,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          fontFamily: 'Sora',
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      SelectableText(
-                        '${widget.book.publishedDate}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Sora',
-                        ),
-                      ),
 
                       // Buy from affiliate link or other text links
                       GestureDetector(

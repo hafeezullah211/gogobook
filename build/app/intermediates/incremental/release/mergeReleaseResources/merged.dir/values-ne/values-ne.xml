@@ -42,7 +42,7 @@
     <string name="character_counter_content_description">%2$d मध्ये %1$d वर्ण प्रविष्ट गरियो</string>
     <string name="character_counter_overflowed_content_description">%2$d मध्ये %1$d वर्ण सीमा नाघ्यो</string>
     <string name="clear_text_end_icon_content_description">पाठ खाली गर्नुहोस्</string>
-    <string msgid="2523291102206661146" name="common_google_play_services_enable_button">सक्रिय गर्नुहोस्</string>
+    <string msgid="2523291102206661146" name="common_google_play_services_enable_button">अन गर्नुहोस्</string>
     <string msgid="227660514972886228" name="common_google_play_services_enable_text">%1$s ले तपाईँले Google Play सेवाहरू सक्षम नगरेसम्म काम गर्दैन।</string>
     <string msgid="5122002158466380389" name="common_google_play_services_enable_title">Google Play सेवाहरू सक्षम पार्नुहोस्</string>
     <string msgid="7153882981874058840" name="common_google_play_services_install_button">स्थापना गर्नुहोस्</string>
@@ -113,7 +113,25 @@
     <string name="mtrl_picker_toggle_to_day_selection">कुनै दिन चयन गर्ने विकल्प प्रयोग गर्न ट्याप गर्नुहोस्</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">पाठको इनपुट मोडमा बदल्नुहोस्</string>
     <string name="mtrl_picker_toggle_to_year_selection">कुनै वर्ष चयन गर्ने विकल्प प्रयोग गर्न ट्याप गर्नुहोस्</string>
+    <string name="native_body">मुख्य भाग</string>
+    <string name="native_headline">शीर्षक</string>
+    <string name="native_media_view">मिडिया दृश्य</string>
+    <string name="offline_notification_text">विज्ञापन खोल्न ट्याप गर्नुहोस्</string>
+    <string name="offline_notification_title">आफूले अफलाइन हुँदा सुरक्षित गरेको विज्ञापन हेर्नुहोस्</string>
+    <string name="offline_opt_in_confirm">ठिक छ</string>
+    <string name="offline_opt_in_confirmation">तपाईं फेरि अनलाइन हुँदा यो लिंकसहित एउटा सूचना प्राप्त गर्नु हुने छ</string>
+    <string name="offline_opt_in_decline">पर्दैन, धन्यवाद</string>
+    <string name="offline_opt_in_message">हामी तपाईंलाई विज्ञापनदाताको साइटको लिंकसहित एउटा सूचना पठाउने छौँ।</string>
+    <string name="offline_opt_in_title">फेरि अनलाइन हुँदा विज्ञापन खोल्नुहोस्।</string>
     <string name="password_toggle_content_description">पासवर्ड देखाउनुहोस्</string>
+    <string name="s1">छविलाई सेभ गर्नुहोस्</string>
+    <string name="s2">विज्ञापनलाई तस्बिरको ग्यालरीमा छवि भण्डारण गर्न अनुमति दिने हो?</string>
+    <string name="s3">स्वीकार गर्नुहोस्</string>
+    <string name="s4">अस्वीकार गर्नुहोस्</string>
+    <string name="s5">पात्रोमा कार्यक्रम सिर्जना गर्नुहोस्</string>
+    <string name="s6">विज्ञापनलाई पात्रोमा कार्यक्रम सिर्जना गर्न अनुमति दिने हो?</string>
+    <string name="s7">परीक्षण विज्ञापन</string>
     <string msgid="6264217191555673260" name="search_menu_title">"खोज"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"९९९+"</string>
+    <string name="watermark_label_prefix">AdMob - </string>
 </resources>

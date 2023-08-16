@@ -47,6 +47,12 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_android-2.1.4" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.6.2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-3.9.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_mobile_ads-3.0.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter-4.2.2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.7.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_api_availability-5.0.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_api_availability_android-1.0.1" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

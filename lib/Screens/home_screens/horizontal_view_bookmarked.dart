@@ -83,8 +83,8 @@ class _HorizontalBooksListState extends State<HorizontalBooksBookmarkList> {
             ...widget.books.map(
               (book) => BookCardBookmark(
                 book: book,
-                onBookmarkRemoved: (){
-                    removeBookFromList(book);
+                onBookmarkRemoved: () {
+                  removeBookFromList(book);
                 },
               ),
             ),
@@ -213,5 +213,3 @@ class _BookCardBookmarkState extends State<BookCardBookmark> {
     );
   }
 }
-
-

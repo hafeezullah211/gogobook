@@ -113,7 +113,25 @@
     <string name="mtrl_picker_toggle_to_day_selection">Toca per canviar a la selecció del dia</string>
     <string name="mtrl_picker_toggle_to_text_input_mode">Canvia al mode d\'introducció de text</string>
     <string name="mtrl_picker_toggle_to_year_selection">Toca per canviar a la selecció de l\'any</string>
+    <string name="native_body">Cos</string>
+    <string name="native_headline">Títol</string>
+    <string name="native_media_view">Visualització del contingut multimèdia</string>
+    <string name="offline_notification_text">Toca per obrir l\'anunci</string>
+    <string name="offline_notification_title">Mira l\'anunci que has desat sense connexió</string>
+    <string name="offline_opt_in_confirm">D\'acord</string>
+    <string name="offline_opt_in_confirmation">Rebràs una notificació amb l\'enllaç quan tornis a tenir connexió</string>
+    <string name="offline_opt_in_decline">No, gràcies</string>
+    <string name="offline_opt_in_message">T\'enviarem una notificació amb un enllaç al lloc web de l\'anunciant.</string>
+    <string name="offline_opt_in_title">Obre l\'anunci quan tornis a tenir connexió.</string>
     <string name="password_toggle_content_description">Mostra la contrasenya</string>
+    <string name="s1">Desa la imatge</string>
+    <string name="s2">Vols permetre que l\'anunci desi imatges a la galeria d\'imatges?</string>
+    <string name="s3">Accepta</string>
+    <string name="s4">Rebutja</string>
+    <string name="s5">Crea un esdeveniment de calendari</string>
+    <string name="s6">Vols permetre que l\'anunci creï un esdeveniment de calendari?</string>
+    <string name="s7">Anunci de prova</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Cerca"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="watermark_label_prefix">AdMob - </string>
 </resources>
