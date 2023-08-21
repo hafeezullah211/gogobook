@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
     {'name': 'Italian', 'locale': Locale('it_IT')},
   ];
 
-  updateLanguage(Locale locale){
+  updateLanguage(Locale locale) {
     Get.back();
     Get.updateLocale(locale);
   }
@@ -63,13 +63,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child:
-                          GestureDetector(
-                            onTap: (){
-                              updateLanguage(locale[index]['locale']);
-                            },
-                              child: Text(locale[index]["name"])
-                          ),
+                      child: GestureDetector(
+                          onTap: () {
+                            updateLanguage(locale[index]['locale']);
+                          },
+                          child: Text(locale[index]["name"])),
                     );
                   },
                   separatorBuilder: (context, index) {
@@ -88,10 +86,12 @@ class _ProfilePageState extends State<ProfilePage> {
       // Step 1: Perform sign-out operation
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        if (user.providerData.any((userInfo) => userInfo.providerId == 'password')) {
+        if (user.providerData
+            .any((userInfo) => userInfo.providerId == 'password')) {
           // User logged in using Email/Password, perform sign out
           await FirebaseAuth.instance.signOut();
-        } else if (user.providerData.any((userInfo) => userInfo.providerId == 'google.com')) {
+        } else if (user.providerData
+            .any((userInfo) => userInfo.providerId == 'google.com')) {
           // User logged in using Google Sign-In, perform sign out
           await GoogleSignIn().signOut();
           await FirebaseAuth.instance.signOut();
@@ -103,7 +103,8 @@ class _ProfilePageState extends State<ProfilePage> {
       await prefs.clear();
 
       // Navigate to the login page or any other page as per your app's navigation flow
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(onLogin: () {})));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => LoginScreen(onLogin: () {})));
     } catch (e) {
       // Handle sign-out or cache clearing errors here
       print('Error during sign-out or cache clearing: $e');
@@ -113,6 +114,54 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
   }
+
+  // void _showDeleteConfirmationDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('Confirm Account Deletion'),
+  //         content: Text('Are you sure you want to delete your account?'),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop(); // Close the dialog
+  //             },
+  //             child: Text('Cancel'),
+  //           ),
+  //           TextButton(
+  //             onPressed: () async {
+  //               Navigator.of(context).pop(); // Close the dialog
+  //               await _deleteAccount(context);
+  //               Navigator.pushReplacement(
+  //                 context,
+  //                 MaterialPageRoute(builder: (context) => SignUpScreen()),
+  //               );
+  //             },
+  //             child: Text('Confirm'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+  //
+  // Future<void> _deleteAccount(BuildContext context) async {
+  //   final user = FirebaseAuth.instance.currentUser;
+  //
+  //   try {
+  //     if (user != null) {
+  //       await FirebaseFirestore.instance
+  //           .collection('Users')
+  //           .doc(user.uid)
+  //           .delete();
+  //
+  //       await user.delete();
+  //     }
+  //   } catch (error) {
+  //     print('Error deleting user account: $error');
+  //   }
+  // }
 
   void deleteAccount() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -141,7 +190,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final themeChanger = Provider.of<ThemeChanger>(context);
 
     return Consumer<ThemeChanger>(
       builder: (context, themeChanger, _) => MaterialApp(
@@ -190,9 +238,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: const TextStyle(fontSize: 16.0),
                     ),
 
-
-                    const SizedBox(height: 32,),
-                    firebaseUIButton(context, 'signOut'.tr, (){
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    firebaseUIButton(context, 'signOut'.tr, () {
                       _signOutAndClearCache(context);
                     }),
 
@@ -238,7 +287,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       title: const Text(
                         'gogobook.it@gmail.com',
                         style: TextStyle(
-                          // color: isDarkMode ? Colors.white : Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                           fontFamily: 'Sora',
@@ -263,7 +311,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         title: Text(
                           'changeLanguageText'.tr,
                           style: TextStyle(
-                            // color: isDarkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                             fontFamily: 'Sora',
@@ -352,7 +399,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ),
-              // floatingActionButton: ThemeFloatingActionButton(),
             ),
           ),
         ),

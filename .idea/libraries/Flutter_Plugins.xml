@@ -53,6 +53,11 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.7.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_api_availability-5.0.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_api_availability_android-1.0.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/facebook_auth_desktop-0.0.9" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_secure_storage-8.0.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_secure_storage_web-1.1.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_facebook_auth-5.0.11" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_facebook_auth_web-4.1.1" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
